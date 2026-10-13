@@ -334,6 +334,48 @@
     .bar-row { margin-bottom: 6px; }
   }
 </style>
+<style id="nowrap-css">
+/* 줄바꿈 검수 규칙(원장님 2026-10-13): 수치·라벨·배지는 한 줄, 한글은 어절 단위로 줄바꿈 */
+body { word-break: keep-all; overflow-wrap: break-word; }
+.bar-val { width: auto !important; min-width: 64px; white-space: nowrap; flex-shrink: 0; padding-left: 8px; }
+.bar-label, .chapter-bar .count, .chapter-bar .name, .diff-box .lbl, .info-card .label, .diff-badge, .tag, .page-number, th, td:not(.l):not(.tl) { white-space: nowrap; }
+.nw { white-space: nowrap; }
+/* 휴대폰(640px 이하) 화면 맞춤 — 원장님 2026-10-13: 학부모님은 주로 휴대폰으로 보심 */
+@media screen and (max-width: 640px) {
+  body { padding: 10px 8px; }
+  .page { padding: 22px 14px; margin-bottom: 12px; }
+  .page-number { display: none; }
+  .section-title { font-size: 18px; }
+  .info-card .value { font-size: 14px; }
+  .diff-box .n { font-size: 18px; } .diff-box .lbl { font-size: 9.5px; }
+  .bar-label { width: 84px; font-size: 11px; } .bar-val { min-width: 54px; font-size: 11px; padding-left: 6px; }
+  .chapter-bar .head { font-size: 12px; gap: 6px; }
+  .cmp-table { font-size: 11px; } .cmp-table td, .cmp-table th { padding: 6px 4px; }
+  .strategy-list li { font-size: 13px; }
+  .callout { font-size: 13px; }
+}
+/* 휴대폰: 문항별 분석표는 가로 스크롤 없이 한 화면에 — 행동영역 칸은 숨기고 핵심 개념은 줄바꿈 허용 */
+@media screen and (max-width: 640px) {
+  .analysis-table { min-width: 0 !important; width: 100%; font-size: 10.5px; }
+  .analysis-table .hb { display: none; }
+  .analysis-table th, .analysis-table td { padding: 6px 3px; }
+  .analysis-table td.l { white-space: normal; }
+  .analysis-table td.un { white-space: nowrap; }
+  .analysis-table .diff-badge { padding: 2px 4px; font-size: 9.5px; }
+}
+
+.big-num .n { white-space: nowrap; }
+@media screen and (max-width: 640px) {
+  .analysis-table .ans { display: none; }
+  .big-num .n { font-size: 21px; }
+  .big-num .l { font-size: 10.5px; }
+  .cmp-table th { white-space: normal; }
+  /* 긴 단원명 막대: 이름을 막대 위 한 줄로 */
+  .bar-row { flex-wrap: wrap; }
+  .bar-row .bar-label { width: 100% !important; text-align: left; margin-bottom: 3px; }
+  .bar-row .bar-track { flex: 1 1 0; min-width: 0; width: auto; }
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -373,33 +415,33 @@
   <div class="section-title">2. 문항별 분석표</div>
   <div class="table-scroll">
   <table class="analysis-table">
-    <thead><tr><th>번호</th><th>배점</th><th>정답</th><th>단원</th><th>핵심 개념</th><th>난이도</th></tr></thead>
+    <thead><tr><th>번호</th><th>배점</th><th class="ans">정답</th><th>단원</th><th>핵심 개념</th><th>난이도</th></tr></thead>
     <tbody>
-<tr class="tf"><td>1</td><td>4</td><td>②</td><td class="l">삼각형의 외심과 내심 (종합)</td><td class="l">외심·내심 성질 + 직각삼각형 합동 조건 (보기 고르기, 보기 ㅁ 실수 주의)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>2</td><td>4</td><td>①</td><td class="l">이등변삼각형의 성질</td><td class="l">∠B=∠C이면 AB=AC 증명 — 필요 없는 과정 고르기<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>3</td><td>3</td><td>③</td><td class="l">이등변삼각형의 성질</td><td class="l">이등변삼각형 밑각 + 외각</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
-<tr><td>4</td><td>4</td><td>③</td><td class="l">이등변삼각형의 성질</td><td class="l">AD=AC, 각 삼등분 → 외각으로 각 추적</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>5</td><td>3</td><td>④</td><td class="l">직각삼각형의 합동 조건</td><td class="l">합동 조건이 아닌 것 고르기 (RHA·RHS)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>6</td><td>4</td><td>①</td><td class="l">직각삼각형의 합동 조건</td><td class="l">정사각형 속 RHS 합동 → 직각이등변삼각형</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>7</td><td>4</td><td>④</td><td class="l">직각삼각형의 합동 조건</td><td class="l">RHS 합동으로 길이 옮기기 + 사다리꼴 넓이</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>8</td><td>4</td><td>②</td><td class="l">삼각형의 외심</td><td class="l">둔각삼각형의 외심(삼각형 밖)과 각</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>9</td><td>3</td><td>③</td><td class="l">삼각형의 외심</td><td class="l">외심의 성질 (보기 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-ha-b">하</span></td></tr>
-<tr><td>10</td><td>5</td><td>⑤</td><td class="l">삼각형의 내심</td><td class="l">내심과 각의 이등분선 → 두 각의 합</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>11</td><td>5</td><td>①</td><td class="l">삼각형의 내심</td><td class="l">넓이로 내접원 반지름 구하기 → 선분 길이</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>12</td><td>5</td><td>④</td><td class="l">이등변삼각형의 성질</td><td class="l">정삼각형 안팎의 점 — 합동을 이어서 각 구하기</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>13</td><td>3</td><td>①</td><td class="l">평행사변형의 성질</td><td class="l">평행사변형의 대변·대각 (쓰지 않는 조건 포함)</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
-<tr><td>14</td><td>5</td><td>⑤</td><td class="l">평행사변형과 넓이</td><td class="l">길이의 비로 넓이 나누기 → 사각형 넓이</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>15</td><td>5</td><td>⑤</td><td class="l">여러 가지 사각형</td><td class="l">직각이등변삼각형 속 정사각형 — 합동 활용</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr class="tf"><td>16</td><td>4</td><td>①</td><td class="l">평행사변형이 되는 조건</td><td class="l">평행사변형이 되지 않는 조건 (보기 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>17</td><td>4</td><td>①</td><td class="l">평행사변형의 성질</td><td class="l">대각선의 이등분 + 겹친 두 평행사변형</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>18</td><td>4</td><td>②</td><td class="l">평행사변형의 성질</td><td class="l">대각선에 내린 수선 (보기 6개 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>19</td><td>4</td><td>②</td><td class="l">여러 가지 사각형</td><td class="l">마름모 각 변의 중점 연결 — 옳지 않은 것<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr class="tf"><td>20</td><td>4</td><td>③</td><td class="l">여러 가지 사각형</td><td class="l">여러 가지 사각형 사이의 관계 — 옳지 않은 것<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>21</td><td>3</td><td>④</td><td class="l">여러 가지 사각형</td><td class="l">마름모 + 내부 이등변삼각형의 각</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>22</td><td>4</td><td>②</td><td class="l">여러 가지 사각형</td><td class="l">직사각형 대각선의 수직이등분선 (닮음 활용)</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>23</td><td>4</td><td>⑤</td><td class="l">닮은 도형의 성질</td><td class="l">닮은 삼각기둥의 부피 (닮음비 2:3)</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>24</td><td>4</td><td>③</td><td class="l">삼각형의 닮음 조건</td><td class="l">SAS 닮음으로 변의 길이 (닮음비 1:3)</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>25</td><td>4</td><td>③</td><td class="l">삼각형의 닮음 조건</td><td class="l">정오각형 속 닮은 삼각형 개수 세기</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr class="tf"><td>1</td><td>4</td><td class="ans">②</td><td class="l">삼각형의 외심과 내심 (종합)</td><td class="l">외심·내심 성질 + 직각삼각형 합동 조건 (보기 고르기, 보기 ㅁ 실수 주의)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>2</td><td>4</td><td class="ans">①</td><td class="l">이등변삼각형의 성질</td><td class="l">∠B=∠C이면 AB=AC 증명 — 필요 없는 과정 고르기<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>3</td><td>3</td><td class="ans">③</td><td class="l">이등변삼각형의 성질</td><td class="l">이등변삼각형 밑각 + 외각</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
+<tr><td>4</td><td>4</td><td class="ans">③</td><td class="l">이등변삼각형의 성질</td><td class="l">AD=AC, 각 삼등분 → 외각으로 각 추적</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>5</td><td>3</td><td class="ans">④</td><td class="l">직각삼각형의 합동 조건</td><td class="l">합동 조건이 아닌 것 고르기 (RHA·RHS)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>6</td><td>4</td><td class="ans">①</td><td class="l">직각삼각형의 합동 조건</td><td class="l">정사각형 속 RHS 합동 → 직각이등변삼각형</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>7</td><td>4</td><td class="ans">④</td><td class="l">직각삼각형의 합동 조건</td><td class="l">RHS 합동으로 길이 옮기기 + 사다리꼴 넓이</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>8</td><td>4</td><td class="ans">②</td><td class="l">삼각형의 외심</td><td class="l">둔각삼각형의 외심(삼각형 밖)과 각</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>9</td><td>3</td><td class="ans">③</td><td class="l">삼각형의 외심</td><td class="l">외심의 성질 (보기 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-ha-b">하</span></td></tr>
+<tr><td>10</td><td>5</td><td class="ans">⑤</td><td class="l">삼각형의 내심</td><td class="l">내심과 각의 이등분선 → 두 각의 합</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>11</td><td>5</td><td class="ans">①</td><td class="l">삼각형의 내심</td><td class="l">넓이로 내접원 반지름 구하기 → 선분 길이</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>12</td><td>5</td><td class="ans">④</td><td class="l">이등변삼각형의 성질</td><td class="l">정삼각형 안팎의 점 — 합동을 이어서 각 구하기</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>13</td><td>3</td><td class="ans">①</td><td class="l">평행사변형의 성질</td><td class="l">평행사변형의 대변·대각 (쓰지 않는 조건 포함)</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
+<tr><td>14</td><td>5</td><td class="ans">⑤</td><td class="l">평행사변형과 넓이</td><td class="l">길이의 비로 넓이 나누기 → 사각형 넓이</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>15</td><td>5</td><td class="ans">⑤</td><td class="l">여러 가지 사각형</td><td class="l">직각이등변삼각형 속 정사각형 — 합동 활용</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr class="tf"><td>16</td><td>4</td><td class="ans">①</td><td class="l">평행사변형이 되는 조건</td><td class="l">평행사변형이 되지 않는 조건 (보기 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>17</td><td>4</td><td class="ans">①</td><td class="l">평행사변형의 성질</td><td class="l">대각선의 이등분 + 겹친 두 평행사변형</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>18</td><td>4</td><td class="ans">②</td><td class="l">평행사변형의 성질</td><td class="l">대각선에 내린 수선 (보기 6개 고르기)<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>19</td><td>4</td><td class="ans">②</td><td class="l">여러 가지 사각형</td><td class="l">마름모 각 변의 중점 연결 — 옳지 않은 것<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr class="tf"><td>20</td><td>4</td><td class="ans">③</td><td class="l">여러 가지 사각형</td><td class="l">여러 가지 사각형 사이의 관계 — 옳지 않은 것<span class="tf-mark">진위</span></td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>21</td><td>3</td><td class="ans">④</td><td class="l">여러 가지 사각형</td><td class="l">마름모 + 내부 이등변삼각형의 각</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>22</td><td>4</td><td class="ans">②</td><td class="l">여러 가지 사각형</td><td class="l">직사각형 대각선의 수직이등분선 (닮음 활용)</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>23</td><td>4</td><td class="ans">⑤</td><td class="l">닮은 도형의 성질</td><td class="l">닮은 삼각기둥의 부피 (닮음비 2:3)</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>24</td><td>4</td><td class="ans">③</td><td class="l">삼각형의 닮음 조건</td><td class="l">SAS 닮음으로 변의 길이 (닮음비 1:3)</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>25</td><td>4</td><td class="ans">③</td><td class="l">삼각형의 닮음 조건</td><td class="l">정오각형 속 닮은 삼각형 개수 세기</td><td><span class="diff-badge d-s-b">상</span></td></tr>
     </tbody>
   </table>
   </div>
