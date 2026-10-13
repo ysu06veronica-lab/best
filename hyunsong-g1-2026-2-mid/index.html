@@ -293,13 +293,7 @@
     .info-card .value { font-size: 15px; }
     .footer { font-size: 11px; padding: 20px 8px; }
   }
-/* 줄바꿈 검수 규칙(원장님 2026-10-13): 수치·라벨·배지는 한 줄, 한글은 어절 단위로 줄바꿈 */
-body { word-break: keep-all; overflow-wrap: break-word; }
-.bar-val { width: auto !important; min-width: 64px; white-space: nowrap; flex-shrink: 0; padding-left: 8px; }
-.bar-label, .chapter-bar .count, .chapter-bar .name, .diff-box .lbl, .info-card .label, .info-card .value, .diff-badge, .tag, .page-number, th, td:not(.l):not(.tl) { white-space: nowrap; }
-.nw { white-space: nowrap; }
-
-  .analysis-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.analysis-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .analysis-table th { background: var(--primary); color: white; padding: 8px 6px; text-align: center; font-size: 11px; }
   .analysis-table td { padding: 6px 5px; border-bottom: 1px solid var(--gray-100); text-align: center; vertical-align: middle; }
   .analysis-table td.l { text-align: left; }
@@ -334,17 +328,35 @@ body { word-break: keep-all; overflow-wrap: break-word; }
   }
 .footer .legal { font-size: 10.5px; color: var(--gray-500); line-height: 1.6; margin-top: 6px; font-weight: 400; }
 </style>
-<style>/* 줄바꿈 검수 규칙(원장님 2026-10-13): 수치·라벨·배지는 한 줄, 한글은 어절 단위로 줄바꿈 */
-body { word-break: keep-all; overflow-wrap: break-word; }
-.bar-val { width: auto !important; min-width: 64px; white-space: nowrap; flex-shrink: 0; padding-left: 8px; }
-.bar-label, .chapter-bar .count, .chapter-bar .name, .diff-box .lbl, .info-card .label, .info-card .value, .diff-badge, .tag, .page-number, th, td:not(.l):not(.tl) { white-space: nowrap; }
-.nw { white-space: nowrap; }
-</style><style>
+<style></style><style>
 /* 줄바꿈 검수 규칙(원장님 2026-10-13): 수치·라벨·배지는 한 줄, 한글은 어절 단위로 줄바꿈 */
 body { word-break: keep-all; overflow-wrap: break-word; }
 .bar-val { width: auto !important; min-width: 64px; white-space: nowrap; flex-shrink: 0; padding-left: 8px; }
-.bar-label, .chapter-bar .count, .chapter-bar .name, .diff-box .lbl, .info-card .label, .info-card .value, .diff-badge, .tag, .page-number, th, td:not(.l) { white-space: nowrap; }
+.bar-label, .chapter-bar .count, .chapter-bar .name, .diff-box .lbl, .info-card .label, .diff-badge, .tag, .page-number, th, td:not(.l):not(.tl) { white-space: nowrap; }
 .nw { white-space: nowrap; }
+/* 휴대폰(640px 이하) 화면 맞춤 — 원장님 2026-10-13: 학부모님은 주로 휴대폰으로 보심 */
+@media screen and (max-width: 640px) {
+  body { padding: 10px 8px; }
+  .page { padding: 22px 14px; margin-bottom: 12px; }
+  .page-number { display: none; }
+  .section-title { font-size: 18px; }
+  .info-card .value { font-size: 14px; }
+  .diff-box .n { font-size: 18px; } .diff-box .lbl { font-size: 9.5px; }
+  .bar-label { width: 84px; font-size: 11px; } .bar-val { min-width: 54px; font-size: 11px; padding-left: 6px; }
+  .chapter-bar .head { font-size: 12px; gap: 6px; }
+  .cmp-table { font-size: 11px; } .cmp-table td, .cmp-table th { padding: 6px 4px; }
+  .strategy-list li { font-size: 13px; }
+  .callout { font-size: 13px; }
+}
+/* 휴대폰: 문항별 분석표는 가로 스크롤 없이 한 화면에 — 행동영역 칸은 숨기고 핵심 개념은 줄바꿈 허용 */
+@media screen and (max-width: 640px) {
+  .analysis-table { min-width: 0 !important; width: 100%; font-size: 10.5px; }
+  .analysis-table .hb { display: none; }
+  .analysis-table th, .analysis-table td { padding: 6px 3px; }
+  .analysis-table td.l { white-space: normal; }
+  .analysis-table td.un { white-space: nowrap; }
+  .analysis-table .diff-badge { padding: 2px 4px; font-size: 9.5px; }
+}
 </style>
 </head>
 <body>
@@ -383,33 +395,33 @@ body { word-break: keep-all; overflow-wrap: break-word; }
   <div class="section-title">2. 문항별 분석표</div>
   <div class="table-scroll">
   <table class="analysis-table">
-    <thead><tr><th>번호</th><th>배점</th><th>단원</th><th>핵심 개념</th><th>진위판단</th><th>행동영역</th><th>난이도</th></tr></thead>
+    <thead><tr><th>번호</th><th>배점</th><th>단원</th><th>핵심 개념</th><th>진위판단</th><th class="hb">행동영역</th><th>난이도</th></tr></thead>
     <tbody>
-<tr><td>1</td><td>3</td><td class="l">점·선·면</td><td class="l">직선·반직선·선분 기호 진위(보기) — 직선 기호 함정</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>2</td><td>4</td><td class="l">각</td><td class="l">넓이가 같은 두 도형 + 공통 삼각형 → 점과 직선 사이의 거리</td><td></td><td>문제해결</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>3</td><td>3</td><td class="l">각</td><td class="l">맞꼭지각 + 평각</td><td></td><td>계산</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
-<tr><td>4</td><td>4</td><td class="l">점·선·면</td><td class="l">중점 3개 + 비 7:4 → 선분의 길이</td><td></td><td>계산</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>5</td><td>4</td><td class="l">위치 관계</td><td class="l">정육각기둥 — 꼬인 위치 8개·면에 수직 6개(보기)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>이해</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>6</td><td>4</td><td class="l">위치 관계</td><td class="l">전개도를 접은 정육면체 — 평행·꼬인 위치·만나는 직선(보기)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>추론</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>7</td><td>4</td><td class="l">위치 관계</td><td class="l">평면·공간에서 두 직선의 위치 관계 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>8</td><td>3</td><td class="l">평행선</td><td class="l">평행선 사이 꺾인 선 — 보조선</td><td></td><td>계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>9</td><td>4</td><td class="l">평행선</td><td class="l">종이 접기 — 접힌 각 + 엇각</td><td></td><td>추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>10</td><td>4</td><td class="l">작도</td><td class="l">크기가 같은 각의 작도 — 옳지 않은 것</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>이해</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>11</td><td>4</td><td class="l">작도</td><td class="l">삼각형이 하나로 정해지는 조건</td><td></td><td>이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>12</td><td>4</td><td class="l">작도</td><td class="l">평행선 작도에 이용된 성질(동위각)</td><td></td><td>이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>13</td><td>3</td><td class="l">삼각형 합동</td><td class="l">합동이 아닌 삼각형 찾기(ASA·SAS)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>이해</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>14</td><td>4</td><td class="l">삼각형 합동</td><td class="l">두 정사각형 — 합동 조건과 넓이 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>15</td><td>4</td><td class="l">삼각형 합동</td><td class="l">두 정삼각형 — SAS 합동 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>16</td><td>5</td><td class="l">삼각형 합동</td><td class="l">두 정삼각형 SAS 합동 → 각 옮기기</td><td></td><td>문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>17</td><td>5</td><td class="l">삼각형 합동</td><td class="l">움직이는 정사각형 — 합동·넓이의 비(보기 5개)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>추론</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>18</td><td>4</td><td class="l">다각형 외각</td><td class="l">내각과 외각의 합 1800° → 정십각형</td><td></td><td>계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>19</td><td>5</td><td class="l">삼각형 내각·외각</td><td class="l">종이 접기 — 내각·외각의 이등분선 교점</td><td></td><td>문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>20</td><td>4</td><td class="l">삼각형 내각·외각</td><td class="l">별 모양 + 평행선 — 외각 관계 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td>추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>21</td><td>3</td><td class="l">다각형</td><td class="l">한 꼭짓점 대각선 8개 → 십일각형</td><td></td><td>계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
-<tr><td>22</td><td>4</td><td class="l">삼각형 내각·외각</td><td class="l">이등변삼각형 연쇄 — 외각 성질</td><td></td><td>계산</td><td><span class="diff-badge d-j-b">중</span></td></tr>
-<tr><td>23</td><td>5</td><td class="l">평행선</td><td class="l">평행선 + 정오각형(대각선∥변), 각의 비</td><td></td><td>문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
-<tr><td>24</td><td>4</td><td class="l">다각형 내각</td><td class="l">겹친 도형 8개 각의 합 — 삼각형 내각 이용</td><td></td><td>문제해결</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
-<tr><td>25</td><td>5</td><td class="l">다각형 내각</td><td class="l">정오각형·정육각형·정팔각형 한 내각 + 평행선</td><td></td><td>문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>1</td><td>3</td><td class="l un">점·선·면</td><td class="l">직선·반직선·선분 기호 진위(보기) — 직선 기호 함정</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>2</td><td>4</td><td class="l un">각</td><td class="l">넓이가 같은 두 도형 + 공통 삼각형 → 점과 직선 사이의 거리</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>3</td><td>3</td><td class="l un">각</td><td class="l">맞꼭지각 + 평각</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-ha-b">하</span></td></tr>
+<tr><td>4</td><td>4</td><td class="l un">점·선·면</td><td class="l">중점 3개 + 비 7:4 → 선분의 길이</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>5</td><td>4</td><td class="l un">위치 관계</td><td class="l">정육각기둥 — 꼬인 위치 8개·면에 수직 6개(보기)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">이해</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>6</td><td>4</td><td class="l un">위치 관계</td><td class="l">전개도를 접은 정육면체 — 평행·꼬인 위치·만나는 직선(보기)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">추론</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>7</td><td>4</td><td class="l un">위치 관계</td><td class="l">평면·공간에서 두 직선의 위치 관계 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>8</td><td>3</td><td class="l un">평행선</td><td class="l">평행선 사이 꺾인 선 — 보조선</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>9</td><td>4</td><td class="l un">평행선</td><td class="l">종이 접기 — 접힌 각 + 엇각</td><td></td><td class="hb">추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>10</td><td>4</td><td class="l un">작도</td><td class="l">크기가 같은 각의 작도 — 옳지 않은 것</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">이해</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>11</td><td>4</td><td class="l un">작도</td><td class="l">삼각형이 하나로 정해지는 조건</td><td></td><td class="hb">이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>12</td><td>4</td><td class="l un">작도</td><td class="l">평행선 작도에 이용된 성질(동위각)</td><td></td><td class="hb">이해</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>13</td><td>3</td><td class="l un">삼각형 합동</td><td class="l">합동이 아닌 삼각형 찾기(ASA·SAS)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">이해</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>14</td><td>4</td><td class="l un">삼각형 합동</td><td class="l">두 정사각형 — 합동 조건과 넓이 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>15</td><td>4</td><td class="l un">삼각형 합동</td><td class="l">두 정삼각형 — SAS 합동 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>16</td><td>5</td><td class="l un">삼각형 합동</td><td class="l">두 정삼각형 SAS 합동 → 각 옮기기</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>17</td><td>5</td><td class="l un">삼각형 합동</td><td class="l">움직이는 정사각형 — 합동·넓이의 비(보기 5개)</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">추론</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>18</td><td>4</td><td class="l un">다각형 외각</td><td class="l">내각과 외각의 합 1800° → 정십각형</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>19</td><td>5</td><td class="l un">삼각형 내각·외각</td><td class="l">종이 접기 — 내각·외각의 이등분선 교점</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>20</td><td>4</td><td class="l un">삼각형 내각·외각</td><td class="l">별 모양 + 평행선 — 외각 관계 진위</td><td><span class="diff-badge" style="background:#fff4e5;color:#c2410c;border:1px solid #fdba74;">진위판단</span></td><td class="hb">추론</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>21</td><td>3</td><td class="l un">다각형</td><td class="l">한 꼭짓점 대각선 8개 → 십일각형</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-jh-b">중하</span></td></tr>
+<tr><td>22</td><td>4</td><td class="l un">삼각형 내각·외각</td><td class="l">이등변삼각형 연쇄 — 외각 성질</td><td></td><td class="hb">계산</td><td><span class="diff-badge d-j-b">중</span></td></tr>
+<tr><td>23</td><td>5</td><td class="l un">평행선</td><td class="l">평행선 + 정오각형(대각선∥변), 각의 비</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
+<tr><td>24</td><td>4</td><td class="l un">다각형 내각</td><td class="l">겹친 도형 8개 각의 합 — 삼각형 내각 이용</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-js-b">중상</span></td></tr>
+<tr><td>25</td><td>5</td><td class="l un">다각형 내각</td><td class="l">정오각형·정육각형·정팔각형 한 내각 + 평행선</td><td></td><td class="hb">문제해결</td><td><span class="diff-badge d-s-b">상</span></td></tr>
     </tbody>
   </table>
   </div>
