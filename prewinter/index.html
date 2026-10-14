@@ -92,16 +92,18 @@ html{scroll-behavior:smooth}
 .finder .warnx{color:#B26B00;font-size:12.5px}
 /* 강좌 카드 */
 .list{display:grid;gap:10px;margin-top:12px}
-.card{background:#fff;border-radius:14px;border:1px solid var(--line);padding:14px 14px 12px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;position:relative;overflow:hidden;transition:opacity .2s}
+.card{background:#fff;border-radius:14px;border:1px solid var(--line);padding:12px 12px 10px 15px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;position:relative;overflow:hidden;transition:opacity .2s}
 .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
 .card.dim{opacity:.38}
-.card .no{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.card .no{width:26px;height:26px;font-size:13px !important;border-radius:50%;background:var(--c);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
 .card .bd{flex:1;min-width:0}
-.card .nm{font-size:16px;font-weight:800}
-.card .meta{font-size:13px;color:var(--sub);margin-top:2px}
-.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
-.card .fee{font-size:15px;font-weight:800;white-space:nowrap}
-.card .more{font-size:12.5px;color:var(--blue);font-weight:700;white-space:nowrap}
+.card .nm{font-size:15px;font-weight:800;line-height:1.35}
+.card .meta{font-size:12.5px;color:var(--ink);margin-top:3px;font-weight:600}
+.card .tg{font-size:12px;color:var(--sub);margin-top:1px}
+.card .row{display:flex;flex-wrap:wrap;align-items:center;margin-top:6px;gap:4px 8px}
+.card .fee{font-size:14px;font-weight:800;white-space:nowrap}
+.card .free{font-size:11.5px;font-weight:800;color:#fff;background:var(--red);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.card .more{font-size:12px;color:var(--blue);font-weight:700;white-space:nowrap;margin-left:auto}
 .card .chk{position:absolute;right:12px;top:12px;font-size:12px;font-weight:800;color:#fff;background:var(--green);border-radius:999px;padding:2px 8px;display:none}
 .card.sel .chk{display:block}
 /* 시간표 */
@@ -137,6 +139,7 @@ html{scroll-behavior:smooth}
 .steps li:before{content:counter(s);position:absolute;left:-21px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .steps b{margin-right:4px}
 .when{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:999px;padding:3px 10px}
+@media (max-width:340px){.blk b{font-size:10.5px}.blk span{font-size:9px}.blk{padding:2px 4px}.road .k{font-size:14px}.road p{font-size:11px}}
 /* 하단 장바구니 바 */
 .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(20,33,77,.08);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:20}
 .bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
@@ -340,8 +343,8 @@ const $=s=>document.querySelector(s);
 let cart=new Set();
 
 function cardHTML(x){return `<div class="card" data-no="${x.no}" style="--c:${COL[x.c]}"><span class="chk">담음</span><div class="no">${x.no}</div><div class="bd">
- <div class="nm">${x.nm}</div><div class="meta"><span class="nw">${x.dy} ${x.tm.replace(' · ',' / ')}</span> · ${x.tg}</div>
- <div class="row"><span class="fee" style="white-space:normal">${x.n} · ${feeTxt(x)}</span><span class="more">자세히 보기 ›</span></div></div></div>`}
+ <div class="nm">${x.nm}</div><div class="meta"><span class="nw">${x.dy} ${x.tm.replace(' · ',' / ')}</span></div><div class="tg">${x.tg}</div>
+ <div class="row"><span class="fee">${x.n} · ${x.fee.toLocaleString('ko-KR')}원</span>${isFree(x.no)?'<span class="free">수강생 0원</span>':''}<span class="more">자세히 ›</span></div></div></div>`}
 function renderList(){ $('#list').innerHTML=C.map(cardHTML).join(''); document.querySelectorAll('.card').forEach(el=>el.onclick=()=>openDetail(+el.dataset.no)); paint(); }
 function paint(){
   document.querySelectorAll('.card').forEach(el=>el.classList.toggle('sel',cart.has(+el.dataset.no)));
@@ -357,13 +360,13 @@ function timetable(){
   const blk=(no,s,e,lane,lanes,lab,t0)=>{const m=t=>+t.slice(0,2)*60+ +t.slice(3);const x=C[no-1],w=100/lanes;
     return `<div class="blk" data-no="${no}" style="top:${(m(s)-t0)*PX+2}px;height:${(m(e)-m(s))*PX-4}px;left:calc(${w*lane}% + 3px);width:calc(${w}% - 6px);background:${COL[x.c]}">${lab.split('|').map((s,i)=>`<b>${i?'':CIRC[no-1]+' '}${s}</b>`).join('')}<span>${s}~${e}</span></div>`};
   const axis=(a,b)=>`<div class="axis"><div style="height:28px"></div><div style="position:relative;height:${(b-a)*60*PX}px">${Array.from({length:b-a+1},(_,i)=>`<span class="${i==0?'f':i==b-a?'l':''}" style="top:${i*60*PX}px">${a+i}:00</span>`).join('')}</div></div>`;
-  const day=(nm,a,b,items)=>`<div class="day"><div class="dh">${nm}</div><div class="body" style="height:${(b-a)*60*PX}px">${items.map(i=>blk(...i,a*60)).join('')}</div></div>`;
+  const day=(nm,a,b,items)=>`<div class="day" style="flex:${Math.max(1,...items.map(i=>i[4]))}"><div class="dh">${nm}</div><div class="body" style="height:${(b-a)*60*PX}px">${items.map(i=>blk(...i,a*60)).join('')}</div></div>`;
   $('#tt').innerHTML=`<div class="panel"><div class="ttl">평일</div><div class="grid">${axis(17,22)}
-   ${day('월 · 수 · 금',17,22,[[3,'17:00','18:30',0,1,'공통수학2 A'],[4,'18:30','20:00',0,1,'공통수학2 B'],[1,'20:00','22:00',0,2,'미적분1|심화'],[2,'20:00','22:00',1,2,'미적분1|개념']])}
-   ${day('화 · 목',17,22,[[5,'18:00','20:00',0,1,'공통수학1 A'],[6,'20:30','22:00',0,1,'공통수학1 B']])}</div></div>
+   ${day('월 · 수 · 금',17,22,[[3,'17:00','18:30',0,1,'공통수학2|A'],[4,'18:30','20:00',0,1,'공통수학2|B'],[1,'20:00','22:00',0,2,'미적분1|심화'],[2,'20:00','22:00',1,2,'미적분1|개념']])}
+   ${day('화 · 목',17,22,[[5,'18:00','20:00',0,1,'공통수학1|A'],[6,'20:30','22:00',0,1,'공통수학1|B']])}</div></div>
    <div class="panel"><div class="ttl">주말</div><div class="grid">${axis(13,16)}
-   ${day('토',13,16,[[7,'13:00','16:00',0,2,'대수 개념'],[8,'13:00','14:30',1,2,'내신기출|A'],[9,'14:30','16:00',1,2,'내신기출|B']])}
-   ${day('일',13,16,[[7,'13:00','16:00',0,1,'대수 개념']])}</div></div>`;
+   ${day('토',13,16,[[7,'13:00','16:00',0,2,'대수|개념'],[8,'13:00','14:30',1,2,'내신기출|A'],[9,'14:30','16:00',1,2,'내신기출|B']])}
+   ${day('일',13,16,[[7,'13:00','16:00',0,1,'대수|개념']])}</div></div>`;
   document.querySelectorAll('.blk').forEach(el=>el.onclick=()=>openDetail(+el.dataset.no));
 }
 
