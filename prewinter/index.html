@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>2027 예비고1 프리윈터 · 송도 최고수학학원</title>
+<meta name="description" content="11/9(월)~12/29(화) 예비고1 프리윈터 강좌 안내와 수강 신청">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2027 예비고1 프리윈터 · 강좌 안내와 수강 신청">
+<meta property="og:description" content="11/9(월)~12/29(화) · 공통수학1·2, 대수, 미적분1 강좌 8개 · 송도 최고수학학원">
+<meta property="og:url" content="https://best-eight-gold.vercel.app/prewinter/">
+<meta property="og:image" content="https://best-eight-gold.vercel.app/prewinter/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+/* ── 설정: 구글 Apps Script 웹 앱 주소(원장님이 README 순서대로 만든 뒤 붙여넣기). 비어 있으면 '전화 신청' 안내만 보임 ── */
+:root{--blue:#3554F5;--navy:#14214D;--ink:#1E2433;--sub:#5B6478;--line:#DCE1EC;--bg:#F4F6FB;--sky:#E8EDFF;--amber-bg:#FFF5E1;--red:#E2574C;--green:#1F9D74}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);word-break:keep-all;overflow-wrap:break-word;line-height:1.55;padding-bottom:96px}
+.nw{white-space:nowrap}
+.muted{color:var(--sub)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header.top{background:var(--navy);color:#fff;padding:22px 0 26px}
+header.top .brand{display:flex;justify-content:space-between;align-items:center}
+header.top .brand img{height:26px;background:#fff;border-radius:6px;padding:4px 7px}
+header.top .kick{font-size:13px;font-weight:700;color:#AEB8D8}
+header.top h1{font-size:26px;font-weight:900;line-height:1.3;margin-top:14px;letter-spacing:-.5px}
+header.top h1 em{font-style:normal;color:#FFC65C}
+.period{display:inline-block;margin-top:12px;background:#fff;color:var(--navy);font-weight:800;font-size:14px;padding:5px 12px;border-radius:999px}
+.lead{font-size:14px;color:#D6DDF5;margin-top:12px}
+section{margin-top:22px}
+h2{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+h2:before{content:"";width:4px;height:17px;background:var(--blue);border-radius:2px}
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.road>div{background:#fff;border-radius:12px;padding:11px 10px;border:1px solid var(--line)}
+.road>div.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.road .m{font-size:11px;font-weight:700;opacity:.75;white-space:nowrap}
+.road .k{font-size:15px;font-weight:800;margin-top:2px;white-space:nowrap}
+.road p{font-size:12px;margin-top:3px;line-height:1.45}
+/* 선택 도우미 */
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:20px}
+.fq{background:var(--blue);border-radius:18px;padding:4px;margin-top:4px;box-shadow:0 8px 24px rgba(53,84,245,.22)}
+.fqh{color:#fff;padding:14px 14px 12px}
+.fqb{display:inline-block;background:#FFC65C;color:var(--navy);font-size:12px;font-weight:900;border-radius:999px;padding:3px 10px}
+.fqh h3{font-size:21px;font-weight:900;margin-top:8px}
+.fqh p{font-size:13.5px;color:#E3E8FF;margin-top:4px}
+.finder{background:#fff;border-radius:15px;padding:14px}
+.prog3{display:flex;gap:6px;margin-bottom:12px}
+.prog3 i{flex:1;height:6px;border-radius:3px;background:#E3E7F0}
+.prog3 i.d{background:var(--green)}.prog3 i.n{background:var(--blue)}
+.stp{border-radius:12px;padding:10px;margin-top:8px;border:1.5px solid transparent}
+.stp.now{border-color:var(--blue);background:#F5F7FF}
+.stp.wait{opacity:.55}
+.stp .st{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:800;color:var(--navy);margin:0 0 8px}
+.stp.wait .st{margin:0}
+.sn{width:24px;height:24px;border-radius:50%;background:#C9D1E2;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stp.now .sn{background:var(--blue)}.stp.done .sn{background:var(--green)}
+.go{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--blue);background:#fff;border:1px solid var(--blue);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.wt{font-size:12.5px;color:var(--sub);margin:6px 0 0 32px}
+.herobtn{display:block;margin-top:16px;text-align:center;background:#FFC65C;color:var(--navy);font-weight:900;font-size:15.5px;border-radius:12px;padding:13px;text-decoration:none}
+html{scroll-behavior:smooth}
+.sub2{font-size:15px;font-weight:800;color:var(--blue)}
+.hint{margin-top:2px}
+/* 합친 주간 시간표 */
+.wk{margin-top:12px}
+.wk .cap{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.wk .g{display:flex;border:1px solid #C9D1E2;border-radius:10px;overflow:hidden;background:#fff}
+.wk .ax{position:relative;width:34px;flex-shrink:0;background:#F7F8FC;border-right:1px solid var(--line)}
+.wk .ax span{position:absolute;right:3px;font-size:9.5px;color:#6B7385;transform:translateY(-50%);white-space:nowrap}
+.wk .ax span.f{transform:none}.wk .ax span.l{transform:translateY(-100%)}
+.wk .d{flex:1;min-width:0;border-left:1px solid #EEF1F6}
+.wk .d.we .dh{background:#3B4A7A}
+.wk .d.we .b{background:#F7F8FC}
+.wk .dh{background:var(--navy);color:#fff;text-align:center;font-size:11.5px;font-weight:700;height:22px;line-height:22px}
+.wk .b{position:relative}
+.wk .k{position:absolute;border-radius:4px;color:#fff;font-size:10px;font-weight:800;line-height:1.2;text-align:center;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:1px}
+.wk .k.reg{background:repeating-linear-gradient(45deg,#5B6478,#5B6478 4px,#6B7385 4px,#6B7385 8px)}
+.wk .lg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--sub);margin-top:6px}
+.wk .lg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.finder .st{font-size:13px;font-weight:800;color:var(--navy);margin:10px 0 6px}
+.finder .st:first-child{margin-top:0}
+.finder .ops{display:flex;flex-wrap:wrap;gap:6px}
+.finder .ops button{border:1.5px solid #C9D1E2;background:#fff;border-radius:10px;padding:11px 14px;box-shadow:0 1px 0 rgba(20,33,77,.06);font:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer}
+.finder .ops button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.finder .res{margin-top:12px;border-top:2px solid var(--green);padding-top:12px;font-size:14px}
+.finder .res .rec{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.finder .res .rec button{border:0;border-radius:8px;background:var(--blue);color:#fff;font:inherit;font-size:13px;font-weight:800;padding:6px 10px;cursor:pointer;white-space:nowrap}
+.finder .res .rec button.in{background:var(--green)}
+.finder .lock{font-size:11px;font-weight:700;color:var(--sub);background:var(--bg);border:1px dashed #C9D1E2;border-radius:8px;padding:4px 8px;text-align:center;line-height:1.35;white-space:nowrap}
+.finder .warnx{color:#B26B00;font-size:12.5px}
+/* 강좌 카드 */
+.list{display:grid;gap:10px;margin-top:12px}
+.card{background:#fff;border-radius:14px;border:1px solid var(--line);padding:14px 14px 12px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;position:relative;overflow:hidden;transition:opacity .2s}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
+.card.dim{opacity:.38}
+.card .no{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.card .bd{flex:1;min-width:0}
+.card .nm{font-size:16px;font-weight:800}
+.card .meta{font-size:13px;color:var(--sub);margin-top:2px}
+.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.card .fee{font-size:15px;font-weight:800;white-space:nowrap}
+.card .more{font-size:12.5px;color:var(--blue);font-weight:700;white-space:nowrap}
+.card .chk{position:absolute;right:12px;top:12px;font-size:12px;font-weight:800;color:#fff;background:var(--green);border-radius:999px;padding:2px 8px;display:none}
+.card.sel .chk{display:block}
+/* 시간표 */
+.tt{display:grid;gap:12px}
+.panel .ttl{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:5px}
+.grid{display:flex;background:#fff;border:1px solid #C9D1E2;border-radius:10px;overflow:hidden}
+.axis{position:relative;width:40px;background:#F7F8FC;border-right:1px solid var(--line);flex-shrink:0}
+.axis span{position:absolute;right:5px;font-size:10px;color:#6B7385;transform:translateY(-50%);white-space:nowrap}
+.axis span.f{transform:none}.axis span.l{transform:translateY(-100%)}
+.day{flex:1;border-left:1px solid #E3E7EE;min-width:0}
+.day .dh{background:var(--navy);color:#fff;text-align:center;font-weight:700;font-size:12.5px;height:28px;line-height:28px;white-space:nowrap}
+.day .body{position:relative}
+.blk{position:absolute;border-radius:6px;color:#fff;padding:3px 6px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:center}
+.blk b{font-size:11.5px;line-height:1.3;white-space:nowrap}
+.blk span{font-size:10px;opacity:.9;white-space:nowrap}
+.note{font-size:12px;color:var(--sub);margin-top:8px;line-height:1.6}
+/* 수강생 프로그램 */
+.prog{background:var(--navy);border-radius:18px;padding:18px 14px 14px;margin-top:22px}
+.prog .ph{color:#fff;padding:0 4px 12px}
+.prog .pk{display:inline-block;background:#FFC65C;color:var(--navy);font-size:12px;font-weight:900;border-radius:999px;padding:3px 10px}
+.prog h3{font-size:20px;font-weight:900;margin-top:8px;line-height:1.35}
+.prog .ph p{font-size:13px;color:#C9D2EE;margin-top:4px}
+.pc{background:#fff;border-radius:14px;padding:14px;display:flex;gap:12px;margin-top:10px}
+.pn{width:38px;height:38px;border-radius:10px;color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pb{flex:1;min-width:0}
+.who{display:inline-block;font-size:11px;font-weight:800;color:var(--navy);background:var(--sky);border-radius:6px;padding:1px 7px;margin-bottom:4px}
+.who.all{color:#17795A;background:#E7F6F0}
+.pb h4{font-size:16.5px;font-weight:900;line-height:1.35}
+.pb h4 em{font-style:normal;font-size:12px;font-weight:800;color:#fff;background:var(--red);border-radius:999px;padding:2px 8px;margin-left:4px;white-space:nowrap;vertical-align:2px}
+.pb .pd{font-size:13.5px;color:var(--sub);margin-top:4px}
+.steps{list-style:none;counter-reset:s;margin-top:10px;border-left:2px solid var(--line);padding-left:12px}
+.steps li{counter-increment:s;position:relative;font-size:13.5px;padding:3px 0}
+.steps li:before{content:counter(s);position:absolute;left:-21px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.steps b{margin-right:4px}
+.when{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:999px;padding:3px 10px}
+/* 하단 장바구니 바 */
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(20,33,77,.08);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:20}
+.bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.bar .sum{flex:1;min-width:0;font-size:13px;color:var(--sub)}
+.bar .sum b{color:var(--ink);font-size:15px}
+.btn{border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:15px;padding:12px 18px;cursor:pointer;white-space:nowrap}
+.btn:disabled{background:#B9C2DA;cursor:default}
+.btn.ghost{background:var(--sky);color:var(--blue)}
+.btn.full{width:100%}
+/* 상세·신청 시트 */
+.dim-bg{position:fixed;inset:0;background:rgba(14,22,48,.5);z-index:30;display:none}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:90vh;overflow:auto;background:#fff;border-radius:18px 18px 0 0;z-index:31;transform:translateY(105%);transition:transform .25s;padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
+.sheet.open{transform:none}
+.sheet .in{max-width:680px;margin:0 auto}
+.sheet .x{position:absolute;right:14px;top:12px;border:0;background:var(--bg);width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer}
+.sheet h3{font-size:20px;font-weight:900;padding-right:40px;line-height:1.35}
+.sheet .tag{display:inline-block;font-size:12px;font-weight:800;color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px}
+.dl{margin-top:12px;border-top:1px solid var(--line)}
+.dl div{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.dl dt{width:66px;flex-shrink:0;color:var(--sub);font-weight:700}
+.dl dd{flex:1;min-width:0}
+.box{background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:13.5px}
+.box.warn{background:var(--amber-bg)}
+.box ul{padding-left:18px}
+.act{display:flex;gap:8px;margin-top:16px}
+.act .btn{flex:1}
+/* 신청서 */
+.f{margin-top:12px}
+.f label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}
+.f label i{font-style:normal;color:var(--red)}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink)}
+.f textarea{min-height:70px;resize:vertical}
+.f .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f .agree{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--sub);margin-top:14px;font-weight:400}
+.f .agree input{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.picked{margin-top:10px}
+.picked div{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.picked button{border:0;background:none;color:var(--red);font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.tot{display:flex;justify-content:space-between;font-weight:800;padding-top:10px;font-size:15px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
+.done{text-align:center;padding:16px 0}
+.done .big{font-size:44px}
+footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-size:11.5px;color:#7A8296;line-height:1.7}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="kick">2027 예비고1 · 프리윈터</span><img src="logo.png" alt="최고수학학원"></div>
+  <h1>고1 첫 내신, 지금부터<br><em>진도와 기본기</em>를 함께 준비합니다</h1>
+  <div class="period">11월 9일(월) ~ 12월 29일(화)</div>
+  <p class="lead">기말고사 종료 후, 집중 학습을 위한 11, 12월 프리윈터가 진행됩니다.<br>1공구 하이퍼관 수업도 추가로 안내드릴 예정입니다.</p>
+  <a href="#find" class="herobtn">재원생 · 우리 아이 맞춤 강좌 찾기 ↓</a>
+</div></header>
+
+<main class="wrap">
+  <section>
+    <h2>겨울 로드맵</h2>
+    <div class="road">
+      <div class="on"><div class="m">11~12월 · 프리윈터</div><div class="k">진도 확보</div><p>수준에 맞는 과정 선택</p></div>
+      <div><div class="m">1~2월 · 윈터</div><div class="k">심화 · 복습</div><p>배운 범위를 고난도까지</p></div>
+      <div><div class="m">3월~ · 고1</div><div class="k">첫 내신</div><p>공통수학1 범위</p></div>
+    </div>
+  </section>
+
+  <section class="prog">
+    <div class="ph"><span class="pk">수강생 · 재원생 혜택</span><h3>프리윈터와 함께하는 3가지 프로그램</h3><p>수업만이 아니라, 고1 첫 내신과 고교 생활까지 함께 준비합니다.</p></div>
+    <div class="pc">
+      <div class="pn" style="background:#3554F5">01</div>
+      <div class="pb"><span class="who">프리윈터 수강생</span><h4>고1 실제 내신 시험지 테스트</h4>
+        <p class="pd">2026년 고1이 실제로 본 내신 시험지로, 입학 전에 고등 시험을 미리 경험합니다.</p>
+        <ol class="steps"><li><b>테스트</b> 11월 중 · 2026 고1 실제 내신 시험지</li><li><b>해결 강의</b> 테스트 결과에 따라 토요일에 진행</li></ol>
+        <span class="when">일정 추후 안내</span></div>
+    </div>
+    <div class="pc">
+      <div class="pn" style="background:#E2574C">02</div>
+      <div class="pb"><span class="who">프리윈터 수강생</span><h4>⑧·⑨ 고1 내신기출반 <em>수강생 0원</em></h4>
+        <p class="pd">2026 송도권 고1 공통수학1 실제 기출 문제를 해설합니다. 고1 1학기 시험 범위를 미리 만나 봅니다.</p>
+        <ol class="steps"><li><b>⑧ A반</b> 토 13:00~14:30</li><li><b>⑨ B반</b> 토 14:30~16:00 (같은 내용)</li></ol>
+        <span class="when nw">7회 · 176,000원 → 수강생 0원</span></div>
+    </div>
+    <div class="pc">
+      <div class="pn" style="background:#1F9D74">03</div>
+      <div class="pb"><span class="who all">재원생 누구나</span><h4>최고의 워크샵</h4>
+        <p class="pd">아이에게 맞는 고교와 진로, 선택과목을 함께 살펴봅니다. 프리윈터를 듣지 않아도 최고수학학원 재원생이면 참여할 수 있습니다.</p>
+        <ol class="steps"><li><b>학교 환경 적합도 검사</b></li><li><b>학생별 적성검사</b></li><li><b>진로별 선택과목 설명</b> 검사 결과를 바탕으로 안내</li><li><b>고교 선택 설명회</b> 학생 대상</li></ol>
+        <span class="when nw">11월 7일(토) · 8일(일)</span>
+        <button class="btn full" id="wsBtn" style="margin-top:12px;background:#1F9D74">워크샵 신청하기</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="fq" id="find">
+      <div class="fqh"><span class="fqb">재원생 · 3번만 누르세요</span>
+        <h3>우리 아이에게 맞는 강좌 찾기</h3>
+        <p>정규 수업 <b>요일 → 시간 → 교실(선생님)</b>을 누르면<br>추천 강좌와 우리 아이 주간 시간표가 나옵니다.</p></div>
+      <div class="finder" id="finder"></div>
+    </div>
+    <h2 style="margin-top:22px">전체 강좌</h2>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section>
+    <h2>주간 시간표</h2>
+    <div class="tt" id="tt"></div>
+    <p class="note">· 블록을 누르면 강좌 안내가 열립니다. · ①·②는 같은 시간대, ⑦과 ⑧·⑨는 토요일 시간이 겹칩니다.<br>· 모든 수업은 22:00까지입니다. · 장소: 송도관 중고등관(③·④ 강의실은 추후 안내)</p>
+  </section>
+
+
+  <footer>
+    송도 최고수학학원 · 인천동부교육청 제3680호 · 교습과정 고등 · 교습과목 수학<br>
+    문의 <a href="tel:0328332343" class="nw">032-833-2343</a>
+  </footer>
+</main>
+
+<div class="bar"><div class="in">
+  <div class="sum" id="sum">강좌를 담아 주세요</div>
+  <button class="btn" id="go" disabled>신청하기</button>
+</div></div>
+
+<div class="dim-bg" id="dim"></div>
+<div class="sheet" id="sheet"><button class="x" id="x" aria-label="닫기">×</button><div class="in" id="sheetIn"></div></div>
+
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxgCGudk-p-f663hvp-rXlxpmLqSvEGz7y51_FCSJsXVnSzvG5apZMrXK1IXRKevhXEug/exec'; // ← 구글 Apps Script 웹 앱 URL (https://script.google.com/macros/s/.../exec)
+
+const COL = {purple:'#6C4BD8',teal:'#1690A0',green:'#1F9D74',amber:'#E08A00',indigo:'#3554F5',red:'#E2574C'};
+const C = [
+ {no:1,nm:'미적분1 유형+심화 특강',bk:'고쟁이 미적분1',tg:'미적분1 1회독 이상 · 재원생이 아니면 입반 테스트',dy:'월·수·금',tm:'20:00~22:00',rm:'중고등관 2번',tc:'이기정 선생님',n:'20회',fee:670000,c:'purple',
+  why:'미적분1을 한 번 이상 공부한 학생이 유형을 완성하고 고난도 문제까지 다루는 과정입니다.',ex:['최고수학학원 재원생이 아닌 경우 입반 테스트 후 수강합니다.','②와 같은 시간대라 함께 들을 수 없습니다.']},
+ {no:2,nm:'미적분1 개념 특강',bk:'개념원리 미적분1 · 라이트쎈 미적분1',tg:'공통수학1·2를 마친 학생',dy:'월·수·금',tm:'20:00~22:00',rm:'중고등관 1번',tc:'김지은 원장',n:'20회',fee:670000,c:'teal',
+  why:'공통수학1·2를 마친 학생이 미적분1 첫 진도를 나가는 개념 과정입니다.',ex:['①과 같은 시간대라 함께 들을 수 없습니다.']},
+ {no:3,nm:'공통수학2 유형 특강 A',bk:'자체 교재',tg:'공통수학2 유형 정리',dy:'월·수·금',tm:'17:00~18:30',rm:'추후 안내',tc:'이수빈 선생님',n:'20회',fee:500000,c:'green',
+  why:'공통수학2 유형을 정리하는 과정입니다. 공통수학1이 아직 약하다면 ⑤ 또는 ⑥과 함께 들으시길 권합니다.',ex:['④와 같은 내용이며 시간만 다릅니다.']},
+ {no:4,nm:'공통수학2 유형 특강 B',bk:'자체 교재',tg:'공통수학2 유형 정리',dy:'월·수·금',tm:'18:30~20:00',rm:'추후 안내',tc:'이수빈 선생님',n:'20회',fee:500000,c:'green',
+  why:'공통수학2 유형을 정리하는 과정입니다. 공통수학1이 아직 약하다면 ⑤ 또는 ⑥과 함께 들으시길 권합니다.',ex:['③과 같은 내용이며 시간만 다릅니다.']},
+ {no:5,nm:'공통수학1 유형강화 특강 A',bk:'올림포스 유형편 공통수학1',tg:'공통수학1을 단단히 다질 학생',dy:'화·목',tm:'18:00~20:00',rm:'중고등관 3번',tc:'김가현 선생님',n:'14회',fee:470000,c:'amber',
+  why:'고1 1학기 시험 범위인 공통수학1을 유형별로 꼼꼼하게 다지는 과정입니다.',ex:['올림포스 유형편은 2026년 국제고·인천외고 부교재로 사용 중인 교재입니다.','⑥과 같은 교재이며 수업 시간(2시간/1시간 30분)과 교습비가 다릅니다.']},
+ {no:6,nm:'공통수학1 유형강화 특강 B',bk:'올림포스 유형편 공통수학1',tg:'공통수학1을 단단히 다질 학생',dy:'화·목',tm:'20:30~22:00',rm:'중고등관 3번',tc:'김가현 선생님',n:'14회',fee:350000,c:'amber',
+  why:'고1 1학기 시험 범위인 공통수학1을 유형별로 꼼꼼하게 다지는 과정입니다.',ex:['올림포스 유형편은 2026년 국제고·인천외고 부교재로 사용 중인 교재입니다.','⑤와 같은 교재이며 수업 시간(1시간 30분/2시간)과 교습비가 다릅니다.']},
+ {no:7,nm:'대수 개념 특강',bk:'개념원리 대수 · 라이트쎈 대수',tg:'대수 첫 진도',dy:'토·일',tm:'13:00~16:00',rm:'중고등관 5번',tc:'호두리 선생님',n:'14회',fee:700000,c:'indigo',
+  why:'공통수학1·2를 마친 학생이 주말에 대수 첫 진도를 나가는 개념 과정입니다.',ex:['토요일 ⑧·⑨ 고1 내신기출반과 시간이 겹칩니다.']},
+ {no:8,nm:'고1 내신기출반 A',bk:'2026 송도권 고1 공통수학1 실제 기출',tg:'프리윈터 강좌(①~⑦) 수강생',dy:'토',tm:'13:00~14:30',rm:'중고등관 4번',tc:'김종원 선생님',n:'7회',fee:176000,c:'red',
+  why:'2026 송도권 고1 공통수학1 실제 기출 문제를 해설하는 반입니다. 프리윈터 강좌(①~⑦) 수강생은 0원입니다.',ex:['프리윈터 강좌(①~⑦) 수강생 대상입니다(교습비 7회 176,000원 → 수강생 0원). 상담 때 함께 안내해 드립니다.','⑨와 같은 내용이며 시간만 다릅니다.','⑦ 대수 개념 특강과 시간이 겹칩니다.']},
+ {no:9,nm:'고1 내신기출반 B',bk:'2026 송도권 고1 공통수학1 실제 기출',tg:'프리윈터 강좌(①~⑦) 수강생',dy:'토',tm:'14:30~16:00',rm:'중고등관 4번',tc:'김종원 선생님',n:'7회',fee:176000,c:'red',
+  why:'2026 송도권 고1 공통수학1 실제 기출 문제를 해설하는 반입니다. 프리윈터 강좌(①~⑦) 수강생은 0원입니다.',ex:['프리윈터 강좌(①~⑦) 수강생 대상입니다(교습비 7회 176,000원 → 수강생 0원). 상담 때 함께 안내해 드립니다.','⑧과 같은 내용이며 시간만 다릅니다.','⑦ 대수 개념 특강과 시간이 겹칩니다.']},
+];
+const CIRC='①②③④⑤⑥⑦⑧⑨';
+const FREE=[8,9], isFree=n=>FREE.includes(n), hasPaid=()=>[...cart].some(n=>!isFree(n)), dropFree=()=>{};
+const price=n=>isFree(n)?0:C[n-1].fee; // ⑧·⑨: 프리윈터 강좌(①~⑦) 수강생만 신청, 0원
+const feeTxt=x=>isFree(x.no)?`${x.fee.toLocaleString('ko-KR')}원 · 프리윈터 수강생 0원`:won(x.fee);
+const CLASH=[[1,2],[7,8],[7,9]], SAME=[[3,4],[8,9]];
+// 정규 수업 + 담은 프리윈터 강좌를 한 주 시간표로 그림
+function weekTT(reg, nos, cap){
+  const D='월화수목금토일', it=[];
+  const mm=s=>{const [a,b]=s.split('~');const m=x=>+x.trim().slice(0,2)*60+ +x.trim().slice(3,5);return [m(a),m(b)]};
+  if(reg){ const [s,e]=mins(reg.tm); days(reg.dy).forEach(d=>it.push({d,s,e,lab:'정규',reg:1})); }
+  nos.forEach(n=>{const x=C[n-1]; x.tm.split(' · ').forEach(tm=>{const [s,e]=mm(tm); days(x.dy).forEach(d=>it.push({d,s,e,lab:CIRC[n-1],c:COL[x.c]}))})});
+  if(!it.length) return '';
+  const a=Math.floor(Math.min(...it.map(x=>x.s))/60), b=Math.ceil(Math.max(...it.map(x=>x.e))/60), PX=Math.min(0.7,300/((b-a)*60));
+  const used=[...D]; // 월~일 항상 표시 (주말 특강을 담으면 그 자리에 보이도록)
+  const O=7, H=(b-a)*60*PX+O*2;
+  const ax=`<div class="ax"><div style="height:22px"></div><div style="position:relative;height:${H}px">${Array.from({length:b-a+1},(_,i)=>`<span style="top:${i*60*PX+O}px">${a+i}:00</span>`).join('')}</div></div>`;
+  const cols=used.map(d=>{ const xs=it.filter(x=>x.d===d).sort((p,q)=>p.s-q.s), lanes=[];
+    xs.forEach(x=>{let L=lanes.findIndex(end=>end<=x.s); if(L<0){L=lanes.length;lanes.push(0)} lanes[L]=x.e; x.L=L});
+    const W=100/Math.max(1,lanes.length);
+    return `<div class="d ${'토일'.includes(d)?'we':''}"><div class="dh">${d}</div><div class="b" style="height:${H}px">${xs.map(x=>`<div class="k ${x.reg?'reg':''}" style="top:${(x.s-a*60)*PX+1+O}px;height:${(x.e-x.s)*PX-2}px;left:calc(${W*x.L}% + 2px);width:calc(${W}% - 4px);${x.reg?'':'background:'+x.c}">${x.lab}</div>`).join('')}</div></div>`});
+  const lg=(reg?`<span><i style="background:#5B6478"></i>정규 수업 ${reg.dy} ${reg.tm}</span>`:'')+nos.map(n=>`<span><i style="background:${COL[C[n-1].c]}"></i>${CIRC[n-1]} ${C[n-1].nm}</span>`).join('');
+  return `<div class="wk"><div class="cap">${cap}</div><div class="g">${ax}${cols.join('')}</div><div class="lg">${lg}</div></div>`;
+}
+// ── 재원 중3 정규반 (02_교무/프리윈터_2026/중3_정규반_입력표.csv → reg_to_page.py로 채움. 반 이름은 넣지 않음) ──
+/*REG_START*/const REG=[{"dy": "월·수·금", "tm": "16:30~19:00", "room": "중고등관 7번", "tc": "박지은 선생님", "prog": "대수 유형+심화", "rec": [1, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "16:30~19:00", "room": "중고등관 4번", "tc": "김종원 선생님", "prog": "대수 개념+유형", "rec": [2, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "18:30~20:30", "room": "중고등관 2번", "tc": "이기정 선생님", "prog": "대수 개념+유형", "rec": [3, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "19:00~21:00", "room": "중고등관 4번", "tc": "김종원 선생님", "prog": "공통수학1 유형+심화, 공통수학2 유형", "rec": [3, 7, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "20:00~22:00", "room": "중고등관 3번", "tc": "김가현 선생님", "prog": "공통수학1 개념", "rec": [3, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "16:30~19:00", "room": "중고등관 6번", "tc": "박준서 선생님", "prog": "공통수학2 개념+유형", "rec": [5, 6, 8, 9], "note": ""}, {"dy": "월·수·금", "tm": "20:00~22:00", "room": "중고등관 10번", "tc": "박리라 선생님", "prog": "공통수학1 개념", "rec": [3, 8, 9], "note": ""}, {"dy": "화·목", "tm": "19:00~22:00", "room": "중고등관 9번", "tc": "김성하 선생님", "prog": "공통수학1 개념+연산", "rec": [8, 9], "note": ""}, {"dy": "화·목", "tm": "19:00~22:00", "room": "중고등관 3번", "tc": "김가현 선생님", "prog": "공통수학2 개념+유형", "rec": [7, 8, 9], "note": ""}, {"dy": "화·목", "tm": "16:30~20:00", "room": "중고등관 7번", "tc": "박지은 선생님", "prog": "미적분1 유형+심화, 미적분2 유형", "rec": [8, 9], "note": ""}, {"dy": "화·목", "tm": "16:30~19:30", "room": "중고등관 4번", "tc": "김종원 선생님", "prog": "공통수학2 개념+유형", "rec": [6, 7, 8, 9], "note": ""}];/*REG_END*/
+let myReg=null, fz={dy:null,tm:null};
+const days=s=>s.replace(/[^월화수목금토일]/g,'').split('');
+const mins=t=>{const [a,b]=t.split('~');const m=x=>+x.trim().slice(0,2)*60+ +x.trim().slice(3,5);return [m(a),m(b)]};
+function overlap(r,x){ if(!days(r.dy).some(d=>days(x.dy).includes(d))) return false;
+  const [a,b]=mins(r.tm); return x.tm.split(' · ').some(s=>{const [c,d]=mins(s);return a<d&&c<b}); }
+function finder(){
+  const el=$('#finder'); const uniq=a=>[...new Set(a)];
+  if(!REG.length){ el.innerHTML='<p style="font-size:14px">정규반 정보를 준비하고 있습니다. 상담 때 맞는 강좌를 안내해 드립니다(032-833-2343).</p>'; return; }
+  const dys=uniq(REG.map(r=>r.dy)), tms=fz.dy?uniq(REG.filter(r=>r.dy===fz.dy).map(r=>r.tm)):[], rms=fz.tm?REG.filter(r=>r.dy===fz.dy&&r.tm===fz.tm):[];
+  const cur=myReg?4:fz.tm?3:fz.dy?2:1;
+  const step=(n,title,body,wait)=>`<div class="stp ${cur===n?'now':cur>n?'done':'wait'}"><div class="st"><span class="sn">${cur>n?'✓':n}</span>${title}${cur===n?'<span class="go">선택해 주세요</span>':''}</div>${cur>=n?`<div class="ops">${body}</div>`:`<p class="wt">${wait}</p>`}</div>`;
+  let h=`<div class="prog3">${[1,2,3].map(n=>`<i class="${cur>n?'d':cur===n?'n':''}"></i>`).join('')}</div>`;
+  h+=step(1,'정규 수업 요일',dys.map(d=>`<button data-dy="${d}" class="${d===fz.dy?'on':''}">${d}</button>`).join(''),'');
+  h+=step(2,'수업 시간',tms.map(t=>`<button data-tm="${t}" class="${t===fz.tm?'on':''}">${t}</button>`).join(''),'요일을 먼저 골라 주세요');
+  h+=step(3,'교실 · 선생님',rms.map(r=>`<button data-ri="${REG.indexOf(r)}" class="${r===myReg?'on':''}">${r.room} · ${r.tc}</button>`).join(''),'시간을 먼저 골라 주세요');
+  if(myReg){ const r=myReg;
+    h+=`<div class="res"><b>우리 아이 정규 수업</b><br>${r.dy} ${r.tm} · ${r.room} · ${r.tc}${r.prog?`<p style="margin-top:6px"><b>현재 진도</b> ${r.prog}</p>`:''}
+      <p style="margin-top:10px"><b>추천 프리윈터 강좌</b></p>${r.rec.length?r.rec.map(n=>{const x=C[n-1],ov=overlap(r,x);
+        return `<div class="rec"><span>${CIRC[n-1]} ${x.nm}<br><small class="muted">${x.dy} ${x.tm}</small>${ov?'<br><span class="warnx">정규 수업과 시간이 겹칩니다</span>':''}</span><button data-add="${n}" class="${cart.has(n)?'in':''}">${cart.has(n)?'담음':'담기'}</button></div>`}).join(''):'<p class="muted">상담 때 맞는 강좌를 안내해 드립니다.</p>'}
+      ${r.note?`<p class="muted" style="margin-top:8px">${r.note}</p>`:''}${weekTT(r,[...cart].sort((p,q)=>p-q),'정규 수업 + 담은 프리윈터 강좌')}<p class="note">신청서에 이 정규반 정보가 함께 전달됩니다. 학생 이름은 신청서에서 적어 주세요.</p></div>`; }
+  el.innerHTML=h;
+  el.querySelectorAll('[data-dy]').forEach(b=>b.onclick=()=>{fz={dy:b.dataset.dy,tm:null};myReg=null;finder()});
+  el.querySelectorAll('[data-tm]').forEach(b=>b.onclick=()=>{fz.tm=b.dataset.tm;myReg=null;const c=REG.filter(r=>r.dy===fz.dy&&r.tm===fz.tm);if(c.length===1)myReg=c[0];finder()});
+  el.querySelectorAll('[data-ri]').forEach(b=>b.onclick=()=>{myReg=REG[+b.dataset.ri];finder()});
+  el.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const n=+b.dataset.add;cart.has(n)?cart.delete(n):cart.add(n);dropFree();paint();finder()});
+}
+const won=v=>v?v.toLocaleString('ko-KR')+'원':'수강생 무료';
+const $=s=>document.querySelector(s);
+let cart=new Set();
+
+function cardHTML(x){return `<div class="card" data-no="${x.no}" style="--c:${COL[x.c]}"><span class="chk">담음</span><div class="no">${x.no}</div><div class="bd">
+ <div class="nm">${x.nm}</div><div class="meta"><span class="nw">${x.dy} ${x.tm.replace(' · ',' / ')}</span> · ${x.tg}</div>
+ <div class="row"><span class="fee" style="white-space:normal">${x.n} · ${feeTxt(x)}</span><span class="more">자세히 보기 ›</span></div></div></div>`}
+function renderList(){ $('#list').innerHTML=C.map(cardHTML).join(''); document.querySelectorAll('.card').forEach(el=>el.onclick=()=>openDetail(+el.dataset.no)); paint(); }
+function paint(){
+  document.querySelectorAll('.card').forEach(el=>el.classList.toggle('sel',cart.has(+el.dataset.no)));
+  const paid=[...cart].filter(n=>!isFree(n)), tot=[...cart].reduce((a,n)=>a+price(n),0);
+  $('#sum').innerHTML=cart.size?`<b>${cart.size}개</b> 강좌 · 합계 <b class="nw">${tot.toLocaleString('ko-KR')}원</b>`:'강좌를 담아 주세요';
+  $('#go').disabled=!cart.size;
+  if(myReg) finder();
+}
+
+// 시간표
+function timetable(){
+  const PX=0.75; // 1분당 px
+  const blk=(no,s,e,lane,lanes,lab,t0)=>{const m=t=>+t.slice(0,2)*60+ +t.slice(3);const x=C[no-1],w=100/lanes;
+    return `<div class="blk" data-no="${no}" style="top:${(m(s)-t0)*PX+2}px;height:${(m(e)-m(s))*PX-4}px;left:calc(${w*lane}% + 3px);width:calc(${w}% - 6px);background:${COL[x.c]}">${lab.split('|').map((s,i)=>`<b>${i?'':CIRC[no-1]+' '}${s}</b>`).join('')}<span>${s}~${e}</span></div>`};
+  const axis=(a,b)=>`<div class="axis"><div style="height:28px"></div><div style="position:relative;height:${(b-a)*60*PX}px">${Array.from({length:b-a+1},(_,i)=>`<span class="${i==0?'f':i==b-a?'l':''}" style="top:${i*60*PX}px">${a+i}:00</span>`).join('')}</div></div>`;
+  const day=(nm,a,b,items)=>`<div class="day"><div class="dh">${nm}</div><div class="body" style="height:${(b-a)*60*PX}px">${items.map(i=>blk(...i,a*60)).join('')}</div></div>`;
+  $('#tt').innerHTML=`<div class="panel"><div class="ttl">평일</div><div class="grid">${axis(17,22)}
+   ${day('월 · 수 · 금',17,22,[[3,'17:00','18:30',0,1,'공통수학2 A'],[4,'18:30','20:00',0,1,'공통수학2 B'],[1,'20:00','22:00',0,2,'미적분1|심화'],[2,'20:00','22:00',1,2,'미적분1|개념']])}
+   ${day('화 · 목',17,22,[[5,'18:00','20:00',0,1,'공통수학1 A'],[6,'20:30','22:00',0,1,'공통수학1 B']])}</div></div>
+   <div class="panel"><div class="ttl">주말</div><div class="grid">${axis(13,16)}
+   ${day('토',13,16,[[7,'13:00','16:00',0,2,'대수 개념'],[8,'13:00','14:30',1,2,'내신기출|A'],[9,'14:30','16:00',1,2,'내신기출|B']])}
+   ${day('일',13,16,[[7,'13:00','16:00',0,1,'대수 개념']])}</div></div>`;
+  document.querySelectorAll('.blk').forEach(el=>el.onclick=()=>openDetail(+el.dataset.no));
+}
+
+// 시트(상세·신청)
+function openSheet(html){ $('#sheetIn').innerHTML=html; $('#dim').style.display='block'; requestAnimationFrame(()=>$('#sheet').classList.add('open')); $('#sheet').scrollTop=0; }
+function closeSheet(){ $('#sheet').classList.remove('open'); $('#dim').style.display='none'; }
+$('#x').onclick=closeSheet; $('#dim').onclick=closeSheet;
+
+function clashMsg(no){ const other=L=>L.filter(p=>p.includes(no)).map(p=>p.find(n=>n!==no)).filter(o=>cart.has(o)).map(o=>CIRC[o-1]);
+  const c=other(CLASH), s=other(SAME); return [c.length?`${c.join('·')} 강좌와 시간이 겹칩니다. 함께 담으면 상담 때 조정해 드립니다.`:'', s.length?`${s.join('·')} 강좌와 같은 내용입니다. 한 타임만 담아 주세요.`:''].filter(Boolean).join(' '); }
+function openDetail(no){
+  const x=C[no-1], inC=cart.has(no);
+  openSheet(`<span class="tag" style="background:${COL[x.c]}">${CIRC[no-1]} 강좌</span><h3>${x.nm}</h3>
+   <p style="margin-top:8px;font-size:14.5px">${x.why}</p>
+   <dl class="dl"><div><dt>교재</dt><dd>${x.bk}</dd></div><div><dt>대상</dt><dd>${x.tg}</dd></div>
+   <div><dt>요일·시간</dt><dd>${x.dy} ${x.tm}</dd></div><div><dt>기간</dt><dd>11/9(월) ~ 12/29(화)${x.n!=='—'?' · '+x.n:''}</dd></div>
+   <div><dt>장소</dt><dd>${x.rm==='추후 안내'?'송도관 중고등관 (강의실 추후 안내)':'송도관 '+x.rm+' 강의실'}</dd></div><div><dt>강사</dt><dd>${x.tc}</dd></div>
+   <div><dt>교습비</dt><dd><b>${x.n} ${x.fee.toLocaleString('ko-KR')}원</b>${isFree(no)?'<br>프리윈터 강좌(①~⑦) 수강생 0원':''}</dd></div></dl>
+   ${x.ex.length?`<div class="box warn"><ul>${x.ex.map(e=>`<li>${e}</li>`).join('')}</ul></div>`:''}
+   <p class="err" id="clash">${clashMsg(no)}</p>
+   <div class="act"><button class="btn ghost" id="close2">목록으로</button><button class="btn" id="tog">${inC?'담기 취소':'이 강좌 담기'}</button></div>`);
+  $('#close2').onclick=closeSheet;
+  $('#tog').onclick=()=>{ cart.has(no)?cart.delete(no):cart.add(no); dropFree(); paint(); closeSheet(); };
+}
+
+function openForm(mode){
+  const ws=mode==='ws';
+  const items=ws?[]:[...cart].sort((a,b)=>a-b), tot=items.reduce((a,n)=>a+price(n),0);
+  const clashes=CLASH.filter(p=>p.every(n=>cart.has(n))).map(p=>p.map(n=>CIRC[n-1]).join('·')), sames=SAME.filter(p=>p.every(n=>cart.has(n))).map(p=>p.map(n=>CIRC[n-1]).join('·'));
+  const top=ws?`<h3>최고의 워크샵 신청</h3>
+   <div class="box">학교 환경 적합도 검사 · 학생별 적성검사 → 진로별 선택과목 설명 · 고교 선택 설명회<br><b>최고수학학원 재원생</b>이면 프리윈터 수강과 관계없이 참여할 수 있습니다.<br><b>일정</b> 11월 7일(토) · 8일(일) · 시간·장소는 추후 안내드립니다.</div>`
+   :`<h3>수강 신청</h3>
+   <div class="picked">${items.map(n=>`<div><span>${CIRC[n-1]} ${C[n-1].nm}<br><small style="color:var(--sub)">${C[n-1].dy} ${C[n-1].tm}</small></span><span class="nw">${price(n).toLocaleString('ko-KR')}원 <button data-rm="${n}">빼기</button></span></div>`).join('')}
+   <div class="tot"><span>합계</span><span class="nw">${tot.toLocaleString('ko-KR')}원</span></div></div>
+   ${weekTT(myReg,items,myReg?'우리 아이 주간 시간표 (정규 + 프리윈터)':'프리윈터 주간 시간표')}
+   ${clashes.length?`<div class="box warn">${clashes.join(', ')} 강좌는 시간이 겹칩니다. 상담 때 조정해 드립니다.</div>`:''}
+   ${sames.length?`<div class="box warn">${sames.join(', ')}는 같은 내용입니다. 한 타임만 남겨 주세요.</div>`:''}
+   ${items.some(isFree)&&!hasPaid()?`<div class="box warn">⑧·⑨ 고1 내신기출반은 프리윈터 강좌(①~⑦) 수강생 대상입니다. 상담 때 함께 들을 강좌를 안내해 드립니다.</div>`:''}`;
+  openSheet(`${top}
+   <form class="f" id="f" novalidate>
+     <label>학생 이름 <i>*</i></label><input name="student" maxlength="20" autocomplete="off" required>
+     <div class="two"><div><label>학교 <i>*</i></label><input name="school" maxlength="20" placeholder="예) 최고중" required></div>
+       <div><label>학년</label><select name="grade"><option>중3</option><option>기타</option></select></div></div>
+     <label>학부모 연락처 <i>*</i></label><input name="phone" inputmode="tel" maxlength="13" placeholder="010-0000-0000" required>
+     ${ws?`<input type="hidden" name="enrolled" value="재원생"><p class="note" style="margin-top:8px">워크샵은 최고수학학원 재원생 대상입니다.</p>`
+        :`<label>최고수학학원 재원 여부 <i>*</i></label><select name="enrolled" required><option value="">선택</option><option ${myReg?'selected':''}>재원생</option><option>재원생 아님</option></select>`}
+     ${myReg?`<p class="note" style="margin-top:6px">정규반: ${myReg.dy} ${myReg.tm} · ${myReg.room} · ${myReg.tc}</p>`:''}
+     ${ws?'':`<label class="agree" style="color:var(--ink);font-size:14px"><input type="checkbox" name="ws"><span><b>최고의 워크샵도 함께 신청</b> (재원생)</span></label>`}
+     <label>문의 사항</label><textarea name="memo" maxlength="300" placeholder="${ws?'궁금한 점 등':'현재 진도, 궁금한 점 등'}"></textarea>
+     <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+     <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의 (학부모 작성)</b><br>수집 항목: 학생 이름·학교·학년, 학부모 연락처, 재원 여부, 문의 사항 · 목적: 프리윈터 수강 상담·반 배정·등록 안내 및 최고의 워크샵 참가 안내 · 보유·이용 기간: 프리윈터 종료(12/29) 후 3개월 이내 파기(등록 시에는 원생 관리 기준에 따름) · 신청 정보는 학원 구글 계정 시트에 저장됩니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 신청은 어렵고 전화(032-833-2343)로 신청하실 수 있습니다.</span></label>
+     <p class="err" id="ferr"></p>
+     <button class="btn full" id="send" type="submit">신청서 보내기</button>
+   </form>`);
+  document.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{cart.delete(+b.dataset.rm); dropFree(); paint(); cart.size?openForm():closeSheet();});
+  $('#f').onsubmit=ev=>submit(ev,ws);
+}
+$('#go').onclick=()=>openForm();
+$('#wsBtn').onclick=()=>openForm('ws');
+
+async function submit(ev,ws){
+  ev.preventDefault(); const f=ev.target, v=k=>(f[k].value||'').trim(), err=$('#ferr');
+  if(!v('student')||!v('school')) return err.textContent='학생 이름과 학교를 입력해 주세요.';
+  const ph=v('phone').replace(/[^0-9]/g,''); if(!/^01[016789]\d{7,8}$/.test(ph)) return err.textContent='학부모 연락처를 확인해 주세요.';
+  if(!v('enrolled')) return err.textContent='재원 여부를 선택해 주세요.';
+  const wantWs=ws||(f.ws&&f.ws.checked);
+  if(wantWs&&v('enrolled')!=='재원생') return err.textContent='최고의 워크샵은 재원생 대상입니다. 워크샵 선택을 해제해 주세요.';
+  if(!f.agree.checked) return err.textContent='개인정보 수집·이용에 동의해 주세요.';
+  const items=ws?[]:[...cart].sort((a,b)=>a-b);
+  const data={student:v('student'),school:v('school'),grade:v('grade'),phone:ph.replace(/(\d{3})(\d{3,4})(\d{4})/,'$1-$2-$3'),enrolled:v('enrolled'),
+    courses:items.map(n=>CIRC[n-1]+' '+C[n-1].nm), nos:items, workshop:!!wantWs, regular:myReg?`${myReg.dy} ${myReg.tm} · ${myReg.room} · ${myReg.tc}`:'', total:items.reduce((a,n)=>a+price(n),0), memo:v('memo'), agree:true, website:v('website')};
+  if(!ENDPOINT){ err.innerHTML='온라인 신청 준비 중입니다. <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; return; }
+  const b=$('#send'); b.disabled=true; b.textContent='보내는 중…'; err.textContent='';
+  try{
+    const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+    const j=await r.json(); if(!j.ok) throw 0;
+    const tt=ws?'':weekTT(myReg,items,myReg?'우리 아이 주간 시간표 (정규 + 프리윈터)':'프리윈터 주간 시간표');
+    if(!ws){ cart.clear(); paint(); }
+    const what=[items.length?`${items.length}개 강좌`:'', data.workshop?'최고의 워크샵':''].filter(Boolean).join(' · ');
+    openSheet(`<div class="done"><div class="big">✓</div><h3 style="padding:0;margin-top:6px">신청이 접수되었습니다</h3>
+      <p style="margin-top:10px;font-size:14.5px">${data.student} 학생 · ${what}<br>데스크에서 확인 후 <b>${data.phone}</b>로 연락드립니다.</p><div style="text-align:left">${tt}</div>
+      <p class="note">문의 032-833-2343</p><button class="btn full" style="margin-top:16px" onclick="closeSheet()">확인</button></div>`);
+  }catch(e){ b.disabled=false; b.textContent='신청서 보내기'; err.innerHTML='전송에 실패했습니다. 잠시 후 다시 시도하시거나 <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; }
+}
+renderList(); timetable(); paint(); finder();
+</script>
+</body>
+</html>
