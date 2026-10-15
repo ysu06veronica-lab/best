@@ -338,6 +338,16 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
 </header>
 
 <main class="wrap">
+
+  <section class="reveal">
+    <h2>우리 아이 맞춤 추천</h2>
+    <details class="acc" id="find">
+      <summary><span class="acc-t"><span class="acc-k">재원생 · 3번만 누르세요</span><b>우리 아이 반으로 추천 강좌 찾기</b><em>정규 수업 요일 → 시간 → 교실(선생님)을 누르면 추천 강좌와 주간 시간표가 나옵니다</em></span><span class="plus" aria-hidden="true"></span></summary>
+      <div class="finder" id="finder"></div>
+    </details>
+    <h2 style="margin-top:26px">전체 강좌</h2>
+    <div class="list stag" id="list"></div>
+  </section>
   <section class="reveal">
     <h2>겨울 로드맵</h2>
     <div class="road stag">
@@ -371,22 +381,6 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
         <span class="when nw">11월 7일(토) · 8일(일)</span>
         <button class="btn full" id="wsBtn" style="margin-top:12px;background:#1F9D74">워크샵 신청하기</button></div>
     </div>
-  </section>
-
-  <section class="reveal">
-    <h2>우리 아이 맞춤 추천</h2>
-    <details class="acc" id="find">
-      <summary><span class="acc-t"><span class="acc-k">재원생 · 3번만 누르세요</span><b>우리 아이 반으로 추천 강좌 찾기</b><em>정규 수업 요일 → 시간 → 교실(선생님)을 누르면 추천 강좌와 주간 시간표가 나옵니다</em></span><span class="plus" aria-hidden="true"></span></summary>
-      <div class="finder" id="finder"></div>
-    </details>
-    <h2 style="margin-top:26px">전체 강좌</h2>
-    <div class="list stag" id="list"></div>
-  </section>
-
-  <section>
-    <h2>주간 시간표</h2>
-    <div class="tt" id="tt"></div>
-    <p class="note">· 블록을 누르면 강좌 안내가 열립니다. · ①·②는 같은 시간대, ⑦과 ⑧·⑨는 토요일 시간이 겹칩니다.<br>· 모든 수업은 22:00까지입니다. · 장소: 송도관 중고등관(③·④ 강의실은 추후 안내)</p>
   </section>
 
 
@@ -592,7 +586,7 @@ async function submit(ev,ws){
       <p class="note">문의 032-833-2343</p><button class="btn full" style="margin-top:16px" onclick="closeSheet()">확인</button></div>`);
   }catch(e){ b.disabled=false; b.textContent='신청서 보내기'; err.innerHTML='전송에 실패했습니다. 잠시 후 다시 시도하시거나 <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; }
 }
-renderList(); timetable(); paint(); finder();
+renderList(); paint(); finder();
 </script>
 
 <script>
