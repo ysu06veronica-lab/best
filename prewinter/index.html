@@ -307,11 +307,15 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
 .acc[open] .finder{animation:accIn .35s cubic-bezier(.2,.7,.2,1)}
 @keyframes accIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 @media (min-width:1000px){.acc summary{padding:22px 28px}.acc-t b{font-size:20px}.acc-t em{font-size:14.5px}.acc .finder{padding:24px 28px}}
+
+/* 남색 배경 큰 BEST 글자(연하게) */
+.wm{position:absolute;right:-4vw;bottom:-3vw;font-size:42vw;font-weight:900;line-height:.8;letter-spacing:-.02em;color:rgba(255,255,255,.09);font-family:"Noto Sans KR","Malgun Gothic",sans-serif;white-space:nowrap;user-select:none}
+@media (min-width:1000px){.wm{font-size:22vw;right:auto;left:38%;bottom:-2.5vw}}
 </style>
 </head>
 <body>
 <header class="top hero2">
-  <div class="hero-bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+  <div class="hero-bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><span class="wm">BEST</span></div>
   <div class="wrap">
     <div class="brand rise"><span class="kick">2027 예비고1 · 프리윈터</span><img src="logo.png" alt="최고수학학원"></div>
     <div class="hero-grid">
