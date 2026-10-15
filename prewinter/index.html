@@ -228,28 +228,126 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
 @keyframes goPulse{0%,100%{box-shadow:0 0 0 0 rgba(53,84,245,.55)}50%{box-shadow:0 0 0 8px rgba(53,84,245,0)}}
 @keyframes goShine{0%{left:-60%}60%,100%{left:130%}}
 @media (prefers-reduced-motion:reduce){#go:not(:disabled),#go:not(:disabled)::after{animation:none}}
+
+/* ── 움직이는 히어로 (시안) ── 남색 베이스, 포인트는 기존 노랑 ── */
+.hero2{position:relative;overflow:hidden;background:#0B1630;padding:22px 0 30px}
+.hero2 .wrap{position:relative;z-index:1}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;will-change:transform}
+.blob.b1{width:340px;height:340px;background:#2B4C9A;left:-120px;top:-80px;animation:drift1 16s ease-in-out infinite}
+.blob.b2{width:300px;height:300px;background:#182B49;right:-90px;top:40px;opacity:.9;animation:drift2 19s ease-in-out infinite}
+.blob.b3{width:220px;height:220px;background:#FFC65C;right:10%;bottom:-120px;opacity:.18;animation:drift3 22s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,30px)}}
+@keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-30px)}}
+.chip{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:12.5px;font-weight:700;color:#D6DDF5;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 12px;background:rgba(255,255,255,.06)}
+.chip i{width:8px;height:8px;border-radius:50%;background:#FFC65C;box-shadow:0 0 0 0 rgba(255,198,92,.7);animation:chipPulse 1.8s infinite}
+@keyframes chipPulse{0%{box-shadow:0 0 0 0 rgba(255,198,92,.7)}70%{box-shadow:0 0 0 9px rgba(255,198,92,0)}100%{box-shadow:0 0 0 0 rgba(255,198,92,0)}}
+.hero2 h1{margin-top:12px}
+.hero-grid{display:block}
+.stage{position:relative;width:230px;height:230px;margin:22px auto 4px}
+.stage .glow{position:absolute;inset:30px;border-radius:50%;background:radial-gradient(circle,rgba(255,198,92,.35),rgba(255,198,92,0) 70%);animation:breathe 4s ease-in-out infinite}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.18)}
+.ring.r1{inset:46px;border-color:rgba(255,198,92,.55)}
+.ring.r2{inset:22px;border-style:dashed;animation:spin 40s linear infinite}
+.ring.r3{inset:0;border-color:rgba(255,255,255,.1)}
+.orbit{position:absolute;inset:0;animation:spin 12s linear infinite}
+.orbit.o2{inset:22px;animation-duration:18s;animation-direction:reverse}
+.orbit i{position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#FFC65C;box-shadow:0 0 12px rgba(255,198,92,.9)}
+.orbit.o2 i{width:7px;height:7px;margin-left:-3.5px;top:-3.5px;background:#8FB0FF;box-shadow:0 0 10px rgba(143,176,255,.9)}
+.core{position:absolute;inset:66px;border-radius:50%;background:#182B49;border:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1.05}
+.core b{font-size:19px;font-weight:900;letter-spacing:1px}
+.core b:nth-child(2){color:#FFC65C}
+.core span{font-size:10px;color:#AEB8D8;margin-top:5px;letter-spacing:.5px;white-space:nowrap}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{transform:scale(.92);opacity:.8}50%{transform:scale(1.05);opacity:1}}
+.chain{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
+.chain .cn{text-align:center;min-width:56px}
+.chain .cn b{font-size:28px;font-weight:900;color:#fff;letter-spacing:-.5px}
+.chain .cn u{text-decoration:none;font-size:13px;color:#AEB8D8;margin-left:2px}
+.chain .cn p{font-size:11.5px;color:#AEB8D8;margin-top:2px;white-space:nowrap}
+.chain .cn.hi b{color:#FFC65C}
+.chain .dot,.chain .to{color:rgba(255,255,255,.35);font-size:20px;padding-bottom:20px}
+/* 첫 화면 순서대로 떠오르기 */
+.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.rise.d1{animation-delay:.1s}.rise.d2{animation-delay:.25s}.rise.d3{animation-delay:.4s}.rise.d4{animation-delay:.55s}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+/* 스크롤하면 섹션·카드가 아래에서 올라오기 */
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+.js .stag>*{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.js .stag.in>*{opacity:1;transform:none}
+.js .stag.in>*:nth-child(2){transition-delay:.08s}.js .stag.in>*:nth-child(3){transition-delay:.16s}.js .stag.in>*:nth-child(4){transition-delay:.24s}
+.js .stag.in>*:nth-child(5){transition-delay:.32s}.js .stag.in>*:nth-child(6){transition-delay:.4s}.js .stag.in>*:nth-child(n+7){transition-delay:.48s}
+@media (min-width:1000px){
+  .hero2{padding:34px 0 40px}
+  .hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+  .stage{width:380px;height:380px;margin:10px auto 0}
+  .ring.r1{inset:76px}.ring.r2{inset:36px}.orbit.o2{inset:36px}.core{inset:108px}
+  .core b{font-size:30px}.core span{font-size:13px}
+  .blob.b1{width:560px;height:560px}.blob.b2{width:480px;height:480px}.blob.b3{width:360px;height:360px}
+  .chain{justify-content:flex-start;gap:22px}.chain .cn b{font-size:40px}.chain .cn p{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){.blob,.orbit,.ring,.glow,.chip i,.rise{animation:none!important}.js .reveal,.js .stag>*{opacity:1!important;transform:none!important;transition:none!important}}
+
+/* 펼치는 카드 */
+.acc{background:#fff;border:1px solid var(--line);border-radius:16px;transition:border-color .3s,box-shadow .3s}
+.acc[open]{border-color:var(--navy);box-shadow:0 6px 22px rgba(20,33,77,.08)}
+.acc summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;cursor:pointer;list-style:none}
+.acc summary::-webkit-details-marker{display:none}
+.acc-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.acc-k{font-size:12px;font-weight:800;color:var(--sub)}
+.acc-t b{font-size:17px;font-weight:800;color:var(--navy)}
+.acc-t em{font-style:normal;font-size:13px;color:var(--sub)}
+.plus{position:relative;flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--navy)}
+.plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;width:13px;height:2px;background:#FFC65C;border-radius:2px;transform:translate(-50%,-50%);transition:transform .3s}
+.plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+.acc[open] .plus::after{transform:translate(-50%,-50%) rotate(0)}
+.acc .finder{border-top:1px solid var(--line);border-radius:0 0 16px 16px;margin:0}
+.acc[open] .finder{animation:accIn .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes accIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media (min-width:1000px){.acc summary{padding:22px 28px}.acc-t b{font-size:20px}.acc-t em{font-size:14.5px}.acc .finder{padding:24px 28px}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap">
-  <div class="brand"><span class="kick">2027 예비고1 · 프리윈터</span><img src="logo.png" alt="최고수학학원"></div>
-  <h1>고1 첫 내신, 지금부터<br><em>진도와 기본기</em>를 함께 준비합니다</h1>
-  <div class="period">11월 9일(월) ~ 12월 29일(화)</div>
-  <p class="lead">기말고사 종료 후, 집중 학습을 위한 11, 12월 프리윈터가 진행됩니다.<br>1공구 하이퍼관 수업도 추가로 안내드릴 예정입니다.</p>
-  <a href="#find" class="herobtn">재원생 · 우리 아이 맞춤 강좌 찾기 ↓</a>
-</div></header>
+<header class="top hero2">
+  <div class="hero-bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+  <div class="wrap">
+    <div class="brand rise"><span class="kick">2027 예비고1 · 프리윈터</span><img src="logo.png" alt="최고수학학원"></div>
+    <div class="hero-grid">
+      <div class="copy">
+        <span class="chip rise d1"><i aria-hidden="true"></i>프리윈터 수강 신청 접수 중</span>
+        <h1 class="rise d1">고1 첫 내신, 지금부터<br><em>진도와 기본기</em>를 함께 준비합니다</h1>
+        <div class="period rise d2">11월 9일(월) ~ 12월 29일(화)</div>
+        <p class="lead rise d2">기말고사 종료 후, 집중 학습을 위한 11, 12월 프리윈터가 진행됩니다.<br>1공구 하이퍼관 수업도 추가로 안내드릴 예정입니다.</p>
+        <a href="#find" class="herobtn rise d3">재원생 · 우리 아이 맞춤 강좌 찾기 ↓</a>
+      </div>
+      <div class="stage rise d2" aria-hidden="true">
+        <div class="glow"></div><div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div>
+        <div class="orbit o1"><i></i></div><div class="orbit o2"><i></i></div>
+        <div class="core"><b>PRE</b><b>WINTER</b><span>2026 · 11 – 12</span></div>
+      </div>
+    </div>
+    <div class="chain rise d4">
+      <div class="cn"><b>5</b><u>가지</u><p>프로그램</p></div><span class="dot">·</span>
+      <div class="cn"><b>9</b><u>개</u><p>특강</p></div><span class="dot">·</span>
+      <div class="cn"><b>7</b><u>주</u><p>11/9 – 12/29</p></div><span class="to">→</span>
+      <div class="cn hi"><b>1·2</b><u>월</u><p>윈터 심화·복습</p></div>
+    </div>
+  </div>
+</header>
 
 <main class="wrap">
-  <section>
+  <section class="reveal">
     <h2>겨울 로드맵</h2>
-    <div class="road">
+    <div class="road stag">
       <div class="on"><div class="m">11~12월 · 프리윈터</div><div class="k">진도 확보</div><p>수준에 맞는 과정 선택</p></div>
       <div><div class="m">1~2월 · 윈터</div><div class="k">심화 · 복습</div><p>배운 범위를 고난도까지</p></div>
       <div><div class="m">3월~ · 고1</div><div class="k">첫 내신</div><p>공통수학1 범위</p></div>
     </div>
   </section>
 
-  <section class="prog">
+  <section class="prog reveal">
     <div class="ph"><span class="pk">수강생 · 재원생 혜택</span><h3>프리윈터와 함께하는 3가지 프로그램</h3><p>수업만이 아니라, 고1 첫 내신과 고교 생활까지 함께 준비합니다.</p></div>
     <div class="pc">
       <div class="pn" style="background:#3554F5">01</div>
@@ -275,15 +373,14 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
     </div>
   </section>
 
-  <section>
-    <div class="fq" id="find">
-      <div class="fqh"><span class="fqb">재원생 · 3번만 누르세요</span>
-        <h3>우리 아이에게 맞는 강좌 찾기</h3>
-        <p>정규 수업 <b>요일 → 시간 → 교실(선생님)</b>을 누르면<br>추천 강좌와 우리 아이 주간 시간표가 나옵니다.</p></div>
+  <section class="reveal">
+    <h2>우리 아이 맞춤 추천</h2>
+    <details class="acc" id="find">
+      <summary><span class="acc-t"><span class="acc-k">재원생 · 3번만 누르세요</span><b>우리 아이 반으로 추천 강좌 찾기</b><em>정규 수업 요일 → 시간 → 교실(선생님)을 누르면 추천 강좌와 주간 시간표가 나옵니다</em></span><span class="plus" aria-hidden="true"></span></summary>
       <div class="finder" id="finder"></div>
-    </div>
-    <h2 style="margin-top:22px">전체 강좌</h2>
-    <div class="list" id="list"></div>
+    </details>
+    <h2 style="margin-top:26px">전체 강좌</h2>
+    <div class="list stag" id="list"></div>
   </section>
 
   <section>
@@ -496,6 +593,15 @@ async function submit(ev,ws){
   }catch(e){ b.disabled=false; b.textContent='신청서 보내기'; err.innerHTML='전송에 실패했습니다. 잠시 후 다시 시도하시거나 <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; }
 }
 renderList(); timetable(); paint(); finder();
+</script>
+
+<script>
+document.documentElement.classList.add('js');
+document.querySelectorAll('a[href="#find"]').forEach(function(a){a.addEventListener('click',function(){document.getElementById('find').open=true;});});
+(function(){var els=[].slice.call(document.querySelectorAll('.reveal,.stag'));
+ if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+ var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+ els.forEach(function(e){io.observe(e)});})();
 </script>
 </body>
 </html>
