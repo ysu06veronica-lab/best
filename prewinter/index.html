@@ -140,6 +140,7 @@ html{scroll-behavior:smooth}
 .steps b{margin-right:4px}
 .when{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:999px;padding:3px 10px}
 @media (max-width:340px){.blk b{font-size:10.5px}.blk span{font-size:9px}.blk{padding:2px 4px}.road .k{font-size:14px}.road p{font-size:11px}}
+
 /* 하단 장바구니 바 */
 .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(20,33,77,.08);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:20}
 .bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
@@ -184,6 +185,49 @@ html{scroll-behavior:smooth}
 .done{text-align:center;padding:16px 0}
 .done .big{font-size:44px}
 footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-size:11.5px;color:#7A8296;line-height:1.7}
+
+/* ── 화면 크기에 맞춤: 태블릿 이상(700px~) ── */
+@media (min-width:700px){
+  .list{grid-template-columns:1fr 1fr}
+  .tt{grid-template-columns:1.7fr 1fr;align-items:start}
+}
+/* ── 컴퓨터(1000px~) ── */
+@media (min-width:1000px){
+  .wrap{max-width:min(1440px,94vw);padding:0 24px}
+  header.top{padding:34px 0 40px}
+  header.top h1{font-size:42px;margin-top:20px}
+  header.top .brand img{height:32px}
+  .period{font-size:16px;padding:7px 16px}
+  .lead{font-size:16px}
+  .herobtn{display:inline-block;padding:14px 32px;font-size:16.5px}
+  section{margin-top:34px}
+  h2{font-size:22px}
+  .road{gap:14px}.road>div{padding:18px 18px}.road .m{font-size:13px}.road .k{font-size:22px}.road p{font-size:14px}
+  .prog{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:28px 24px 24px}
+  .prog .ph{grid-column:1/-1;padding:0 4px 4px}
+  .prog h3{font-size:26px}
+  .pc{margin-top:0;flex-direction:column;gap:10px}
+  .fq{max-width:1000px;margin-left:auto;margin-right:auto}
+  .fqh{padding:22px 24px 16px}.fqh h3{font-size:26px}
+  .finder{padding:22px}
+  .list{grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{padding:16px 16px 14px 20px}
+  .card .nm{font-size:16.5px}
+  .bar .in{max-width:min(1440px,94vw)}
+  /* 상세·신청 창: 아래에서 올라오는 대신 가운데 팝업 */
+  .sheet{left:50%;right:auto;top:50%;bottom:auto;width:680px;max-height:86vh;border-radius:18px;padding:26px 28px;
+         transform:translate(-50%,-46%);opacity:0;pointer-events:none;transition:transform .2s,opacity .2s}
+  .sheet.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+  footer{font-size:12.5px}
+}
+
+/* 신청하기 버튼 반짝임 (강좌를 담아 눌러 볼 수 있을 때만) */
+#go{position:relative;overflow:hidden}
+#go:not(:disabled){animation:goPulse 1.8s ease-in-out infinite}
+#go:not(:disabled)::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:goShine 2.4s ease-in-out infinite}
+@keyframes goPulse{0%,100%{box-shadow:0 0 0 0 rgba(53,84,245,.55)}50%{box-shadow:0 0 0 8px rgba(53,84,245,0)}}
+@keyframes goShine{0%{left:-60%}60%,100%{left:130%}}
+@media (prefers-reduced-motion:reduce){#go:not(:disabled),#go:not(:disabled)::after{animation:none}}
 </style>
 </head>
 <body>
@@ -223,7 +267,7 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
     </div>
     <div class="pc">
       <div class="pn" style="background:#1F9D74">03</div>
-      <div class="pb"><span class="who all">재원생 누구나</span><h4>최고의 워크샵</h4>
+      <div class="pb"><span class="who all">재원생 누구나 · 참가비 없음</span><h4>최고의 워크샵</h4>
         <p class="pd">아이에게 맞는 고교와 진로, 선택과목을 함께 살펴봅니다. 프리윈터를 듣지 않아도 최고수학학원 재원생이면 참여할 수 있습니다.</p>
         <ol class="steps"><li><b>학교 환경 적합도 검사</b></li><li><b>학생별 적성검사</b></li><li><b>진로별 선택과목 설명</b> 검사 결과를 바탕으로 안내</li><li><b>고교 선택 설명회</b> 학생 대상</li></ol>
         <span class="when nw">11월 7일(토) · 8일(일)</span>
@@ -356,7 +400,7 @@ function paint(){
 
 // 시간표
 function timetable(){
-  const PX=0.75; // 1분당 px
+  const PX=innerWidth>=1000?1.15:0.75; // 1분당 px (컴퓨터는 크게)
   const blk=(no,s,e,lane,lanes,lab,t0)=>{const m=t=>+t.slice(0,2)*60+ +t.slice(3);const x=C[no-1],w=100/lanes;
     return `<div class="blk" data-no="${no}" style="top:${(m(s)-t0)*PX+2}px;height:${(m(e)-m(s))*PX-4}px;left:calc(${w*lane}% + 3px);width:calc(${w}% - 6px);background:${COL[x.c]}">${lab.split('|').map((s,i)=>`<b>${i?'':CIRC[no-1]+' '}${s}</b>`).join('')}<span>${s}~${e}</span></div>`};
   const axis=(a,b)=>`<div class="axis"><div style="height:28px"></div><div style="position:relative;height:${(b-a)*60*PX}px">${Array.from({length:b-a+1},(_,i)=>`<span class="${i==0?'f':i==b-a?'l':''}" style="top:${i*60*PX}px">${a+i}:00</span>`).join('')}</div></div>`;
@@ -397,7 +441,7 @@ function openForm(mode){
   const items=ws?[]:[...cart].sort((a,b)=>a-b), tot=items.reduce((a,n)=>a+price(n),0);
   const clashes=CLASH.filter(p=>p.every(n=>cart.has(n))).map(p=>p.map(n=>CIRC[n-1]).join('·')), sames=SAME.filter(p=>p.every(n=>cart.has(n))).map(p=>p.map(n=>CIRC[n-1]).join('·'));
   const top=ws?`<h3>최고의 워크샵 신청</h3>
-   <div class="box">학교 환경 적합도 검사 · 학생별 적성검사 → 진로별 선택과목 설명 · 고교 선택 설명회<br><b>최고수학학원 재원생</b>이면 프리윈터 수강과 관계없이 참여할 수 있습니다.<br><b>일정</b> 11월 7일(토) · 8일(일) · 시간·장소는 추후 안내드립니다.</div>`
+   <div class="box">학교 환경 적합도 검사 · 학생별 적성검사 → 진로별 선택과목 설명 · 고교 선택 설명회<br><b>참가비 없음</b> · <b>최고수학학원 재원생</b>이면 프리윈터 수강과 관계없이 참여할 수 있습니다.<br><b>일정</b> 11월 7일(토) · 8일(일) · 시간·장소는 추후 안내드립니다.</div>`
    :`<h3>수강 신청</h3>
    <div class="picked">${items.map(n=>`<div><span>${CIRC[n-1]} ${C[n-1].nm}<br><small style="color:var(--sub)">${C[n-1].dy} ${C[n-1].tm}</small></span><span class="nw">${price(n).toLocaleString('ko-KR')}원 <button data-rm="${n}">빼기</button></span></div>`).join('')}
    <div class="tot"><span>합계</span><span class="nw">${tot.toLocaleString('ko-KR')}원</span></div></div>
