@@ -139,7 +139,8 @@ html{scroll-behavior:smooth}
 .steps li{counter-increment:s;position:relative;font-size:13.5px;padding:3px 0}
 .steps li:before{content:counter(s);position:absolute;left:-21px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .steps b{margin-right:4px}
-.when{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:999px;padding:3px 10px}
+.tms{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tms span{font-size:13px;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 10px;white-space:nowrap}
+.when{display:inline-block;max-width:100%;line-height:1.6;border-radius:12px !important;margin-top:8px;font-size:12px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:999px;padding:3px 10px}
 @media (max-width:340px){.blk b{font-size:10.5px}.blk span{font-size:9px}.blk{padding:2px 4px}.road .k{font-size:14px}.road p{font-size:11px}}
 
 /* 하단 장바구니 바 */
@@ -383,16 +384,16 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
       <div class="pn" style="background:#E2574C">02</div>
       <div class="pb"><span class="who">프리윈터 수강생</span><h4>고1 내신기출반 <em>프리윈터 과목 수강생 0원</em></h4>
         <p class="pd">2026 송도권 고1 공통수학1 실제 기출 문제를 해설합니다. 고1 1학기 시험 범위를 미리 만나 봅니다.</p>
-        <ol class="steps"><li><b>A반</b> 토 13:00~14:30 · 중고등관</li><li><b>B반</b> 토 14:30~16:00 · 중고등관</li><li><b>C반</b> 목 17:00~18:30 · 1공구 하이퍼관 · 11/19 시작</li></ol><p class="pd" style="margin-top:6px">세 반 모두 같은 내용입니다. 한 반만 신청해 주세요.</p>
-        <span class="when nw">A·B반 7회 176,000원 · C반 6회 150,000원 → 프리윈터 과목 수강생 0원</span></div>
+        <ol class="steps"><li><b>A반</b> <span class="nw">토 13:00~14:30</span><br><small class="muted">중고등관</small></li><li><b>B반</b> <span class="nw">토 14:30~16:00</span><br><small class="muted">중고등관</small></li><li><b>C반</b> <span class="nw">목 17:00~18:30</span><br><small class="muted">1공구 하이퍼관 · 11/19 시작</small></li></ol><p class="pd" style="margin-top:6px">세 반 모두 같은 내용입니다. 한 반만 신청해 주세요.</p>
+        <span class="when"><span class="nw">A·B반 7회 176,000원</span><br><span class="nw">C반 6회 150,000원</span><br><span class="nw">→ 프리윈터 과목 수강생 0원</span></span></div>
     </div>
     <div class="pc">
       <div class="pn" style="background:#1F9D74">03</div>
       <div class="pb"><span class="who all">재원생 누구나 · 참가비 없음</span><h4>최고의 워크샵</h4>
         <p class="pd">아이에게 맞는 고교와 진로, 선택과목을 함께 살펴봅니다. 프리윈터를 듣지 않아도 최고수학학원 재원생이면 참여할 수 있습니다.</p>
         <ol class="steps"><li><b>학교 환경 적합도 검사</b></li><li><b>학생별 적성검사</b></li><li><b>진로별 선택과목 설명</b> 검사 결과를 바탕으로 안내</li><li><b>고교 선택 설명회</b> 학생 대상</li></ol>
-        <span class="when nw">11월 7일(토) · 8일(일) · 하루 3타임 중 선택</span>
-        <p class="pd" style="margin-top:8px">10:00~12:00 · 13:00~15:00 · 15:30~17:30 · 타임별 15명 선착순</p>
+        <span class="when"><span class="nw">11월 7일(토) · 8일(일)</span> · <span class="nw">하루 3타임 중 선택</span></span>
+        <div class="tms"><span>10:00~12:00</span><span>13:00~15:00</span><span>15:30~17:30</span></div><p class="pd" style="margin-top:6px">타임별 15명 선착순 · 원하는 타임을 골라 신청해 주세요.</p>
         <button class="btn full" id="wsBtn" style="margin-top:12px;background:#1F9D74">워크샵 신청하기</button></div>
     </div>
   </section>
