@@ -451,7 +451,7 @@ async function loadWsCnt(){ try{ const r=await fetch(ENDPOINT+'?ws=counts'); con
 function slotHTML(){ let h='<div class="slots">', day='';
   WS.forEach(w=>{ if(w.d!==day){day=w.d;h+=`<div class="sd">${w.d}</div>`}
     const n=wsCnt?(wsCnt[w.id]||0):null, full=n!==null&&n>=WS_CAP;
-    h+=`<label class="${full?'full':''}"><input type="radio" name="wsSlot" value="${w.id}" ${full?'disabled':''}>${w.t}<small>${full?'마감':n===null?'정원 15명':'남은 자리 '+(WS_CAP-n)+'명'}</small></label>`; });
+    h+=`<label class="${full?'full':''}"><input type="radio" name="wsSlot" value="${w.id}" ${full?'disabled':''}>${w.t}${full?'<small>마감</small>':''}</label>`; });
   return h+'</div>'; }
 const CIRC='①②③④⑤⑥⑦⑧⑨⑩⑪⑫';
 const ix=n=>C.findIndex(x=>x.no===n), G=n=>C[ix(n)], CN=n=>CIRC[ix(n)]; // no는 신청 시트 열 번호(고유), 화면 번호는 C 순서
