@@ -194,6 +194,13 @@ html{scroll-behavior:smooth}
 .err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
 .done{text-align:center;padding:16px 0}
 .done .big{font-size:44px}
+.rt{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:14px;text-align:left;font-size:14px}
+.rt th{width:76px;vertical-align:top;color:var(--sub);font-weight:700;font-size:13px;padding:9px 8px 9px 0;border-top:1px solid var(--line);white-space:nowrap}
+.rt td{padding:9px 0;border-top:1px solid var(--line);vertical-align:top}
+.rt tr:last-child th,.rt tr:last-child td{border-bottom:1px solid var(--line)}
+.rt .ci{display:flex;justify-content:space-between;gap:8px}.rt .ci+.ci{margin-top:8px}
+.rt .ci small{display:block;color:var(--sub);font-size:12.5px}
+.rt .rsum td{font-weight:800}
 footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-size:11.5px;color:#7A8296;line-height:1.7}
 
 /* ── 화면 크기에 맞춤: 태블릿 이상(700px~) ── */
@@ -618,10 +625,15 @@ async function submit(ev,ws){
     const j=await r.json(); if(j.full){ await loadWsCnt(); const box=$('#slotBox'); if(box) box.innerHTML=slotHTML(); b.disabled=false; b.textContent='신청서 보내기'; err.textContent='선택하신 워크샵 시간이 방금 마감되었습니다. 다른 시간을 골라 주세요.'; return; } if(!j.ok) throw 0;
     const tt=ws?'':weekTT(myReg,items,myReg?'우리 아이 주간 시간표 (정규 + 프리윈터)':'프리윈터 주간 시간표');
     if(!ws){ cart.clear(); paint(); }
-    const what=[items.length?`${items.length}개 강좌`:'', data.workshop?`최고의 워크샵(${data.wsLabel})`:''].filter(Boolean).join(' · ');
+    const rows=[['학생',`${data.student} <small class="muted">(${data.school}${data.grade?' · '+data.grade:''})</small>`]];
+    if(data.regular) rows.push(['정규반',data.regular]);
+    if(items.length) rows.push(['신청 강좌',items.map(n=>`<div class="ci"><span>${G(n).nm}<small>${G(n).dy} ${G(n).tm}</small></span><span class="nw">${price(n).toLocaleString('ko-KR')}원</span></div>`).join('')]);
+    if(data.workshop) rows.push(['워크샵',`최고의 워크샵<br><b class="nw">${data.wsLabel}</b>`]);
+    const trs=rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join('')+(items.length?`<tr class="rsum"><th>합계</th><td><span class="nw">${data.total.toLocaleString('ko-KR')}원</span></td></tr>`:'')+`<tr><th>연락처</th><td><span class="nw">${data.phone}</span></td></tr>`;
     openSheet(`<div class="done"><div class="big">✓</div><h3 style="padding:0;margin-top:6px">신청이 접수되었습니다</h3>
-      <p style="margin-top:10px;font-size:14.5px">${data.student} 학생 · ${what}<br>데스크에서 확인 후 <b>${data.phone}</b>로 연락드립니다.</p><div style="text-align:left">${tt}</div>
-      <p class="note">문의 032-833-2343</p><button class="btn full" style="margin-top:16px" onclick="closeSheet()">확인</button></div>`);
+      <table class="rt">${trs}</table>
+      <p style="margin-top:12px;font-size:14px;text-align:left">데스크에서 확인 후 위 연락처로 연락드립니다.</p><div style="text-align:left">${tt}</div>
+      <p class="note">문의 032-833-2343</p><button class="btn full" style="margin-top:16px" onclick="closeSheet()">확인</button></div>`);;
   }catch(e){ b.disabled=false; b.textContent='신청서 보내기'; err.innerHTML='전송에 실패했습니다. 잠시 후 다시 시도하시거나 <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; }
 }
 renderList(); paint(); finder();
