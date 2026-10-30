@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>시험 돌아보기 — 담임 선생님</title>
+<link rel="stylesheet" href="/siheom/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">시험 돌아보기 · 담임 선생님</div><div class="who" id="who"></div></header>
+<main class="wrap wide" id="app"></main>
+<div class="bottom hide" id="bar"><div class="in wide" id="barin"></div></div>
+<script src="/siheom/reasons.js"></script>
+<script src="/siheom/core.js"></script>
+<script>
+/* 담임 선생님 페이지: 내 담당 학생의 틀린 문항(캡처 · 학생 원인 · 최고AI 분석) 고치기 + 다시 볼 문항 코멘트 + 담임 한마디 → 완료(최종 확인) */
+const LS = "ex_teacher"; let TC = sessionStorage.getItem(LS) || "", Q = null, XID = null;
+const app = $("#app"), bar = $("#bar");
+const call = (a, p = {}) => api(a, { tcode: TC, ...p });
+const urls = paths => call("t_url", { paths }).then(r => r.urls || {});
+const DONE = st => st === "선생님완료" || st === "승인";
+
+function login(msg) {
+  bar.classList.add("hide");
+  app.innerHTML = `<div class="card" style="max-width:380px;margin:40px auto"><h2 style="margin-top:0">담임 선생님 로그인</h2><label>선생님 코드</label><input id="tc" type="password" autocomplete="off">
+    <div style="height:12px"></div><button class="btn main full" id="go">들어가기</button>${msg ? `<p class="sub need" style="margin-top:8px">${esc(msg)}</p>` : ""}
+    ${DEMO ? `<p class="sub" style="margin-top:8px">데모: T1111 (박지은) · T2222 (김종원)</p>` : `<p class="sub" style="margin-top:8px">코드는 원장님께 받으세요. 다른 사람과 나누지 마세요.</p>`}</div>`;
+  const go = async () => { TC = $("#tc").value.trim(); try { await load(); sessionStorage.setItem(LS, TC); } catch (e) { login(e.message); } };
+  $("#go").onclick = go; $("#tc").onkeydown = e => { if (e.key === "Enter") go(); };
+}
+async function load() {
+  Q = await call("t_queue");
+  $("#who").innerHTML = `${esc(Q.teacher.name)} 선생님 · <a href="#" id="lo" style="color:inherit">나가기</a>`;
+  $("#lo").onclick = ev => { ev.preventDefault(); sessionStorage.removeItem(LS); TC = ""; $("#who").textContent = ""; login(); };
+  list();
+}
+
+/* ── 내 담당 학생 목록: 반별 (학생마다 가장 최근 시험 기준) ── */
+let CLS = "전체";
+const classesOf = s => String(s.class_name || "반 미정").split(",").map(v => v.trim()).filter(Boolean);
+function latest(sid) { return Q.entries.filter(e => e.student_id === sid).sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))[0]; }
+function list() {
+  bar.classList.add("hide");
+  const S = Q.students.filter(s => s.status !== "inactive");
+  const CL = [...new Set(S.flatMap(classesOf))].sort((a, b) => a.localeCompare(b, "ko"));
+  if (CLS !== "전체" && !CL.includes(CLS)) CLS = "전체";
+  const X = Object.fromEntries(Q.exams.map(x => [x.id, x]));
+  const order = e => !e ? 3 : e.status === "선생님확인" ? 0 : DONE(e.status) ? 4 : 2;
+  const row = s => { const e = latest(s.id), x = e ? X[e.exam_id] : null;
+    return `<div class="li ${e ? "click" : ""}" ${e ? `data-e="${e.id}"` : ""}>${e ? `<span class="chip ${(STAGE[e.status] || [])[1] || ""}">${esc((STAGE[e.status] || [e.status])[0])}</span>` : `<span class="chip">시험지 안 올림</span>`}<b>${esc(s.name)}</b>
+      <span class="sub grow">${esc(s.school || "학교 미정")}${x ? ` · ${esc(x.title)} · ${fmt(scoreOf(x.items, e.wrong))}점 · 틀림 ${(e.wrong || []).length} · 다시 볼 ${Object.keys(e.review || {}).length}${e.parent_ack_at ? " · 학습지 수령 확인" : ""}` : ""}</span>${e ? `<span class="go">열기 ›</span>` : ""}</div>`; };
+  const block = c => { const L = S.filter(s => classesOf(s).includes(c)).sort((a, b) => order(latest(a.id)) - order(latest(b.id)) || a.name.localeCompare(b.name, "ko"));
+    const done = L.filter(s => DONE((latest(s.id) || {}).status)).length, todo = L.filter(s => (latest(s.id) || {}).status === "선생님확인").length;
+    return `<h2>${esc(c)} <small class="sub">완료 ${done} / ${L.length}명${todo ? ` · <b class="need">확인할 학생 ${todo}명</b>` : ""}</small></h2><div class="card list">${L.map(row).join("")}</div>`; };
+  const all = S.length, done = S.filter(s => DONE((latest(s.id) || {}).status)).length, todo = S.filter(s => (latest(s.id) || {}).status === "선생님확인").length;
+  app.innerHTML = `<h1>${esc(Q.teacher.name)} 선생님 담당 학생</h1>
+    <div class="card summary"><div><b>${todo}</b><span>확인할 학생</span></div><div><b>${done}</b><span>완료</span></div><div><b>${all - done}</b><span>미완료</span></div></div>
+    <p class="sub">'담임 확인 중'인 학생을 열어 분석을 고치고, 다시 볼 문항 코멘트와 담임 한마디를 쓴 뒤 '완료'를 눌러 주세요. 학생마다 가장 최근 시험 기준입니다.</p>
+    <div class="row" style="flex-wrap:wrap;gap:6px;margin:10px 0">${["전체", ...CL].map(c => `<button class="btn sm ${c === CLS ? "main" : ""}" data-c="${esc(c)}">${esc(c)}</button>`).join("")}<span class="grow"></span><button class="btn sm" id="rf">새로고침</button></div>
+    ${(CLS === "전체" ? CL : [CLS]).map(block).join("") || `<div class="card sub">담당 학생이 없습니다. 원장님께 담임 지정을 요청해 주세요.</div>`}`;
+  $$("[data-c]").forEach(b => b.onclick = () => { CLS = b.dataset.c; list(); });
+  $("#rf").onclick = () => load().catch(e => toast(e.message));
+  $$("[data-e]").forEach(r => r.onclick = () => entry(+r.dataset.e));
+}
+
+/* ── 학생 1명 ── */
+function entry(id) {
+  const e = Q.entries.find(y => y.id === id), x = Q.exams.find(y => y.id === e.exam_id), s = Q.students.find(y => y.id === e.student_id) || {};
+  const ro = !["선생님확인", "선생님완료"].includes(e.status);
+  const st = Editor.state(e);
+  app.innerHTML = `<p class="sub"><a href="#" id="bk" style="color:inherit">← 목록</a></p>
+    <h1>${esc(s.name)} <small class="sub">${esc(s.class_name || "")} · ${esc(x.school)} ${esc(x.grade)} · ${esc(x.title)}</small></h1>
+    <p class="sub">${chip(e.status)} · ${fmt(scoreOf(x.items, e.wrong))}점 · 틀린 문항 ${(e.wrong || []).length} · 다시 볼 문항 ${Object.keys(e.review || {}).length}
+      ${ro ? ` · <b>${e.status === "승인" ? "원장님이 승인해 학부모님께 나갔습니다 (고칠 내용은 원장님께)" : "아직 분석 전이라 볼 수만 있습니다"}</b>` : ""}</p>
+    <div id="ed">${Editor.html(e, x, s, st, { readonly: ro })}</div>`;
+  $("#bk").onclick = ev => { ev.preventDefault(); list(); };
+  const root = $("#ed"); Editor.bind(root, st); fillImages(root, urls);
+  if (ro) return bar.classList.add("hide");
+  const done = e.status === "선생님완료";
+  $("#barin").innerHTML = `<button class="btn" data-s="save">저장</button>${done ? `<button class="btn" data-s="undo">완료 취소 (다시 고치기)</button>` : `<button class="btn main" data-s="done">완료 — 최종 확인</button>`}`;
+  bar.classList.remove("hide");
+  $$("[data-s]").forEach(b => b.onclick = async () => {
+    const pl = Editor.payload(root, st), k = b.dataset.s;
+    if (k === "done") { const pr = Editor.problem(pl); if (pr) { toast(pr.msg); document.getElementById(pr.at)?.scrollIntoView({ behavior: "smooth", block: "center" }); return; } }
+    b.disabled = true;
+    try {
+      await call("t_save", { id, ...pl, done: k === "done" ? true : k === "undo" ? false : undefined });
+      toast(k === "done" ? "완료했습니다. 원장님 확인 후 학부모님께 나갑니다" : k === "undo" ? "완료를 취소했습니다" : "저장했습니다");
+      Q = await call("t_queue"); k === "save" || k === "undo" ? entry(id) : list();
+    } catch (err) { toast(err.message); b.disabled = false; }
+  });
+}
+
+TC ? load().catch(e => login(e.message)) : login();
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F6F5EF">
+<title>최고수학 시험 돌아보기</title>
+<link rel="stylesheet" href="/siheom/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">최고수학 시험 돌아보기</div><div class="who" id="who"></div></header>
+<main class="wrap" id="app"></main>
+<div class="bottom hide" id="bar"><div class="in"><button class="btn" id="back">이전</button><button class="btn main" id="next">다음</button></div></div>
+<script src="/siheom/reasons.js"></script>
+<script src="/siheom/core.js"></script>
+<script>
+/* 학생 흐름: ① 시험지 전체 사진 올리기 → (원장님 PC: 최고AI 채점 — 틀린 문항 · 다시 볼 문항 나누고 문항 캡처)
+   → ② 틀린 문항 원인 고르기 · 다시 볼 문항 확인 · 준비 과정 · 다짐 → (분석 · 담임 확인 · 원장 승인) → ③ 결과 */
+const LS = "ex_login";
+let ME = null, H = null, F = null, UP = null;
+const app = $("#app"), bar = $("#bar");
+function cred() { try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch (_) { return {}; } }
+async function call(a, p = {}) { const c = cred(); return api(a, { code: c.code, pin: c.pin, ...p }); }
+const urls = paths => call("file_url", { paths }).then(r => r.urls || {});
+
+/* ── 로그인 ── */
+function viewLogin(msg) {
+  bar.classList.add("hide"); $("#who").textContent = "";
+  app.innerHTML = `<h1>시험을 돌아봐요</h1><p class="sub">채점된 시험지를 찍어 올리면, 선생님이 틀린 문항과 다시 볼 문항을 골라 드려요. 왜 틀렸는지 함께 찾아봐요.</p>
+  <div class="card"><label>학생 코드</label><input id="code" autocapitalize="characters" autocomplete="username" placeholder="예: E0101">
+  <label>비밀번호 (숫자 4자리)</label><input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password">
+  <div style="height:14px"></div><button class="btn main full" id="go">들어가기</button>
+  ${msg ? `<p class="sub need" style="margin-top:10px">${esc(msg)}</p>` : ""}
+  ${DEMO ? `<p class="sub" style="margin-top:10px">데모: E0101(처음부터) · E0104(원인 적기) · E0103(결과) / 1234</p>` : ""}</div>`;
+  $("#go").onclick = async () => {
+    const code = $("#code").value.trim().toUpperCase(), pin = $("#pin").value.trim();
+    try { await api("login", { code, pin }); localStorage.setItem(LS, JSON.stringify({ code, pin })); home(); }
+    catch (e) { viewLogin(e.message); }
+  };
+}
+
+/* ── 홈 ── */
+const MYSTAGE = e => !e ? ["시험지 올리기", ""] : e.status === "시험지제출" ? ["채점 중", "wait"] : e.status === "원인입력" ? ["원인 적기 차례", "work"]
+  : e.status === "승인" ? ["결과 도착", "ok"] : ["선생님 분석 중", "wait"];
+async function home() {
+  bar.classList.add("hide"); F = null; UP = null;
+  try { H = await call("home"); } catch (e) { localStorage.removeItem(LS); return viewLogin(e.message); }
+  ME = H.student; $("#who").innerHTML = `${esc(ME.school)} ${esc(ME.grade)} · <a href="#" id="out" style="color:inherit">나가기</a>`;
+  $("#out").onclick = e => { e.preventDefault(); localStorage.removeItem(LS); viewLogin(); };
+  if (H.needSchool) return viewSchool();
+  const byExam = Object.fromEntries(H.entries.map(e => [e.exam_id, e]));
+  const cards = H.exams.map(x => {
+    const e = byExam[x.id], [t, c] = MYSTAGE(e);
+    return `<div class="card click" data-x="${x.id}"><div class="row between"><div class="grow"><div class="ttl">${esc(x.title)}</div>
+      <div class="meta">${x.exam_date ? md(x.exam_date) + " 시험 · " : ""}${x.items.length}문항</div></div><span class="chip ${c}">${esc(!e && x.status !== "열림" ? "마감" : t)}</span></div></div>`;
+  }).join("");
+  app.innerHTML = `<h1>${esc(ME.name)} 학생, 안녕하세요</h1><p class="sub">시험지를 돌려받은 날 바로 올려 주세요. 기억이 생생할 때 원인을 찾는 게 가장 정확합니다.</p>
+    <h2>우리 학교 시험</h2>${cards || `<div class="card sub">아직 열린 시험이 없습니다. 선생님이 시험을 열면 여기에 보입니다.</div>`}`;
+  $$("[data-x]").forEach(el => el.onclick = () => openExam(+el.dataset.x));
+}
+/* 명단에 학교가 없을 때 처음 한 번 고르기 */
+function viewSchool() {
+  const L = CONFIG.SCHOOLS.filter(x => /중$/.test(x) === /^중/.test(ME.grade));
+  app.innerHTML = `<h1>${esc(ME.name)} 학생, 반가워요</h1><p class="sub">처음 한 번만, 다니는 학교를 골라 주세요. 학교 시험이 열리면 여기에 보입니다.</p>
+    <div class="card"><div class="opts">${L.map(x => `<button class="opt" data-sc="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+    <label>목록에 없으면 직접 적어 주세요</label><input id="sco" placeholder="예: ○○중"><div style="height:12px"></div><button class="btn main full" id="scgo">이 학교로 정하기</button></div>`;
+  let pick = "";
+  $$("[data-sc]").forEach(b => b.onclick = () => { pick = b.dataset.sc; $("#sco").value = ""; $$("[data-sc]").forEach(o => o.classList.toggle("on", o === b)); });
+  $("#sco").oninput = () => { pick = ""; $$("[data-sc]").forEach(o => o.classList.remove("on")); };
+  $("#scgo").onclick = async () => {
+    const school = pick || $("#sco").value.trim(); if (!school) return toast("학교를 골라 주세요");
+    if (!confirm(`${school}(으)로 정할까요? 나중에 바꾸려면 선생님께 말씀해야 합니다.`)) return;
+    try { await call("set_school", { school }); home(); } catch (e) { toast(e.message); }
+  };
+}
+function openExam(id) {
+  const x = H.exams.find(y => y.id === id), e = H.entries.find(y => y.exam_id === id);
+  if (e && e.status === "승인") return viewResult(x, e);
+  if (e && e.status === "원인입력") return startReasons(x, e);
+  if (!e || e.status === "시험지제출") return x.status === "열림" ? viewUpload(x, e) : viewWait(x, e);
+  return viewWait(x, e);
+}
+const backLink = `<p class="sub"><a href="#" id="home" style="color:inherit">← 처음으로</a></p>`;
+function bindHome() { $("#home").onclick = ev => { ev.preventDefault(); home(); }; }
+
+/* ── ① 시험지 전체 올리기 ── */
+function viewUpload(x, e) {
+  bar.classList.add("hide");
+  UP = UP && UP.x.id === x.id ? UP : { x, pages: [...(e?.pages || [])], thumbs: {}, busy: 0 };
+  const waiting = e && e.status === "시험지제출";
+  app.innerHTML = `${backLink}<h1>${esc(x.title)}</h1>
+    ${waiting ? `<div class="card"><b>시험지를 받았어요 · 채점 중</b><p class="sub" style="margin-top:4px">선생님이 틀린 문항과 다시 볼 문항을 골라 주면 원인을 적을 차례가 됩니다. 사진을 바꾸고 싶으면 아래에서 다시 보내 주세요.</p></div>` : ""}
+    <h2>채점된 시험지를 모두 찍어 주세요</h2>
+    <div class="card tips"><b>이렇게 찍어 주세요</b><ul>
+      <li>한 쪽씩, <b>시험지 전체</b>가 화면에 들어오게</li><li>밝은 곳에서, 그림자 없이 위에서 똑바로</li>
+      <li><b>내 풀이와 채점 표시</b>(○ ✕)가 잘 보이게 — 지운 흔적도 괜찮아요</li><li>앞면·뒷면 빠짐없이, 쪽 순서대로</li></ul></div>
+    <div class="card"><div class="pagegrid" id="pg"></div><p class="sub" id="pgc" style="margin-top:8px"></p></div>
+    <button class="btn main full" id="send">${waiting ? "다시 보내기" : "선생님께 보내기"}</button>`;
+  bindHome(); drawPages();
+  if (UP.pages.length && !Object.keys(UP.thumbs).length) urls(UP.pages).then(u => { Object.assign(UP.thumbs, u); drawPages(); }).catch(() => {});
+  $("#send").onclick = async () => {
+    if (UP.busy) return toast("사진을 올리는 중입니다. 잠시만 기다려 주세요");
+    if (!UP.pages.length) return toast("시험지 사진을 1장 이상 올려 주세요");
+    if (!confirm(`시험지 ${UP.pages.length}장을 보낼까요? 빠진 쪽이 없는지 확인해 주세요.`)) return;
+    $("#send").disabled = true;
+    try { const r = await call("pages_submit", { exam_id: x.id, pages: UP.pages }); toast(r.demo || "보냈습니다. 채점이 끝나면 원인을 적을 차례가 됩니다"); UP = null; home(); }
+    catch (err) { toast(err.message); $("#send").disabled = false; }
+  };
+}
+function drawPages() {
+  const el = $("#pg"); if (!el) return;
+  el.innerHTML = UP.pages.map((p, i) => `<div class="pgth">${UP.thumbs[p] ? `<img src="${esc(UP.thumbs[p])}" alt="">` : `<span class="sub">사진</span>`}<b>${i + 1}쪽</b><button data-rm="${i}" aria-label="빼기">×</button></div>`).join("")
+    + (UP.pages.length < 10 ? `<label class="pgth add"><input type="file" accept="image/*" multiple id="pf" hidden><b>+</b><span>${UP.pages.length ? "쪽 더 찍기" : "시험지 찍기"}</span></label>` : "")
+    + (UP.busy ? `<div class="pgth"><span class="sub">올리는 중…</span></div>` : "");
+  $("#pgc").textContent = UP.pages.length ? `${UP.pages.length}장 · 순서가 틀리면 빼고 다시 찍어 주세요 (최대 10장)` : "아직 올린 사진이 없어요";
+  $$("[data-rm]", el).forEach(b => b.onclick = () => { UP.pages.splice(+b.dataset.rm, 1); drawPages(); });
+  const pf = $("#pf"); if (pf) pf.onchange = () => addPages([...pf.files]);
+}
+async function addPages(files) {
+  files = files.slice(0, 10 - UP.pages.length); if (!files.length) return;
+  UP.busy++; drawPages();
+  try {
+    for (const f of files) {
+      const data = await shrinkImage(f, DEMO ? 1000 : 2200, DEMO ? 0.6 : 0.85);
+      const r = await call("page_put", { exam_id: UP.x.id, data });
+      UP.pages.push(r.path); UP.thumbs[r.path] = data;
+    }
+  } catch (err) { toast(err.message); } finally { UP.busy--; drawPages(); }
+}
+
+/* ── 기다리는 중 ── */
+function viewWait(x, e) {
+  bar.classList.add("hide");
+  const [t] = MYSTAGE(e);
+  app.innerHTML = `${backLink}<h1>${esc(x.title)}</h1><div class="card"><div class="row between"><b>${!e ? "입력이 마감된 시험입니다" : "선생님이 분석하고 있어요"}</b>${e ? `<span class="chip wait">${esc(t)}</span>` : ""}</div>
+    ${e ? `<p class="sub" style="margin-top:6px">담임 선생님 확인과 원장님 승인이 끝나면 이 화면에 내 오답 분석이 올라옵니다.</p>` : ""}</div>
+    ${e && (e.wrong || []).length ? `<h2>내가 고른 원인</h2><div class="card">${e.wrong.map(w => `<div class="mine"><b>${w}번</b><div class="rcs">${reasonChips((e.reasons || {})[w])}</div></div>`).join("")}</div>` : ""}`;
+  bindHome();
+}
+
+/* ── ② 원인 적기 (4단계) ── */
+const STEPS = ["틀린 문항 원인", "다시 볼 문항", "준비 과정", "다짐"];
+function startReasons(x, e) {
+  const R = {}; (e.wrong || []).forEach(w => R[w] = [...((e.reasons || {})[w] || [])]);
+  F = { x, e, step: 0, reasons: R, prep: { ...(e.prep || {}) }, p1: e.promise1 || "", p2: e.promise2 || "", seen: {} };
+  draw();
+}
+function draw() {
+  const { x, e, step } = F; const items = x.items, W = (e.wrong || []).slice().sort((a, b) => a - b), RV = Object.keys(e.review || {}).map(Number).sort((a, b) => a - b);
+  const head = `${backLink}<h1>${esc(x.title)}</h1>
+    <div class="steps">${STEPS.map((_, i) => `<i class="${i <= step ? "on" : ""}"></i>`).join("")}</div><p class="sub">${step + 1} / 4 · ${STEPS[step]}</p>`;
+  let body = "";
+  if (step === 0) {
+    body = `<div class="card summary"><div><b>${W.length}</b><span>틀린 문항</span></div><div><b>${RV.length}</b><span>다시 볼 문항</span></div><div><b>${fmt(scoreOf(items, W))}</b><span>점</span></div></div>
+      ${W.length ? `<h2>틀린 문항 — 왜 틀렸는지 골라 주세요</h2>
+      <p class="sub">해당하는 원인을 <b>모두</b> 고릅니다. '시간이 없었음 · 몰랐음'만 고르지 말고, 계산~마무리 실수 중 가장 가까운 원인도 꼭 골라 주세요.</p>
+      ${W.map(no => whyCard(no, items[no - 1])).join("")}` : `<div class="card">틀린 문항이 없어요. 다음으로 넘어가세요.</div>`}`;
+  } else if (step === 1) {
+    body = RV.length ? `<h2>다시 볼 문항 — 맞았지만 한 번 더 볼 문제예요</h2>
+      <p class="sub">정답은 맞았지만 풀이가 틀렸거나, 풀이 없이 답만 쓴 문항이에요. 담임 선생님과 수업 시간에 <b>풀이를 쓰면서 다시 풀어 볼 거예요.</b></p>
+      ${RV.map(no => { const it = items[no - 1] || {}; return `<div class="card rvcard"><div class="h"><b>${no}번</b><span>${esc(it.unit || "")}${it.type ? " · " + esc(it.type) : ""}</span></div>
+        ${(e.crops || {})[no] ? `<img class="crop" data-img="${esc(e.crops[no])}" alt="${no}번 문항">` : ""}
+        <p class="rvwhy"><b>선생님이 본 이유</b> ${esc(e.review[no].why || "다시 확인이 필요해요")}</p>
+        <label class="ck"><input type="checkbox" data-seen="${no}" ${F.seen[no] ? "checked" : ""}> 확인했어요. 다시 풀어 볼게요</label></div>`; }).join("")}`
+      : `<h2>다시 볼 문항</h2><div class="card">다시 볼 문항이 없어요. 풀이를 꼼꼼히 쓴 덕분이에요!</div>`;
+  } else if (step === 2) {
+    body = `<h2>시험 준비 과정을 돌아봐요</h2><div class="card">${PREP.map(q => q.free
+      ? `<label>${esc(q.q)}</label><input data-pf="${q.k}" value="${esc(F.prep[q.k] || "")}" maxlength="200">`
+      : `<label>${esc(q.q)}</label><div class="opts">${q.opts.map(o => `<button class="opt ${F.prep[q.k] === o ? "on" : ""}" data-p="${q.k}" data-v="${esc(o)}">${esc(o)}</button>`).join("")}</div>`).join("")}</div>`;
+  } else {
+    const [q1, q2] = promiseQs(x.title);
+    body = `<h2>나에게 하는 약속</h2><div class="card"><label>■ ${esc(q1)}</label><textarea id="p1" maxlength="1000">${esc(F.p1)}</textarea>
+      <label>■ ${esc(q2)}</label><textarea id="p2" maxlength="1000">${esc(F.p2)}</textarea></div>`;
+  }
+  app.innerHTML = head + body;
+  bindHome(); fillImages(app, urls);
+  if (step === 0) W.forEach(whyCount);
+  $$("[data-w]").forEach(b => b.onclick = () => { const no = b.dataset.w, k = b.dataset.r, a = F.reasons[no] = F.reasons[no] || []; const i = a.indexOf(k); i >= 0 ? a.splice(i, 1) : a.push(k); b.classList.toggle("on", i < 0); whyCount(no); });
+  $$("[data-seen]").forEach(c => c.onchange = () => F.seen[c.dataset.seen] = c.checked);
+  $$("[data-p]").forEach(b => b.onclick = () => { F.prep[b.dataset.p] = b.dataset.v; $$(`[data-p="${b.dataset.p}"]`).forEach(o => o.classList.toggle("on", o === b)); });
+  $$("[data-pf]").forEach(i => i.oninput = () => F.prep[i.dataset.pf] = i.value);
+  ["p1", "p2"].forEach(k => { const t = $("#" + k); if (t) t.oninput = () => F[k] = t.value; });
+  bar.classList.remove("hide");
+  $("#back").textContent = step ? "이전" : "처음으로";
+  $("#next").textContent = step === 3 ? "선생님께 보내기" : "다음";
+  window.scrollTo(0, 0);
+}
+function whyCard(no, it) {
+  const sel = F.reasons[no] || [];
+  return `<div class="card why" id="why${no}"><div class="h"><b>${no}번</b><span>${esc(it.unit)}${it.type ? " · " + esc(it.type) : ""}</span><em class="cnt" id="cnt${no}"></em></div>
+    ${(F.e.crops || {})[no] ? `<img class="crop" data-img="${esc(F.e.crops[no])}" alt="${no}번 문항">` : ""}
+    ${REASON_GROUPS.map(g => { const n = g.opts.filter(([k]) => sel.includes(k)).length;
+      return `<details class="grp ${g.area ? "" : "more"}" ${n ? "open" : ""}><summary>${esc(g.g)}${g.ask ? `<small> — ${esc(g.ask)}</small>` : ""}<em data-gc="${no}:${esc(g.g)}">${n || ""}</em></summary>
+        <div class="opts">${g.opts.map(([k, t]) => `<button class="opt ${sel.includes(k) ? "on" : ""}" data-w="${no}" data-r="${k}">${esc(t)}</button>`).join("")}</div></details>`; }).join("")}</div>`;
+}
+function whyCount(no) {
+  const sel = F.reasons[no] || [];
+  REASON_GROUPS.forEach(g => { const el = $(`[data-gc="${no}:${g.g}"]`); if (el) el.textContent = g.opts.filter(([k]) => sel.includes(k)).length || ""; });
+  const c = $("#cnt" + no); if (c) c.textContent = sel.length ? `${sel.length}개 선택` : "";
+}
+$("#back").onclick = () => { if (!F) return; if (F.step) { F.step--; draw(); } else home(); };
+$("#next").onclick = async () => {
+  if (!F) return;
+  const W = (F.e.wrong || []).slice().sort((a, b) => a - b), RV = Object.keys(F.e.review || {});
+  if (F.step === 0) { const bad = W.find(w => reasonProblem(F.reasons[w])); if (bad) { toast(`${bad}번: ${reasonProblem(F.reasons[bad])}`); $(`#why${bad}`)?.scrollIntoView({ behavior: "smooth", block: "center" }); return; } }
+  if (F.step === 1 && RV.some(n => !F.seen[n])) return toast("다시 볼 문항마다 '확인했어요'를 눌러 주세요");
+  if (F.step === 2 && PREP.some(q => !q.free && !F.prep[q.k])) return toast("모든 질문에 하나씩 골라 주세요");
+  if (F.step < 3) { F.step++; return draw(); }
+  if (!F.p1.trim() || !F.p2.trim()) return toast("두 질문에 모두 답을 적어 주세요");
+  const reasons = {}; W.forEach(w => reasons[w] = F.reasons[w] || []);
+  $("#next").disabled = true;
+  try { await call("reasons_submit", { exam_id: F.x.id, reasons, prep: F.prep, promise1: F.p1, promise2: F.p2 }); toast("보냈습니다. 선생님이 분석해 드릴게요"); home(); }
+  catch (err) { toast(err.message); } finally { $("#next").disabled = false; }
+};
+
+/* ── ③ 결과 (원장님 승인 뒤) ── */
+function viewResult(x, e) {
+  bar.classList.add("hide");
+  const W = (e.wrong || []).slice().sort((a, b) => a - b), RV = Object.keys(e.review || {}).map(Number).sort((a, b) => a - b), A = e.analysis || {};
+  const loss = areaLoss(x, e), lost = loss.reduce((s, r) => s + r[1], 0);
+  app.innerHTML = `${backLink}<h1>${esc(x.title)}</h1>
+    <div class="card summary"><div><b>${fmt(scoreOf(x.items, W))}</b><span>점</span></div><div><b>${W.length}</b><span>틀린 문항</span></div><div><b>${RV.length}</b><span>다시 볼 문항</span></div></div>
+    ${e.teacher_comment ? `<div class="card tc"><b>담임 선생님 한마디</b><p>${nl(e.teacher_comment)}</p></div>` : ""}
+    ${e.admin_notes ? `<div class="card"><p>${nl(e.admin_notes)}</p></div>` : ""}
+    ${loss.length ? `<h2>놓친 점수의 원인</h2><div class="card">${bars(loss.map(([k, v]) => [AREA_NAME[k] || k, v, lost]), "점", "pe")}</div>` : ""}
+    <h2>단원별 득점률</h2><div class="card">${bars(unitRates(x, W).map(([k, v]) => [k, v, 100]), "%")}</div>
+    ${W.length ? `<h2>틀린 문항 분석</h2><p class="sub">내가 고른 원인과 선생님이 풀이를 보고 찾은 원인을 비교해 보세요.</p>` : ""}
+    ${W.map(no => { const a = A[no] || {}, it = x.items[no - 1] || {}; return `<div class="card an"><div class="h"><b>${no}번</b><span>${esc(it.unit || "")}${it.type ? " · " + esc(it.type) : ""}</span></div>
+      ${(e.crops || {})[no] ? `<img class="crop" data-img="${esc(e.crops[no])}" alt="">` : ""}
+      <div class="lab">내가 고른 원인</div><div class="rcs">${reasonChips((e.reasons || {})[no])}</div>
+      <div class="lab">선생님 분석</div><div class="rcs">${(a.areas || []).map(t => `<span class="rc area">${esc(AREA_NAME[t] || t)}</span>`).join("")}</div>
+      ${a.stuck ? `<dl class="ana"><dt>막힌 곳</dt><dd>${esc(a.stuck)}</dd></dl>` : ""}${a.wrong ? `<dl class="ana"><dt>틀린 곳</dt><dd>${esc(a.wrong)}</dd></dl>` : ""}
+      ${a.fix ? `<dl class="ana fix"><dt>다시 풀 때</dt><dd>${esc(a.fix)}</dd></dl>` : ""}</div>`; }).join("")}
+    ${RV.length ? `<h2>다시 볼 문항</h2>` + RV.map(no => { const it = x.items[no - 1] || {}; return `<div class="card an"><div class="h"><b>${no}번</b><span>${esc(it.unit || "")}${it.type ? " · " + esc(it.type) : ""}</span></div>
+      ${(e.crops || {})[no] ? `<img class="crop" data-img="${esc(e.crops[no])}" alt="">` : ""}
+      <dl class="ana"><dt>이유</dt><dd>${esc(e.review[no].why || "")}</dd></dl>${(e.review_notes || {})[no] ? `<dl class="ana fix"><dt>선생님</dt><dd>${esc(e.review_notes[no])}</dd></dl>` : ""}</div>`; }).join("") : ""}`;
+  bindHome(); fillImages(app, urls);
+}
+
+cred().code ? home() : viewLogin();
+</script>
+</body>
+</html>

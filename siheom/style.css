@@ -1,0 +1,228 @@
+/* 최고수학 시험 돌아보기 — 웜 화이트 바탕 + 남색 글자 + 피치 테라코타 포인트 (한 화면 포인트 하나, 2026-10-25 원장님 선택) */
+:root{--navy:#182B49;--paper:#F6F5EF;--card:#FFFFFF;--line:#E4E2D8;--sub:#5B6478;--mute:#8A93A6;--peach:#E0A287;--peach-dk:#C98A6E;--peach-bg:#F8ECE5;--ok:#3C8D6E;--no:#C8102E}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--navy);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%;word-break:keep-all;overflow-wrap:break-word}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 110px}
+.wide{max-width:1200px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:5}
+header.top .brand{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+header.top .who{color:var(--sub);font-size:13px;white-space:nowrap}
+h1{font-size:22px;letter-spacing:-.03em;margin:8px 0 4px}
+h2{font-size:17px;margin:24px 0 10px;letter-spacing:-.02em}
+.sub{color:var(--sub);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.card.click{cursor:pointer}
+.row{display:flex;gap:8px;align-items:center}
+.row.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+.ttl{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{color:var(--mute);font-size:12.5px;white-space:nowrap}
+.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--sub);white-space:nowrap}
+.chip.ok{color:var(--ok);border-color:var(--ok)}
+.chip.no{color:var(--no);border-color:var(--no)}
+.chip.check,.chip.work{color:var(--peach-dk);border-color:var(--peach)}
+label{display:block;font-size:13px;color:var(--sub);margin:14px 0 6px;font-weight:600}
+input,select,textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--peach)}
+textarea{min-height:96px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--navy);text-decoration:none}
+.btn.main{background:var(--peach);border-color:var(--peach);color:var(--navy)}
+.btn.full{width:100%;padding:14px}
+.btn.sm{padding:6px 10px;font-size:13px}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.no{border-color:var(--no);color:var(--no)}
+.btn:disabled{opacity:.5;cursor:default}
+.hide{display:none!important}
+.need{color:var(--no)}
+
+/* 문항 번호판 */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.q{aspect-ratio:1;border:1px solid var(--line);background:var(--card);border-radius:12px;font-weight:800;font-size:17px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.q small{font-size:10.5px;font-weight:500;color:var(--mute);margin-top:2px}
+.q.on{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.q.on small{color:var(--peach)}
+.score{display:flex;align-items:baseline;gap:6px;margin-top:10px}
+.score b{font-size:30px;letter-spacing:-.03em}
+
+/* 틀린 이유 고르기 */
+.why{border-top:1px solid var(--line);padding:12px 0}
+.why:first-child{border-top:none}
+.why .h{display:flex;gap:8px;align-items:baseline;margin-bottom:8px;white-space:nowrap;overflow:hidden}
+.why .h b{font-size:16px}
+.why .h span{color:var(--sub);font-size:13px;overflow:hidden;text-overflow:ellipsis}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap}
+.opt.on{background:var(--peach-bg);border-color:var(--peach);font-weight:700}
+
+/* 단계 표시 */
+.steps{display:flex;gap:4px;margin:6px 0 14px}
+.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}
+.steps i.on{background:var(--peach)}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:6}
+.bottom .in{max-width:560px;margin:0 auto;display:flex;gap:8px}
+.bottom .btn{flex:1;padding:14px}
+
+/* 원장 검수 화면 */
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+nav.tabs button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 14px;cursor:pointer;font-weight:600;white-space:nowrap}
+nav.tabs button.on{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+table.t{border-collapse:collapse;width:100%;background:var(--card);font-size:13.5px}
+table.t th,table.t td{border-bottom:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}
+table.t th{color:var(--mute);font-weight:500;border-bottom:1px solid var(--navy)}
+table.t td.l{white-space:normal}
+table.t tr.click{cursor:pointer}
+table.t tr.click:hover td{background:var(--peach-bg)}
+.tw{overflow-x:auto}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:800px){.split{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.kv dt{color:var(--mute);white-space:nowrap}
+pre.box{white-space:pre-wrap;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
+
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--paper);padding:10px 16px;border-radius:10px;opacity:0;transition:.2s;z-index:9;white-space:nowrap;font-size:14px}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+/* 2026-10-29 사진 + 4영역 원인 (여러 개) */
+.why.card{padding:12px 14px}
+.why .cnt{margin-left:auto;font-style:normal;font-size:12px;color:var(--peach-dk);font-weight:700}
+.phs{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px}
+.th{width:84px;height:84px;border:1px solid var(--line);border-radius:10px;background:var(--paper);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.th img{width:100%;height:100%;object-fit:cover}
+.th button{position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(24,43,73,.75);color:#fff;font-size:14px;line-height:22px;cursor:pointer}
+.th.add{border-style:dashed;border-color:var(--peach);flex-direction:column;cursor:pointer;color:var(--peach-dk)}
+.th.add b{font-size:24px;line-height:1}
+.th.add span{font-size:11px;white-space:nowrap}
+details.grp{border-top:1px solid var(--line)}
+details.grp summary{list-style:none;cursor:pointer;padding:10px 2px;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap}
+details.grp summary::-webkit-details-marker{display:none}
+details.grp summary:after{content:"＋";margin-left:auto;color:var(--mute);font-weight:400}
+details.grp[open] summary:after{content:"－"}
+details.grp summary small{font-weight:500;color:var(--sub);font-size:12.5px;overflow:hidden;text-overflow:ellipsis}
+details.grp summary em{font-style:normal;background:var(--peach);color:var(--navy);border-radius:99px;font-size:11.5px;min-width:20px;text-align:center;padding:0 6px}
+details.grp summary em:empty{display:none}
+details.grp.more summary{color:var(--sub)}
+details.grp .opts{padding:0 0 12px}
+details.grp .opt{white-space:normal;text-align:left;border-radius:12px}
+
+/* 원인 칩 · 분석 카드 (학생 결과 · 검수 화면 공용) */
+.rcs{display:flex;flex-wrap:wrap;gap:5px}
+.rc{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:2px 9px 2px 3px;background:var(--card)}
+.rc i{font-style:normal;font-size:11px;background:var(--paper);border-radius:99px;padding:0 6px;color:var(--sub);white-space:nowrap}
+.rc.area{padding:2px 10px;background:var(--peach-bg);border-color:var(--peach);font-weight:700}
+.mine{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-top:1px solid var(--line)}
+.mine:first-child{border-top:none}
+.mine b{white-space:nowrap;min-width:34px}
+.an .h{display:flex;gap:8px;align-items:baseline;white-space:nowrap;overflow:hidden}
+.an .h span{color:var(--sub);font-size:13px;overflow:hidden;text-overflow:ellipsis}
+.an .lab{font-size:12px;color:var(--mute);margin:10px 0 4px}
+dl.ana{display:grid;grid-template-columns:64px 1fr;gap:8px;margin-top:8px;font-size:14px}
+dl.ana dt{color:var(--sub);font-weight:700;white-space:nowrap}
+dl.ana.fix dd{background:var(--peach-bg);border-radius:8px;padding:4px 8px}
+.tc{margin-top:12px;background:var(--paper);border-radius:10px;padding:10px 12px}
+.tc b{font-size:13px;color:var(--sub)}
+
+/* 검수 화면: 문항별 원인·분석 편집 */
+.qa{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px;margin:10px 0}
+.qa .h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.qa .h b{font-size:16px}
+.qa .h span{color:var(--sub);font-size:13px}
+.qa .cols{display:grid;grid-template-columns:200px 1fr;gap:12px;margin-top:8px}
+@media (max-width:800px){.qa .cols{grid-template-columns:1fr}}
+.qa .pics{display:flex;flex-direction:column;gap:6px}
+.qa .pics img{width:100%;border:1px solid var(--line);border-radius:8px;cursor:zoom-in}
+.qa .lab{font-size:12px;color:var(--mute);margin:8px 0 4px;font-weight:600}
+.qa textarea{min-height:52px;font-size:13.5px}
+.qa .opts .opt{font-size:12.5px;padding:5px 10px}
+.qa .tg{font-size:12px;color:var(--sub);margin:6px 0 2px}
+.areas{display:flex;gap:6px;flex-wrap:wrap}
+.who-edit{font-size:12px;color:var(--peach-dk)}
+#zoom{position:fixed;inset:0;background:rgba(24,43,73,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#zoom img{max-width:100%;max-height:100%;background:#fff}
+.rc{border-radius:12px}
+details.tpick{margin-top:8px}
+details.tpick summary{cursor:pointer;font-size:12px;color:var(--peach-dk);font-weight:700;padding:4px 0}
+
+/* 2026-10-29 b: 시험지 전체 → 틀린 문항 · 다시 볼 문항 · 담임 페이지 · 학부모 안내 */
+.chip.done{color:var(--navy);border-color:var(--navy)}
+.lab{font-size:12px;color:var(--mute);margin:10px 0 4px;font-weight:600}
+.lab.ok{color:var(--ok)}
+.card.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.card.summary b{display:block;font-size:26px;letter-spacing:-.03em;line-height:1.2}
+.card.summary span{font-size:12px;color:var(--sub);white-space:nowrap}
+img.crop{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff;cursor:zoom-in}
+.crop.none{font-size:12.5px;color:var(--mute);border:1px dashed var(--line);border-radius:10px;padding:18px 10px;text-align:center}
+.tips ul{margin:6px 0 0 18px;font-size:13.5px} .tips li{margin:2px 0}
+.pagegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pgth{aspect-ratio:3/4;border:1px solid var(--line);border-radius:10px;background:var(--paper);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pgth img{width:100%;height:100%;object-fit:cover}
+.pgth>b{position:absolute;left:6px;bottom:6px;background:rgba(24,43,73,.8);color:#fff;font-size:11px;padding:1px 6px;border-radius:6px}
+.pgth button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(24,43,73,.75);color:#fff;font-size:15px;cursor:pointer}
+.pgth.add{border-style:dashed;border-color:var(--peach);flex-direction:column;cursor:pointer;color:var(--peach-dk)}
+.pgth.add>b{position:static;background:none;color:var(--peach-dk);font-size:28px;padding:0}
+.pgth.add span{font-size:12px;white-space:nowrap}
+.rvcard .h,.why .h{display:flex;gap:8px;align-items:baseline;white-space:nowrap;overflow:hidden}
+.rvcard .h span{color:var(--sub);font-size:13px;overflow:hidden;text-overflow:ellipsis}
+p.rvwhy{font-size:14px;margin:6px 0} p.rvwhy b{color:var(--peach-dk);margin-right:6px}
+label.ck{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--navy);font-size:14px;margin:8px 0 0;cursor:pointer}
+label.ck input{width:18px;height:18px}
+
+/* 담임 한마디 4칸 */
+.tcard h3{font-size:16px;margin-bottom:4px}
+.tcard .guide{font-size:12.5px;color:#8A4B30;background:var(--peach-bg);border-radius:8px;padding:6px 10px;margin:0 0 6px}
+textarea.short{min-height:48px}
+textarea.tall{min-height:130px}
+.opts.hint{margin-bottom:6px}
+.opts.hint .opt{font-size:12px;border-style:dashed;border-color:var(--peach);white-space:normal;text-align:left}
+.qa .tag{font-style:normal;font-size:11.5px;padding:1px 8px;border-radius:99px;margin-left:auto;white-space:nowrap}
+.wrongtag{background:#FBE9EC;color:var(--no)} .rvtag{background:var(--peach-bg);color:#8A4B30}
+.qa.rv{border-color:var(--peach)}
+.qa .cols{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.qa input{font-size:13.5px}
+details.card summary{cursor:pointer}
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:10px}
+.pages img{width:100%;border:1px solid var(--line);border-radius:8px;cursor:zoom-in}
+.bottom .in.wide{max-width:1200px;flex-wrap:wrap}
+.bottom .in.wide .btn{flex:0 1 auto}
+
+/* 목록 */
+.card.list{padding:4px 14px}
+.li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer;min-width:0}
+.li:first-child{border-top:none}
+.li .sub{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .go{color:var(--peach-dk);font-weight:700;white-space:nowrap}
+
+/* 원장 진행 현황 */
+.tbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.tb h3{font-size:16px}
+.prog{height:6px;background:var(--line);border-radius:3px;margin:8px 0 4px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ok)}
+.names{display:flex;flex-wrap:wrap;gap:6px}
+.names .nm{display:inline-flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;padding:4px 10px;font-weight:700;font-size:14px;background:#fff}
+.names .nm small{font-weight:500;font-size:11px;color:var(--sub);white-space:nowrap}
+.names .nm.click{cursor:pointer} .names .nm.click:hover{border-color:var(--peach)}
+.names .nm.off{color:var(--mute);border-style:dashed}
+.plink{border-color:var(--peach);background:var(--peach-bg)}
+
+/* 막대 (학생 결과 · 학부모) */
+.br{display:grid;grid-template-columns:minmax(0,9em) 1fr 4.2em;gap:10px;align-items:center;margin:8px 0;font-size:14px}
+.br span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.br b{text-align:right;white-space:nowrap}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy);border-radius:5px}
+.bar.pe i{background:var(--peach)}
+
+/* 학부모 안내 */
+body.parent .ph-hero{padding:22px 2px 6px}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--mute)}
+.ph-hero h1{font-size:24px;line-height:1.35}
+p.lead{font-size:15px;margin-bottom:6px}
+.tc.big p{font-size:15.5px;line-height:1.75}
+ol.plan{margin-left:20px} ol.plan li{margin:4px 0}
+.notice{border-color:var(--peach)}
+.acked{background:#E8F3EE;color:var(--ok);font-weight:700;border-radius:10px;padding:12px;text-align:center}
+.foot{color:var(--mute);font-size:12px;text-align:center;margin:28px 0 10px}
+
+.tb .cls{border-top:1px solid var(--line);padding:6px 0 4px;margin-top:6px}
+.tb .cls>.lab:first-child{margin:2px 0 4px;color:var(--navy);font-size:13px}
+.names.todo .nm{font-weight:600}

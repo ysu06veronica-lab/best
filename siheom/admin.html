@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>시험 돌아보기 — 원장</title>
+<link rel="stylesheet" href="/siheom/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">시험 돌아보기 · 원장</div><div class="who" id="who"></div></header>
+<main class="wrap wide" id="app"></main>
+<div class="bottom hide" id="bar"><div class="in wide" id="barin"></div></div>
+<script src="/siheom/reasons.js"></script>
+<script src="/siheom/core.js"></script>
+<script>
+const LS = "ex_admin"; let A = sessionStorage.getItem(LS) || "", Q = null, TAB = "board", XID = null;
+const app = $("#app"), bar = $("#bar");
+const call = (a, p = {}) => api(a, { admin: A, ...p });
+const urls = paths => call("admin_url", { paths }).then(r => r.urls || {});
+const DONE = st => st === "선생님완료" || st === "승인";
+const parentLink = e => e.parent_token ? location.origin + "/siheom/parent.html?t=" + e.parent_token : "";
+
+function login(msg) {
+  bar.classList.add("hide");
+  app.innerHTML = `<div class="card" style="max-width:360px;margin:40px auto"><label>관리 코드</label><input id="ac" type="password">
+    <div style="height:12px"></div><button class="btn main full" id="go">들어가기</button>${msg ? `<p class="sub need" style="margin-top:8px">${esc(msg)}</p>` : ""}${DEMO ? `<p class="sub">데모: 0000</p>` : ""}</div>`;
+  // Supabase 비밀값 칸에 붙여넣으면 끝에 줄바꿈이 붙어 저장되기도 해서(2026-10-30) 한 번 더 시도
+  const go = async () => {
+    A = $("#ac").value.trim();
+    try { await load(); }
+    catch (e) { if (!/관리 코드/.test(e.message)) return login(e.message); A += "\n"; try { await load(); } catch (e2) { return login(e2.message); } }
+    sessionStorage.setItem(LS, A);
+  };
+  $("#go").onclick = go; $("#ac").onkeydown = e => { if (e.key === "Enter") go(); };
+}
+async function load() {
+  Q = await call("admin_queue");
+  if (!XID || !Q.exams.some(x => x.id === XID)) XID = Q.exams[0]?.id || null;
+  $("#who").innerHTML = `원장 · <a href="#" id="lo" style="color:inherit">나가기</a>`;
+  $("#lo").onclick = ev => { ev.preventDefault(); sessionStorage.removeItem(LS); A = ""; $("#who").textContent = ""; login(); };
+  render();
+}
+
+function render() {
+  bar.classList.add("hide");
+  const S = Object.fromEntries(Q.students.map(s => [s.id, s])), X = Object.fromEntries(Q.exams.map(x => [x.id, x]));
+  const tabs = [["board", "진행 현황"], ["queue", `전체 기록 (${Q.entries.length})`], ["exams", `시험 (${Q.exams.length})`], ["students", `학생 (${Q.students.length})`], ["teachers", `선생님 (${Q.teachers.length})`]];
+  let body = "";
+  if (TAB === "board") body = board(S);
+  else if (TAB === "queue") {
+    body = `<div class="tw"><table class="t"><tr><th>단계</th><th>시험</th><th>학생</th><th>담임</th><th>점수</th><th>틀림</th><th>다시 볼</th><th>학부모</th><th>올린 날</th></tr>
+    ${Q.entries.map(e => { const x = X[e.exam_id] || { items: [] }, s = S[e.student_id] || {};
+      return `<tr class="click" data-e="${e.id}"><td>${chip(e.status)}</td><td>${esc(x.school)} ${esc(x.grade)} · ${esc(x.title)}</td><td>${esc(s.name)}</td><td>${esc(s.teacher || "-")}</td><td>${fmt(scoreOf(x.items, e.wrong))}</td><td>${(e.wrong || []).length}</td><td>${Object.keys(e.review || {}).length}</td><td>${e.parent_ack_at ? "수령 확인" : e.parent_opened_at ? "열어 봄" : e.parent_token ? "보냄" : "-"}</td><td>${md(e.created_at)}</td></tr>`; }).join("")}</table></div>`;
+  } else if (TAB === "exams") {
+    body = `<button class="btn main" id="newx">새 시험 열기</button><div class="tw" style="margin-top:10px"><table class="t"><tr><th>상태</th><th>학교·학년</th><th>시험</th><th>시험일</th><th>문항</th><th>총점</th><th>정답</th><th>기록</th></tr>
+    ${Q.exams.map(x => `<tr class="click" data-x="${x.id}"><td>${chip(x.status)}</td><td>${esc(x.school)} ${esc(x.grade)}</td><td>${esc(x.title)}</td><td>${md(x.exam_date)}</td><td>${x.items.length}</td><td>${fmt(x.items.reduce((a, b) => a + (+b.pts || 0), 0))}</td><td>${x.items.filter(it => it.ans).length}/${x.items.length}</td><td>${Q.entries.filter(e => e.exam_id === x.id).length}</td></tr>`).join("")}</table></div>`;
+  } else if (TAB === "students") {
+    body = `<button class="btn main" id="news">학생 추가</button><p class="sub" style="margin-top:6px">연락처는 받지 않습니다. 학생에게는 코드와 비밀번호만 알려 주세요. <b>담임</b>을 정해야 선생님 페이지에 보입니다.</p><div class="tw"><table class="t"><tr><th>코드</th><th>이름</th><th>학교</th><th>학년</th><th>반</th><th>담임</th><th>비밀번호</th><th>상태</th></tr>
+    ${Q.students.map(s => `<tr class="click" data-s="${s.id}"><td>${esc(s.code)}</td><td>${esc(s.name)}</td><td>${esc(s.school || "미정")}</td><td>${esc(s.grade)}</td><td>${esc(s.class_name || "-")}</td><td>${esc(s.teacher || "-")}</td><td>${esc(s.pin)}</td><td>${s.status === "inactive" ? "중지" : "사용"}</td></tr>`).join("")}</table></div>`;
+  } else {
+    body = `<button class="btn main" id="newt">선생님 추가</button><p class="sub" style="margin-top:6px">선생님은 <b>teacher.html</b>에서 이 코드로 들어갑니다. 코드는 선생님마다 다르게, 남이 짐작하기 어렵게 정해 주세요.</p><div class="tw"><table class="t"><tr><th>이름</th><th>코드</th><th>담당 학생</th><th>상태</th></tr>
+    ${Q.teachers.map(t => `<tr class="click" data-t="${t.id}"><td>${esc(t.name)}</td><td>${esc(t.code)}</td><td>${Q.students.filter(s => s.teacher === t.name).length}명</td><td>${t.status === "inactive" ? "중지" : "사용"}</td></tr>`).join("")}</table></div>`;
+  }
+  app.innerHTML = `<nav class="tabs">${tabs.map(([k, t]) => `<button class="${TAB === k ? "on" : ""}" data-tab="${k}">${t}</button>`).join("")}<button id="rf">새로고침</button></nav>${body}`;
+  $$("[data-tab]").forEach(b => b.onclick = () => { TAB = b.dataset.tab; render(); });
+  $("#rf").onclick = () => load().catch(e => toast(e.message));
+  $$("[data-e]").forEach(r => r.onclick = () => entry(+r.dataset.e));
+  $$("[data-x]").forEach(r => r.onclick = () => exam(Q.exams.find(x => x.id === +r.dataset.x)));
+  $$("[data-s]").forEach(r => r.onclick = () => student(Q.students.find(x => x.id === r.dataset.s)));
+  $$("[data-t]").forEach(r => r.onclick = () => teacher(Q.teachers.find(x => x.id === r.dataset.t)));
+  $$("[data-bx]").forEach(b => b.onclick = () => { XID = +b.dataset.bx; render(); });
+  if ($("#newx")) $("#newx").onclick = () => exam(null);
+  if ($("#news")) $("#news").onclick = () => student(null);
+  if ($("#newt")) $("#newt").onclick = () => teacher(null);
+}
+
+/* ── 진행 현황: 담임별 → 반별 완료 / 미완료 명단 (학생마다 가장 최근 시험 기준) ── */
+function board(S) {
+  const latest = sid => Q.entries.filter(e => e.student_id === sid).sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))[0];
+  const studs = Q.students.filter(s => s.status !== "inactive");
+  const clsOf = s => String(s.class_name || "반 미정").split(",").map(v => v.trim()).filter(Boolean);
+  const names = [...new Set([...Q.teachers.map(t => t.name), ...studs.map(s => s.teacher || "")])];
+  const chipOf = s => { const e = latest(s.id);
+    return e ? `<span class="nm click" data-e="${e.id}">${esc(s.name)}<small>${esc((STAGE[e.status] || [e.status])[0])}${e.parent_ack_at ? " · 학습지 ✓" : ""}</small></span>` : `<span class="nm off">${esc(s.name)}<small>시험지 안 올림</small></span>`; };
+  const wait = studs.filter(s => (latest(s.id) || {}).status === "선생님완료").length;
+  const isDone = s => DONE((latest(s.id) || {}).status);
+  const blocks = names.map(n => {
+    const mine = studs.filter(s => (s.teacher || "") === n); if (!mine.length) return "";
+    const done = mine.filter(isDone).length;
+    const CL = [...new Set(mine.flatMap(clsOf))].sort((a, b) => a.localeCompare(b, "ko"));
+    return `<div class="card tb"><div class="row between"><h3>${n ? esc(n) + " 선생님" : "담임 미지정"}</h3><span class="sub"><b>${done}</b> / ${mine.length}명 완료</span></div>
+      <div class="prog"><i style="width:${mine.length ? done / mine.length * 100 : 0}%"></i></div>
+      ${CL.map(c => { const L = mine.filter(s => clsOf(s).includes(c)), D2 = L.filter(isDone), T2 = L.filter(s => !isDone(s));
+        return `<div class="cls"><div class="lab">${esc(c)} <span class="sub">완료 ${D2.length}/${L.length}</span></div>
+          ${D2.length ? `<div class="lab ok">완료</div><div class="names">${D2.map(chipOf).join("")}</div>` : ""}${T2.length ? `<div class="lab">미완료</div><div class="names todo">${T2.map(chipOf).join("")}</div>` : ""}</div>`; }).join("")}</div>`;
+  }).join("");
+  return `<p class="sub">담임별 · 반별 명단입니다. 완료 = 담임이 '완료'를 누른 학생(승인 포함). 학생마다 가장 최근 시험 기준이며, 이름을 누르면 열립니다. <b>원장님 승인 대기 ${wait}명</b></p>
+    <div class="tbgrid">${blocks || `<div class="card sub">학생이 없습니다. '학생' 탭에서 추가하거나 명단 SQL을 넣어 주세요.</div>`}</div>`;
+}
+
+/* ── 기록 1건 (원장): 고치기 + 승인 + 학부모 링크 ── */
+function entry(id) {
+  const e = Q.entries.find(y => y.id === id), x = Q.exams.find(y => y.id === e.exam_id), s = Q.students.find(y => y.id === e.student_id) || {};
+  const st = Editor.state(e);
+  const link = parentLink(e);
+  const smsTxt = link ? `[최고수학학원] ${s.name} 학생의 ${x.title} 시험 돌아보기 안내입니다. 틀린 문항과 원인, 다시 볼 문항, 담임 선생님 한마디를 정리했습니다.\n${link}\n${PARENT_NOTICE} 학습지를 받으시면 페이지의 '학습지 받았어요'를 눌러 주세요.` : "";
+  app.innerHTML = `<p class="sub"><a href="#" id="bk" style="color:inherit">← 목록</a></p>
+    <h1>${esc(s.name)} <small class="sub">${esc(s.class_name || "")} · ${esc(x.school)} ${esc(x.grade)} · ${esc(x.title)} · 담임 ${esc(s.teacher || "-")}</small></h1>
+    <p class="sub">${chip(e.status)} · ${fmt(scoreOf(x.items, e.wrong))}점 · 틀린 문항 ${(e.wrong || []).length} · 다시 볼 문항 ${Object.keys(e.review || {}).length}${e.teacher_done_at ? " · 담임 완료 " + md(e.teacher_done_at) : ""}</p>
+    ${link ? `<div class="card plink"><b>학부모 안내 페이지</b> <span class="sub">${e.parent_ack_at ? "학습지 수령 확인 " + md(e.parent_ack_at) : e.parent_opened_at ? "학부모님이 열어 봄 " + md(e.parent_opened_at) : "아직 열어 보지 않음"}</span>
+      <div class="row" style="margin-top:8px;flex-wrap:wrap"><input readonly value="${esc(link)}" style="flex:1;min-width:220px"><button class="btn sm" id="cpl">주소 복사</button><button class="btn sm" id="cps">문자 문구 복사</button><a class="btn sm" href="${esc(link)}" target="_blank">열어 보기</a></div>
+      <p class="sub" style="margin-top:6px">문자는 원장님이 직접 보내 주세요(문자자동발송팩). 연락처는 이 앱에 저장하지 않습니다.</p></div>` : ""}
+    <div id="ed">${Editor.html(e, x, s, st, {})}</div>
+    <h2>학생에게 남길 말 (승인 후 학생 화면에 보임)</h2><textarea id="an">${esc(e.admin_notes || "")}</textarea>`;
+  $("#bk").onclick = ev => { ev.preventDefault(); render(); };
+  const root = $("#ed"); Editor.bind(root, st); fillImages(root, urls);
+  if ($("#cpl")) $("#cpl").onclick = () => navigator.clipboard.writeText(link).then(() => toast("주소를 복사했습니다"));
+  if ($("#cps")) $("#cps").onclick = () => navigator.clipboard.writeText(smsTxt).then(() => toast("문자 문구를 복사했습니다"));
+  const can = ["선생님확인", "선생님완료", "승인"].includes(e.status);
+  $("#barin").innerHTML = `<button class="btn" data-go="">저장</button>
+    ${can ? `<button class="btn ok" data-go="승인">${e.status === "승인" ? "고친 내용 다시 공개" : "승인 · 학생·학부모 공개"}</button><button class="btn" data-go="선생님에게">담임에게 돌려보내기</button>` : ""}
+    <button class="btn" data-go="학생에게" title="학생이 원인을 다시 고릅니다">학생에게 (원인 다시)</button>
+    <button class="btn" data-go="다시채점" title="시험지부터 다시 채점합니다">다시 채점</button><button class="btn" data-go="다시분석" title="학생 원인으로 풀이 분석을 다시 합니다">다시 분석</button>`;
+  bar.classList.remove("hide");
+  let force = false;
+  $$("[data-go]").forEach(b => b.onclick = async () => {
+    const go = b.dataset.go, pl = Editor.payload(root, st);
+    if (["학생에게", "다시채점", "다시분석"].includes(go) && !confirm(`'${b.textContent.trim()}' — 단계를 되돌릴까요?`)) return;
+    try {
+      await call("admin_entry_save", { id, ...pl, admin_notes: $("#an").value, go, force: go === "승인" && force });
+      toast(go === "승인" ? "승인했습니다. 학부모 안내 주소가 만들어졌습니다" : "저장했습니다"); force = false;
+      await load(); entry(id);
+    } catch (err) { if (go === "승인" && /한 번 더/.test(err.message)) force = true; toast(err.message); }
+  });
+}
+
+/* ── 시험 열기 · 고치기 ── 엑셀에서 '배점 · 단원 · 유형 · 난이도 · 정답' 5칸 붙여넣기 (문항 순서대로) */
+function exam(x) {
+  x = x || { school: CONFIG.SCHOOLS[0], grade: "중1", title: "", exam_date: "", items: [], status: "열림" };
+  const tsv = x.items.map(it => [it.pts, it.unit, it.type, it.level, it.ans || ""].join("\t")).join("\n");
+  app.innerHTML = `<p class="sub"><a href="#" id="bk" style="color:inherit">← 목록</a></p><h1>${x.id ? "시험 고치기" : "새 시험 열기"}</h1>
+  <div class="split"><div class="card">
+    <label>학교</label><input id="sc" list="schools" value="${esc(x.school)}"><datalist id="schools">${CONFIG.SCHOOLS.map(s => `<option>${esc(s)}</option>`).join("")}</datalist>
+    <label>학년</label><select id="gr">${CONFIG.GRADES.map(g => `<option ${g === x.grade ? "selected" : ""}>${g}</option>`).join("")}</select>
+    <label>시험 이름 (중간·기말을 넣어 주세요 — 학생 질문 문구가 바뀝니다)</label><input id="ti" value="${esc(x.title)}" placeholder="2026 2학기 기말 수학">
+    <label>시험일</label><input id="dt" type="date" value="${esc(x.exam_date || "")}">
+    <label>상태</label><select id="st"><option ${x.status === "열림" ? "selected" : ""}>열림</option><option ${x.status === "닫힘" ? "selected" : ""}>닫힘</option></select>
+  </div><div class="card">
+    <label>문항 표 — 한 줄에 한 문항: 배점 [탭] 단원 [탭] 유형 [탭] 난이도(하·중하·중·중상·상) [탭] 정답</label>
+    <textarea id="tsv" style="min-height:260px;font-family:monospace;font-size:12.5px" placeholder="4\t기본 도형\t평행선의 성질\t하\t③">${esc(tsv)}</textarea>
+    <p class="sub" id="chk"></p><p class="sub">정답은 최고AI 채점에 씁니다(학생에게는 보이지 않음). 서술형은 '서술형'이라고 적고 모범답안은 문항은행에 둡니다.</p>
+  </div></div>
+  <button class="btn main" id="sv" style="margin-top:12px">저장</button>`;
+  const parse = () => $("#tsv").value.replace(/\r/g, "").split("\n").filter(l => l.trim()).map(l => { const c = l.split(/\t|\s{2,}|\|/).map(v => v.trim()); return { pts: +c[0] || 0, unit: c[1] || "", type: c[2] || "", level: c[3] || "", ans: c[4] || "" }; });
+  const chk = () => { const it = parse(); const tot = it.reduce((a, b) => a + b.pts, 0); $("#chk").innerHTML = `${it.length}문항 · 총점 <b class="${Math.abs(tot - 100) > 0.01 ? "need" : ""}">${fmt(tot)}</b>점${Math.abs(tot - 100) > 0.01 ? " (100점이 아닙니다 — 배점 확인)" : ""} · 정답 ${it.filter(i => i.ans).length}/${it.length}`; };
+  $("#tsv").oninput = chk; chk();
+  $("#bk").onclick = ev => { ev.preventDefault(); render(); };
+  $("#sv").onclick = async () => {
+    try { await call("admin_exam_save", { exam: { id: x.id, school: $("#sc").value.trim(), grade: $("#gr").value, title: $("#ti").value.trim(), exam_date: $("#dt").value || null, status: $("#st").value, items: parse() } }); toast("저장했습니다"); TAB = "exams"; await load(); }
+    catch (err) { toast(err.message); }
+  };
+}
+
+/* ── 학생 ── */
+function student(s) {
+  s = s || { code: "", name: "", school: CONFIG.SCHOOLS[0], grade: "중1", teacher: "", pin: String(Math.floor(1000 + Math.random() * 9000)), status: "active" };
+  app.innerHTML = `<p class="sub"><a href="#" id="bk" style="color:inherit">← 목록</a></p><h1>${s.id ? "학생 고치기" : "학생 추가"}</h1><div class="card" style="max-width:420px">
+    <label>학생 코드</label><input id="cd" value="${esc(s.code)}" placeholder="E0101"><label>이름 (화면 표시용)</label><input id="nm" value="${esc(s.name)}">
+    <label>학교 (비우면 학생이 처음 들어올 때 고름)</label><input id="sc" list="schools" value="${esc(s.school || "")}"><datalist id="schools">${CONFIG.SCHOOLS.map(x => `<option>${esc(x)}</option>`).join("")}</datalist>
+    <label>학년</label><select id="gr">${CONFIG.GRADES.map(g => `<option ${g === s.grade ? "selected" : ""}>${g}</option>`).join("")}</select>
+    <label>반 (여러 반이면 쉼표)</label><input id="cl" value="${esc(s.class_name || "")}" placeholder="M중1A">
+    <label>담임</label><select id="te"><option value="">(미지정)</option>${Q.teachers.map(t => `<option ${t.name === s.teacher ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select>
+    <label>비밀번호 (숫자 4자리)</label><input id="pn" value="${esc(s.pin)}" inputmode="numeric" maxlength="4">
+    <label>상태</label><select id="st"><option value="active">사용</option><option value="inactive" ${s.status === "inactive" ? "selected" : ""}>중지</option></select>
+    <div style="height:12px"></div><button class="btn main full" id="sv">저장</button></div>`;
+  $("#bk").onclick = ev => { ev.preventDefault(); render(); };
+  $("#sv").onclick = async () => {
+    try { await call("admin_student_save", { student: { id: s.id, code: $("#cd").value, name: $("#nm").value.trim(), school: $("#sc").value.trim(), grade: $("#gr").value, teacher: $("#te").value, class_name: $("#cl").value.trim(), pin: $("#pn").value.trim(), status: $("#st").value } }); toast("저장했습니다"); TAB = "students"; await load(); }
+    catch (err) { toast(err.message); }
+  };
+}
+
+/* ── 선생님 ── */
+function teacher(t) {
+  t = t || { name: "", code: "T" + Math.random().toString(36).slice(2, 8).toUpperCase(), status: "active" };
+  app.innerHTML = `<p class="sub"><a href="#" id="bk" style="color:inherit">← 목록</a></p><h1>${t.id ? "선생님 고치기" : "선생님 추가"}</h1><div class="card" style="max-width:420px">
+    <label>이름 (학생의 담임 칸과 같게)</label><input id="nm" value="${esc(t.name)}">
+    <label>선생님 코드 (4자 이상)</label><input id="cd" value="${esc(t.code)}">
+    <label>상태</label><select id="st"><option value="active">사용</option><option value="inactive" ${t.status === "inactive" ? "selected" : ""}>중지</option></select>
+    <div style="height:12px"></div><button class="btn main full" id="sv">저장</button></div>`;
+  $("#bk").onclick = ev => { ev.preventDefault(); render(); };
+  $("#sv").onclick = async () => {
+    try { await call("admin_teacher_save", { teacher: { id: t.id, name: $("#nm").value.trim(), code: $("#cd").value.trim(), status: $("#st").value } }); toast("저장했습니다"); TAB = "teachers"; await load(); }
+    catch (err) { toast(err.message); }
+  };
+}
+
+A ? load().catch(e => login(e.message)) : login();
+</script>
+</body>
+</html>
