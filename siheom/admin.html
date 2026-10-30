@@ -70,32 +70,50 @@ function render() {
   $$("[data-s]").forEach(r => r.onclick = () => student(Q.students.find(x => x.id === r.dataset.s)));
   $$("[data-t]").forEach(r => r.onclick = () => teacher(Q.teachers.find(x => x.id === r.dataset.t)));
   $$("[data-bx]").forEach(b => b.onclick = () => { XID = +b.dataset.bx; render(); });
+  $$("[data-more]").forEach(b => b.onclick = () => { const n = b.dataset.more; OPEN.has(n) ? OPEN.delete(n) : OPEN.add(n); render(); });
+  $$("[data-si]").forEach(b => b.onclick = () => studentInfo(b.dataset.si));
   if ($("#newx")) $("#newx").onclick = () => exam(null);
   if ($("#news")) $("#news").onclick = () => student(null);
   if ($("#newt")) $("#newt").onclick = () => teacher(null);
 }
 
 /* ── 진행 현황: 담임별 → 반별 완료 / 미완료 명단 (학생마다 가장 최근 시험 기준) ── */
+const OPEN = new Set();   // 진행 현황에서 '더보기'로 펼친 담임
+/* 학생 1명 정보 (시험지 올리기 전에도 반·코드 확인용) */
+function studentInfo(id) {
+  const s = Q.students.find(x => x.id === id); if (!s) return;
+  const z = document.createElement("div"); z.id = "zoom"; z.style.cursor = "default";
+  z.innerHTML = `<div class="card" style="max-width:360px;width:100%;cursor:auto"><h2 style="margin-top:0">${esc(s.name)}</h2>
+    <dl class="kv"><dt>반</dt><dd>${esc(String(s.class_name || "반 미정").split(",").join(" · "))}</dd><dt>담임</dt><dd>${esc(s.teacher || "-")}</dd>
+    <dt>학교 · 학년</dt><dd>${esc(s.school || "학교 미정(처음 들어올 때 고름)")} · ${esc(s.grade)}</dd><dt>학생 코드</dt><dd><b>${esc(s.code)}</b></dd><dt>비밀번호</dt><dd><b>${esc(s.pin)}</b></dd><dt>상태</dt><dd>시험지 안 올림</dd></dl>
+    <div class="row" style="margin-top:12px"><button class="btn sm" id="si-edit">학생 정보 고치기</button><span class="grow"></span><button class="btn sm main" id="si-x">닫기</button></div></div>`;
+  document.body.appendChild(z);
+  z.onclick = ev => { if (ev.target === z) z.remove(); };
+  z.querySelector("#si-x").onclick = () => z.remove();
+  z.querySelector("#si-edit").onclick = () => { z.remove(); student(s); };
+}
 function board(S) {
   const latest = sid => Q.entries.filter(e => e.student_id === sid).sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))[0];
   const studs = Q.students.filter(s => s.status !== "inactive");
   const clsOf = s => String(s.class_name || "반 미정").split(",").map(v => v.trim()).filter(Boolean);
   const names = [...new Set([...Q.teachers.map(t => t.name), ...studs.map(s => s.teacher || "")])];
   const chipOf = s => { const e = latest(s.id);
-    return e ? `<span class="nm click" data-e="${e.id}">${esc(s.name)}<small>${esc((STAGE[e.status] || [e.status])[0])}${e.parent_ack_at ? " · 학습지 ✓" : ""}</small></span>` : `<span class="nm off">${esc(s.name)}<small>시험지 안 올림</small></span>`; };
+    return e ? `<span class="nm click" data-e="${e.id}">${esc(s.name)}<small>${esc((STAGE[e.status] || [e.status])[0])}${e.parent_ack_at ? " · 학습지 ✓" : ""}</small></span>` : `<span class="nm off click" data-si="${esc(s.id)}">${esc(s.name)}<small>시험지 안 올림</small></span>`; };
   const wait = studs.filter(s => (latest(s.id) || {}).status === "선생님완료").length;
   const isDone = s => DONE((latest(s.id) || {}).status);
   const blocks = names.map(n => {
     const mine = studs.filter(s => (s.teacher || "") === n); if (!mine.length) return "";
     const done = mine.filter(isDone).length;
     const CL = [...new Set(mine.flatMap(clsOf))].sort((a, b) => a.localeCompare(b, "ko"));
+    const open = OPEN.has(n);
     return `<div class="card tb"><div class="row between"><h3>${n ? esc(n) + " 선생님" : "담임 미지정"}</h3><span class="sub"><b>${done}</b> / ${mine.length}명 완료</span></div>
       <div class="prog"><i style="width:${mine.length ? done / mine.length * 100 : 0}%"></i></div>
       ${CL.map(c => { const L = mine.filter(s => clsOf(s).includes(c)), D2 = L.filter(isDone), T2 = L.filter(s => !isDone(s));
-        return `<div class="cls"><div class="lab">${esc(c)} <span class="sub">완료 ${D2.length}/${L.length}</span></div>
-          ${D2.length ? `<div class="lab ok">완료</div><div class="names">${D2.map(chipOf).join("")}</div>` : ""}${T2.length ? `<div class="lab">미완료</div><div class="names todo">${T2.map(chipOf).join("")}</div>` : ""}</div>`; }).join("")}</div>`;
+        return `<div class="cls"><div class="clsrow"><b>${esc(c)}</b><span class="sub">${L.length}명 · 완료 ${D2.length} · 미완료 ${T2.length}</span></div>
+          ${open ? `${D2.length ? `<div class="lab ok">완료</div><div class="names">${D2.map(chipOf).join("")}</div>` : ""}${T2.length ? `<div class="lab">미완료</div><div class="names todo">${T2.map(chipOf).join("")}</div>` : ""}` : ""}</div>`; }).join("")}
+      <button class="btn sm more" data-more="${esc(n)}">${open ? "− 접기" : "+ 더보기 (반별 학생)"}</button></div>`;
   }).join("");
-  return `<p class="sub">담임별 · 반별 명단입니다. 완료 = 담임이 '완료'를 누른 학생(승인 포함). 학생마다 가장 최근 시험 기준이며, 이름을 누르면 열립니다. <b>원장님 승인 대기 ${wait}명</b></p>
+  return `<p class="sub">담임별 · 반별 명단입니다. <b>더보기</b>를 누르면 반별 학생이 보이고, 이름을 누르면 기록(시험지를 올리기 전이면 반·학생 코드)이 열립니다. 완료 = 담임이 '완료'를 누른 학생(승인 포함), 학생마다 가장 최근 시험 기준. <b>원장님 승인 대기 ${wait}명</b></p>
     <div class="tbgrid">${blocks || `<div class="card sub">학생이 없습니다. '학생' 탭에서 추가하거나 명단 SQL을 넣어 주세요.</div>`}</div>`;
 }
 

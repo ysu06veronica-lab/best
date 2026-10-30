@@ -226,3 +226,8 @@ ol.plan{margin-left:20px} ol.plan li{margin:4px 0}
 .tb .cls{border-top:1px solid var(--line);padding:6px 0 4px;margin-top:6px}
 .tb .cls>.lab:first-child{margin:2px 0 4px;color:var(--navy);font-size:13px}
 .names.todo .nm{font-weight:600}
+
+.tb .clsrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
+.tb .clsrow .sub{white-space:nowrap}
+.tb .more{margin-top:10px;width:100%}
+.names .nm.off.click{cursor:pointer}
