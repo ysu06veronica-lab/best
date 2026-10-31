@@ -389,7 +389,7 @@ footer{margin-top:28px;padding:16px 0 8px;border-top:1px solid var(--line);font-
         <p class="pd">2026년 고1이 실제로 본 내신 시험지로, 입학 전에 고등 시험을 미리 경험합니다.</p>
         <ol class="steps"><li><b>시험</b> 토 10:00 · 11:00 · 12:00 · 13:00 중 선택 · 50분</li><li><b>해설강의</b> 고1 내신기출반</li></ol>
         <span class="when"><span class="nw">매주 토요일 11/14 ~ 12/19</span><br><span class="nw">중고등관 6번 강의실</span></span>
-        <a class="btn full" href="/mock-exam/" style="margin-top:12px;display:block;text-align:center;text-decoration:none">모의고사 신청하기</a></div>
+        <a class="btn full" href="/mock-exam/" style="margin-top:12px;display:block;text-align:center;text-decoration:none">모의고사·무료특강 신청하기</a></div>
     </div>
     <div class="pc">
       <div class="pn" style="background:#E2574C">02</div>
@@ -569,7 +569,7 @@ function openDetail(no){
    <div><dt>요일·시간</dt><dd>${x.dy} ${x.tm}</dd></div><div><dt>기간</dt><dd>${x.pd||'11/9(월) ~ 12/29(화)'}${x.n!=='—'?' · '+x.n:''}</dd></div>
    <div><dt>장소</dt><dd>${x.rm.startsWith('1공구')?x.rm:x.rm==='추후 안내'?'중고등관 (강의실 추후 안내)':x.rm+' 강의실'}</dd></div>${x.tc?`<div><dt>강사</dt><dd>${x.tc}</dd></div>`:''}
    <div><dt>교습비</dt><dd><b>${x.n} ${isFree(no)?'무료':x.fee.toLocaleString('ko-KR')+'원'}</b></dd></div></dl>
-   ${x.sch?`<table class="sch"><tr><th>해설강의</th><th>학교 시험지</th>${x.sch[0][2]?'<th>시험</th>':''}</tr>${x.sch.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table>`:''}
+   ${x.sch?`<table class="sch"><tr><th>해설강의</th><th>학교 시험지</th>${x.sch[0][2]?'<th>시험</th>':''}</tr>${x.sch.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table><a class="btn full" href="/mock-exam/#apply" style="margin-top:10px;display:block;text-align:center;text-decoration:none">모의고사·무료특강 신청하기</a>`:''}
    ${x.ex.length?`<div class="box warn"><ul>${x.ex.map(e=>`<li>${e}</li>`).join('')}</ul></div>`:''}
    <p class="err" id="clash">${clashMsg(no)}</p>
    <div class="act"><button class="btn ghost" id="close2">목록으로</button><button class="btn" id="tog">${inC?'담기 취소':'이 강좌 담기'}</button></div>`);

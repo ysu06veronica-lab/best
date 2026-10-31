@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>송도 내신기출 모의고사 신청 · 송도 최고수학학원</title>
-<meta name="description" content="매주 토요일 예비고1 재원생 대상 송도 내신기출 모의고사 신청">
+<title>내신기출 무료특강·모의고사 신청 · 송도 최고수학학원</title>
+<meta name="description" content="해설강의 일정 안내와 송도 내신기출 모의고사·무료특강 신청">
 <meta property="og:type" content="website">
-<meta property="og:title" content="송도 내신기출 모의고사 신청">
-<meta property="og:description" content="매주 토요일 10:00 · 11:00 · 12:00 · 13:00 · 예비고1 재원생">
+<meta property="og:title" content="내신기출 무료특강·모의고사 신청">
+<meta property="og:description" content="11/14 ~ 12/19 · 학교별 해설강의 일정과 신청">
 <meta property="og:url" content="https://best-eight-gold.vercel.app/mock-exam/">
 <meta property="og:image" content="https://best-eight-gold.vercel.app/mock-exam/og.jpg?v=20261031">
 <meta property="og:image:width" content="1200">
@@ -67,6 +67,10 @@ h2{font-size:21px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .slots{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .slots.t4{grid-template-columns:repeat(4,1fr)}
+.slots.t3{grid-template-columns:repeat(3,1fr)}
+.sch{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px;border-top:1px solid var(--navy)}
+.sch th,.sch td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.sch th{color:var(--sub);font-weight:500;font-size:13px}
 .sd{grid-column:1/-1;font-size:13.5px;font-weight:700;margin-top:6px}
 .slots label{position:relative;border:1px solid var(--mute);padding:11px 4px;text-align:center;font-size:14.5px;cursor:pointer;white-space:nowrap;background:#fff}
 .slots input{position:absolute;opacity:0;pointer-events:none}
@@ -95,7 +99,7 @@ header.hub h1{font-size:26px;margin-top:18px}
 .tile{position:relative;display:block;background:var(--paper);color:inherit;text-decoration:none;padding:14px 44px 14px 16px;margin-bottom:10px}
 .tile:active{background:var(--line)}
 @media (hover:hover){.tile:hover{background:var(--line)}}
-.tile .tt{display:block;font-size:17px;font-weight:700;letter-spacing:-.4px;white-space:nowrap}
+.tile .tt{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.4px;white-space:nowrap}
 .tile .meta{display:block;font-size:13px;color:var(--sub);margin-top:2px;white-space:nowrap}
 .tile .go{position:absolute;right:16px;top:50%;transform:translateY(-50%)}
 main.tiles+footer{margin-top:8px;padding:12px 0 14px;background:#fff;font-size:11px;line-height:1.6}
@@ -107,35 +111,37 @@ main.tiles+footer{margin-top:8px;padding:12px 0 14px;background:#fff;font-size:1
   <div class="brand"><img src="/mock-exam/logo.png" alt="최고수학학원"><span>2027 예비고1 학부모</span></div>
   <a class="back" href="/pre-high/">← 예비고1 11월 안내</a>
   <span class="k">MOCK EXAM</span>
-  <h1><em>송도 내신기출</em><br>모의고사 신청</h1>
-  <p class="lead">해설강의를 듣기 전에 직접 풀어 봅니다. 고1 내신 시험을 입학 전에 미리 경험합니다.</p>
-  <dl><div><dt>일정</dt><dd><span class="nw">매주 토요일</span> · <span class="nw">11/14 ~ 12/19</span></dd></div><div><dt>시간</dt><dd><span class="nw">10:00 · 11:00 · 12:00 · 13:00</span> 중 선택 · <span class="nw">시험 50분</span></dd></div><div><dt>대상</dt><dd>최고수학학원 예비고1 재원생 누구나</dd></div><div><dt>장소</dt><dd>중고등관 6번 강의실</dd></div><div><dt>비용</dt><dd>응시료 없음</dd></div></dl><a class="cta" href="#apply">모의고사 신청하기</a>
+  <h1><em>내신기출 무료특강</em><br>모의고사 신청</h1>
+  <p class="lead">송도 내신기출 모의고사를 직접 풀어 본 뒤, 해설강의를 무료로 듣습니다.</p>
+  <dl><div><dt>일정</dt><dd><span class="nw">매주 토요일</span> · <span class="nw">11/14 ~ 12/19</span></dd></div><div><dt>시간</dt><dd><span class="nw">10:00 · 11:00 · 12:00 · 13:00</span> 중 선택 · <span class="nw">시험 50분</span></dd></div><div><dt>대상</dt><dd>최고수학학원 예비고1 재원생 누구나</dd></div><div><dt>장소</dt><dd>시험: 중고등관 6번 강의실</dd></div><div><dt>비용</dt><dd>응시료 없음 · 해설강의 무료</dd></div></dl><a class="cta" href="#apply">한 번에 신청하기</a>
 </div></header>
 <main class="wrap">
 <section>
-  <span class="k">HOW IT WORKS</span><h2>시험을 본 뒤 해설강의를 듣습니다</h2>
-  <ol class="steps">
-    <li><b>시험</b> · 토요일 고른 시간에 응시</li>
-    <li><b>해설강의</b> · 고1 내신기출반<br><span class="nw">A반 토 13:00~14:30</span> · <span class="nw">B반 토 14:30~16:00</span></li>
-  </ol>
+  <span class="k">SCHEDULE</span><h2>해설강의 일정</h2>
+  <p class="desc">시험을 본 뒤 해설강의를 듣습니다. 내용이 달라 여러 반을 함께 신청할 수 있습니다.</p>
+  <table class="sch"><tr><th>토요일</th><th>A반 13:00</th><th>B반 14:30</th></tr><tr><td>11/14</td><td>대건고</td><td>옥련여고</td></tr><tr><td>11/21</td><td>박문여고</td><td>연송고</td></tr><tr><td>11/28</td><td>포스코고</td><td>하늘고</td></tr><tr><td>12/5</td><td>신송고</td><td>해송고</td></tr><tr><td>12/12</td><td>연송고</td><td>연수여고</td></tr><tr><td>12/19</td><td>인천여고</td><td>송도고</td></tr></table>
+  <p class="desc">A·B반: 중고등관 4번 강의실</p>
+  <table class="sch"><tr><th>C반 목 17:00</th><th>학교 시험지</th><th>시험(토)</th></tr><tr><td>11/19</td><td>인천외고</td><td>11/14</td></tr><tr><td>11/26</td><td>미추홀외고</td><td>11/21</td></tr><tr><td>12/3</td><td>국제고</td><td>11/28</td></tr><tr><td>12/10</td><td>신송고</td><td>12/5</td></tr><tr><td>12/17</td><td>송도고</td><td>12/12</td></tr></table>
+  <p class="desc">C반: 1공구 하이퍼관 6번 강의실</p>
   <div class="box"><p>해설강의는 프리윈터 수강 여부와 관계없이 무료입니다.</p><p>내신기출반 A, 대수 개념 특강, 집중 케어반 등 토요일 수업과 겹치지 않는 시간을 골라 주세요.</p><p>시험은 개인 일정에 맞춰 다른 학교 시험지로 대체할 수 있습니다.</p><p>목요일 C반 학생은 해설강의 전주 토요일에 시험을 봅니다. 일정이 맞지 않으면 학원으로 개별 문의해 주세요.</p></div>
 </section>
 <section id="apply">
-  <span class="k">APPLY</span><h2>모의고사 신청</h2>
+  <span class="k">APPLY</span><h2>모의고사·무료특강 신청</h2>
   <form class="f" id="f" novalidate>
     <div class="q"><label for="student">학생 이름<i>*</i></label><input id="student" type="text" name="student" maxlength="20" autocomplete="off"></div>
     <div class="two"><div class="q"><label for="school">학교<i>*</i></label><input id="school" type="text" name="school" maxlength="20" placeholder="예) 최고중"></div>
       <div class="q"><label for="grade">학년</label><select id="grade" name="grade"><option>중3</option><option>기타</option></select></div></div>
     <div class="q"><label for="phone">학부모 연락처<i>*</i></label><input id="phone" type="tel" name="phone" inputmode="tel" maxlength="13" placeholder="010-0000-0000"></div>
-    <div class="q"><span class="ql">응시 시간<i>*</i></span><p class="qh">토요일 다른 수업과 겹치지 않는 시간을 골라 주세요.</p><div class="slots t4"><label><input type="radio" name="time" value="10:00">10:00</label><label><input type="radio" name="time" value="11:00">11:00</label><label><input type="radio" name="time" value="12:00">12:00</label><label><input type="radio" name="time" value="13:00">13:00</label></div></div>
+    <div class="q"><span class="ql">해설강의 반</span><p class="qh">듣는 반을 모두 골라 주세요.</p><div class="slots t3"><label><input type="checkbox" name="cls" value="A반">A반<small>토 13:00</small></label><label><input type="checkbox" name="cls" value="B반">B반<small>토 14:30</small></label><label><input type="checkbox" name="cls" value="C반">C반<small>목 17:00</small></label></div></div>
+    <div class="q"><span class="ql">응시 시간<i>*</i></span><p class="qh">토요일 다른 수업과 겹치지 않는 시간을 골라 주세요.</p><div class="slots t4"><label><input type="radio" name="time" value="10:00">10:00</label><label><input type="radio" name="time" value="11:00">11:00</label><label><input type="radio" name="time" value="12:00">12:00</label><label><input type="radio" name="time" value="13:00">13:00</label><label style="grid-column:1/-1"><input type="radio" name="time" value="별도 문의">일정이 맞지 않아 별도 문의</label></div></div>
     <div class="q"><span class="ql">응시할 토요일<i>*</i></span><p class="qh">오지 못하는 날은 눌러서 해제해 주세요.</p><div class="slots t4"><label><input type="checkbox" name="date" value="11/14" checked>11/14</label><label><input type="checkbox" name="date" value="11/21" checked>11/21</label><label><input type="checkbox" name="date" value="11/28" checked>11/28</label><label><input type="checkbox" name="date" value="12/5" checked>12/5</label><label><input type="checkbox" name="date" value="12/12" checked>12/12</label><label><input type="checkbox" name="date" value="12/19" checked>12/19</label></div></div>
     <div class="q"><label for="memo">문의 사항</label><textarea id="memo" name="memo" maxlength="300" placeholder="궁금한 점 등"></textarea></div>
     <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
-    <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의 (학부모 작성)</b><br>수집 주체: 송도 최고수학학원 · 수집 항목: 학생 이름·학교·학년, 학부모 연락처, 응시 시간·날짜, 문의 사항 · 목적: 송도 내신기출 모의고사 응시 신청·안내 · 보유·이용 기간: 모의고사 종료(12/19) 후 3개월 이내 파기 · 신청 정보는 학원 구글 계정 시트에 저장됩니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 신청은 어렵고 전화(032-833-2343)로 신청하실 수 있습니다.</span></label>
+    <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의 (학부모 작성)</b><br>수집 주체: 송도 최고수학학원 · 수집 항목: 학생 이름·학교·학년, 학부모 연락처, 응시 시간·날짜, 해설강의 반, 문의 사항 · 목적: 송도 내신기출 모의고사 응시·해설강의 신청과 안내 · 보유·이용 기간: 모의고사 종료(12/19) 후 3개월 이내 파기 · 신청 정보는 학원 구글 계정 시트에 저장됩니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 신청은 어렵고 전화(032-833-2343)로 신청하실 수 있습니다.</span></label>
     <button class="btn" id="send" type="submit">신청서 보내기</button>
     <p class="err" id="err" role="alert"></p>
   </form>
-  <div class="done" id="done"><h2>신청이 접수되었습니다</h2><dl id="doneList"></dl><p class="desc">장소: 중고등관 6번 강의실<br>문의 <a href="tel:0328332343" class="nw">032-833-2343</a></p></div>
+  <div class="done" id="done"><h2>신청이 접수되었습니다</h2><dl id="doneList"></dl><p class="desc">시험 장소: 중고등관 6번 강의실<br>문의 <a href="tel:0328332343" class="nw">032-833-2343</a></p></div>
 </section>
 </main>
 <footer><div class="wrap">
@@ -153,13 +159,13 @@ $('#f').addEventListener('submit',async ev=>{ev.preventDefault();
   if(!v('student')||!v('school'))return err.textContent='학생 이름과 학교를 입력해 주세요.';
   const phone=phoneOf(v('phone'));if(!phone)return err.textContent='학부모 연락처를 확인해 주세요.';
   const time=(f.querySelector('[name=time]:checked')||{}).value||'';if(!time)return err.textContent='응시 시간을 골라 주세요.';
-  const dates=[...f.querySelectorAll('[name=date]:checked')].map(x=>x.value);if(!dates.length)return err.textContent='응시할 토요일을 하나 이상 골라 주세요.';
+  const ask=time==='별도 문의',dates=ask?[]:[...f.querySelectorAll('[name=date]:checked')].map(x=>x.value),classes=[...f.querySelectorAll('[name=cls]:checked')].map(x=>x.value);if(!ask&&!dates.length)return err.textContent='응시할 토요일을 하나 이상 골라 주세요.';
   if(!f.agree.checked)return err.textContent='개인정보 수집·이용에 동의해 주세요.';
-  const data={kind:'mock',student:v('student'),school:v('school'),grade:v('grade'),phone,time,dates,memo:v('memo'),agree:true,website:v('website')};
+  const data={kind:'mock',student:v('student'),school:v('school'),grade:v('grade'),phone,time,dates,classes,memo:v('memo'),agree:true,website:v('website')};
   b.disabled=true;b.textContent='보내는 중…';err.textContent='';
   try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)}),j=await r.json();
     if(!j.ok)throw 0;
-    showDone([['학생',data.student],['시간','토요일 '+time],['날짜',dates.join(' · ')]])}
+    showDone([['학생',data.student],['시험',ask?'별도 문의':'토요일 '+time],...(ask?[]:[['날짜',dates.join(' · ')]]),...(classes.length?[['해설강의',classes.join(' · ')]]:[])])}
   catch(e){failed(b,err)}
 });
 </script>
