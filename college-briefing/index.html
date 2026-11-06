@@ -9,7 +9,7 @@
 <meta property="og:title" content="2028·2029 대입지원전략 설명회 · 참석 신청">
 <meta property="og:description" content="예비 고2·고3 학부모 대상 · 12/1(화) 저녁 7:30 · 참가비 무료 · 송도 최고수학학원">
 <meta property="og:url" content="https://best-eight-gold.vercel.app/college-briefing/">
-<meta property="og:image" content="https://best-eight-gold.vercel.app/college-briefing/og.jpg?v=20261106">
+<meta property="og:image" content="https://best-eight-gold.vercel.app/college-briefing/og.jpg?v=20261106b">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -50,10 +50,16 @@ h2{font-size:21px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
 .why p{font-size:14px;color:var(--sub);margin-top:4px}
 
 /* 연사 */
-.spk{margin-top:16px;border-top:1px solid var(--navy);border-bottom:1px solid var(--line);padding:18px 0}
-.spk .nm{font-size:20px;font-weight:700;letter-spacing:-.5px}
-.spk .nm span{font-size:14px;font-weight:500;color:var(--sub);margin-left:6px}
-.spk ul{list-style:none;margin-top:10px;font-size:14px}
+.spk{margin-top:16px}
+.spk .card{display:flex;align-items:stretch;background:var(--navy);color:#fff;overflow:hidden}
+.spk .txt{flex:1;min-width:0;padding:22px 0 20px 20px;display:flex;flex-direction:column;justify-content:flex-end}
+.spk .txt .role{font-size:13px;font-weight:500;color:var(--accent);letter-spacing:.5px;white-space:nowrap}
+.spk .nm{font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1.2;margin-top:4px;white-space:nowrap}
+.spk .bar{width:28px;height:3px;background:var(--accent);margin-bottom:auto}
+.spk .txt p.s{font-size:13px;color:rgba(255,255,255,.7);margin-top:10px}
+.spk figure{width:44%;max-width:210px;flex-shrink:0;align-self:flex-end;line-height:0}
+.spk figure img{width:100%;height:auto;display:block;aspect-ratio:354/472;object-fit:cover;-webkit-mask-image:linear-gradient(to left,#000 82%,transparent);mask-image:linear-gradient(to left,#000 82%,transparent)}
+.spk ul{list-style:none;font-size:14px;border-bottom:1px solid var(--line);padding:14px 0}
 .spk li{display:flex;gap:10px;padding:3px 0}
 .spk li i{font-style:normal;flex-shrink:0;width:30px;font-size:12px;font-weight:700;color:var(--navy);background:var(--sky);text-align:center;height:22px;line-height:22px;margin-top:1px}
 
@@ -163,7 +169,15 @@ footer a{color:var(--mute)}
     <span class="k">02 / SPEAKER</span>
     <h2>연사 소개</h2>
     <div class="spk">
-      <p class="nm">전용준<span>입시전략연구소장</span></p>
+      <div class="card">
+        <div class="txt">
+          <span class="bar"></span>
+          <span class="role">입시전략연구소장</span>
+          <p class="nm">전용준</p>
+          <p class="s">2028·2029 대입,<br>대학별 전형 변화를 <span class="nw">짚어 드립니다</span></p>
+        </div>
+        <figure><img src="/college-briefing/speaker.jpg" alt="전용준 입시전략연구소장" width="354" height="472" loading="lazy"></figure>
+      </div>
       <ul>
         <li><i>現</i><span>대치명인 &amp; 목동PGA 입시전략연구소</span></li>
         <li><i>前</i><span>대치두각 &amp; 강남메가스터디 입시전략연구소</span></li>
