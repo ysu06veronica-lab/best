@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>고교 선택 1:1:1 상담 예약 · 하이퍼 최고수학학원</title>
+<meta name="description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/18(수)·24(화)·25(수) · 하이퍼 최고수학학원 · 시간당 1팀 예약">
+<meta property="og:type" content="website">
+<meta property="og:title" content="하이퍼관 고교 선택 1:1:1 상담 예약">
+<meta property="og:description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/18(수)·24(화)·25(수) · 하이퍼 최고수학학원 · 시간당 1팀">
+<meta property="og:url" content="https://best-eight-gold.vercel.app/hyper-consult/">
+<meta property="og:image" content="https://best-eight-gold.vercel.app/hyper-consult/og.jpg?v=20261113">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+/* 브랜드 토큰 (brand.css 기준, 포인트 ① 뮤트 라임 — 하이퍼관 상담, 원장님 지정 2026-11-13) */
+:root{--navy:#182B49;--accent:#CED98B;--accent-dark:#B5C26E;--accent-ink:#5F6B22;--on-accent:#182B49;--ink:#182B49;--sub:#5B6478;--mute:#8A93A6;--line:#E5E7EC;--bg:#FFFFFF;--paper:#F6F5EF;--sky:#F1F4DF;--red:#C8102E}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);word-break:keep-all;overflow-wrap:break-word;line-height:1.6;font-size:15px}
+.nw{white-space:nowrap}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.k{display:block;color:var(--mute);font-size:12px;font-weight:500;letter-spacing:1.5px;white-space:nowrap}
+
+header{background:var(--navy);color:#fff;padding:24px 0 34px}
+header .brand{display:flex;justify-content:space-between;align-items:center;gap:12px}
+header .brand img{height:28px;width:auto}
+header .brand span{font-size:12px;color:rgba(255,255,255,.7);letter-spacing:1px;white-space:nowrap}
+header .k{color:var(--accent);margin-top:38px}
+header h1{font-size:29px;font-weight:700;letter-spacing:-1px;line-height:1.35;margin-top:10px}
+header h1 em{font-style:normal;color:var(--accent)}
+header .lead{font-size:15px;color:rgba(255,255,255,.85);margin-top:14px}
+header dl{margin-top:22px;border-top:1px solid rgba(255,255,255,.18)}
+header dl div{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:14px}
+header dt{width:44px;flex-shrink:0;color:rgba(255,255,255,.7)}
+header dd{flex:1;min-width:0}
+header dd small{display:block;font-size:12.5px;color:rgba(255,255,255,.6)}
+.cta{display:block;margin-top:24px;background:var(--accent);color:var(--on-accent);text-align:center;font-weight:700;font-size:16px;padding:15px;text-decoration:none}
+.cta2{display:block;margin-top:10px;color:#fff;text-align:center;font-size:14px;padding:6px;text-decoration:underline;text-underline-offset:3px;background:none;border:0;font-family:inherit;width:100%;cursor:pointer}
+
+section{padding:40px 0 6px}
+h2{font-size:21px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
+.desc{font-size:14px;color:var(--sub);margin-top:6px}
+.tip{margin-top:16px;background:var(--sky);padding:14px 16px;font-size:14px;border-left:3px solid var(--accent-dark)}
+.tip b{font-weight:700}
+
+/* 시간표 */
+.legend{display:flex;gap:14px;margin-top:12px;font-size:12.5px;color:var(--sub)}
+.legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.legend i{width:12px;height:12px;border:1px solid var(--mute);display:inline-block}
+.legend i.on{background:var(--navy);border-color:var(--navy)}
+.legend i.x{background:var(--line);border-color:var(--line)}
+.day{margin-top:22px}
+.day h3{display:flex;justify-content:space-between;align-items:baseline;font-size:16px;font-weight:700;padding-bottom:8px;border-bottom:1px solid var(--navy)}
+.day h3 small{font-size:12.5px;font-weight:500;color:var(--sub);white-space:nowrap}
+.day h3 small.zero{color:var(--mute)}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.slot{font:inherit;border:1px solid var(--mute);background:#fff;color:var(--ink);padding:9px 2px 7px;cursor:pointer;text-align:center;border-radius:0;line-height:1.25}
+.slot b{display:block;font-size:16px;font-weight:700;white-space:nowrap}
+.slot small{display:block;font-size:11.5px;color:var(--accent-ink);white-space:nowrap;font-weight:500}
+.slot:disabled{background:var(--line);border-color:var(--line);color:var(--mute);cursor:default}
+.slot:disabled b{text-decoration:line-through;font-weight:500}
+.slot:disabled small{color:var(--mute)}
+.slot.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.slot.on small{color:var(--accent)}
+.status{font-size:13px;color:var(--sub);margin-top:10px;min-height:20px}
+.pick{position:sticky;bottom:0;z-index:5;background:var(--navy);color:#fff;padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+.pick b{color:var(--accent);font-size:16px;white-space:nowrap}
+.pick a{color:var(--navy);background:var(--accent);padding:8px 14px;text-decoration:none;font-weight:700;white-space:nowrap}
+
+/* 신청서 */
+.chosen{margin-top:14px;padding:14px 16px;border:1px solid var(--navy);font-size:15px}
+.chosen b{font-size:17px}
+.chosen.none{border-style:dashed;border-color:var(--mute);color:var(--sub)}
+.q{margin-top:26px}
+.q>label,.q>.ql{display:block;font-size:15px;font-weight:700}
+.q>label i,.q>.ql i{font-style:normal;color:var(--red);margin-left:2px}
+.q .help{font-size:13px;color:var(--sub);margin-top:2px}
+.f input[type=text],.f input[type=tel],.f textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--mute);border-radius:0;padding:12px;margin-top:8px;-webkit-appearance:none;appearance:none}
+.f input:focus,.f textarea:focus,.f select:focus{outline:2px solid var(--navy);outline-offset:-1px}
+.f textarea{min-height:96px;resize:vertical}
+.rowq{display:grid;gap:26px;margin-top:26px}
+.rowq .q{margin-top:0}
+.prog{display:grid;gap:8px;margin-top:8px}
+.prog label{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+.prog label span{width:34px;flex-shrink:0}
+.prog input{margin-top:0 !important}
+
+.seg{display:flex;margin-top:8px}
+.seg label{flex:1;position:relative;text-align:center;border:1px solid var(--mute);padding:11px 4px;font-size:15px;cursor:pointer;white-space:nowrap;background:#fff}
+.seg label+label{margin-left:-1px}
+.seg label small{display:block;font-size:12px;color:var(--sub);line-height:1.3}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--navy);border-color:var(--navy);color:#fff;z-index:1}
+.seg label:has(input:checked) small{color:rgba(255,255,255,.75)}
+
+/* 성취도 표 */
+.gt{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:10px}
+.gt th{font-size:12.5px;font-weight:500;color:var(--sub);padding:6px 2px;line-height:1.3;text-align:center}
+.gt th:first-child{width:42px}
+.gt tbody th{font-size:14px;font-weight:700;color:var(--ink);text-align:left;padding-left:0}
+.gt td{padding:3px 2px}
+.gt select{width:100%;font:inherit;font-size:14px;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0h8L4 5z' fill='%238A93A6'/%3E%3C/svg%3E") no-repeat right 5px center;border:1px solid var(--mute);border-radius:0;padding:10px 12px 10px 5px;-webkit-appearance:none;appearance:none;text-align:center;text-align-last:center;letter-spacing:-.5px}
+.gt select.empty{color:var(--mute)}
+.gt select.set{border-color:var(--navy);font-weight:700;background-image:none;padding:10px 2px}
+.gt tr.miss select.empty{border-color:var(--red)}
+
+.agree{display:flex;gap:10px;align-items:flex-start;margin-top:28px;padding:14px;background:var(--paper);font-size:14px;color:var(--sub);cursor:pointer}
+.agree input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--navy)}
+.agree b{color:var(--ink);font-weight:700;font-size:15px}
+.btn{display:block;width:100%;border:0;border-radius:0;background:var(--accent);color:var(--on-accent);font:inherit;font-size:17px;font-weight:700;padding:16px;margin-top:18px;cursor:pointer}
+.btn:hover{background:var(--accent-dark)}
+.btn:disabled{background:var(--line);color:var(--mute);cursor:default}
+.btn.line{background:#fff;border:1px solid var(--navy);color:var(--navy);font-size:15px;padding:13px}
+.btn.line:hover{background:var(--paper)}
+.err{color:var(--red);font-size:14px;margin-top:10px;min-height:22px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* 완료·확인 */
+.done{display:none;padding:40px 0 10px}
+.done h2{font-size:24px}
+.rt{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:18px;font-size:14.5px}
+.rt th{width:84px;text-align:left;vertical-align:top;color:var(--sub);font-weight:500;padding:11px 8px 11px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+.rt td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.rt tr:first-child th,.rt tr:first-child td{border-top:1px solid var(--navy)}
+.done p{font-size:14px;color:var(--sub);margin-top:14px}
+#mine{display:none;background:var(--paper);margin-top:30px;padding:4px 18px 20px}
+
+footer{margin-top:44px;padding:18px 0 30px;border-top:1px solid var(--line);font-size:12px;color:var(--mute);line-height:1.8}
+footer a{color:var(--mute)}
+
+@media (max-width:350px){.wrap{padding:0 16px}header h1{font-size:25px}.gt select{font-size:13px;padding-left:2px}.gt th:first-child{width:36px}}
+@media (min-width:760px){
+  header{padding:30px 0 46px}
+  header .k{margin-top:56px}
+  header h1{font-size:40px}
+  .cta{display:inline-block;padding:15px 44px}
+  .cta2{display:inline-block;width:auto;margin-left:14px}
+  .slots{grid-template-columns:repeat(5,1fr)}
+  .rowq{grid-template-columns:1fr 1fr;gap:16px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><img src="/hyper-consult/logo.png" alt="최고수학학원"><span>하이퍼관 재원생 상담</span></div>
+    <span class="k">11.18 WED · 11.24 TUE · 11.25 WED</span>
+    <h1>고교 선택<br><em>1:1:1</em> 상담 예약</h1>
+    <p class="lead">원장 · 학부모님 · 학생이 한자리에 앉아, 우리 아이에게 맞는 고등학교를 함께 정리합니다.</p>
+    <dl>
+      <div><dt>기간</dt><dd><span class="nw">11월 18일(수)</span> · <span class="nw">24일(화)</span> · <span class="nw">25일(수)</span><small>세 날만 상담합니다</small></dd></div>
+      <div><dt>대상</dt><dd>하이퍼 최고수학학원 <span class="nw">재원생 학부모님</span></dd></div>
+      <div><dt>방식</dt><dd><span class="nw">원장 · 학부모님 · 학생</span> 1:1:1<small>학생이 부득이하게 참석하기 어려우면 학부모님과 1:1로 진행합니다</small></dd></div>
+      <div><dt>예약</dt><dd>시간당 1팀 · 먼저 신청하신 순서<small>취소하시면 그 시간은 바로 다른 분께 열립니다</small></dd></div>
+      <div><dt>장소</dt><dd id="placeH"></dd></div>
+    </dl>
+    <a class="cta" href="#time">상담 시간 고르기</a>
+    <button class="cta2" type="button" id="openMine">이미 예약하셨나요? 예약 확인·취소</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="time">
+    <span class="k">01 / TIME</span>
+    <h2>상담 시간 고르기</h2>
+    <p class="desc">원하시는 시간을 눌러 주세요. 회색 칸은 마감입니다.</p>
+    <div class="legend"><span><i></i>예약 가능</span><span><i class="on"></i>선택</span><span><i class="x"></i>마감</span></div>
+    <div id="days"></div>
+    <p class="status" id="slotStatus">예약 현황을 불러오는 중입니다…</p>
+  </section>
+
+  <section id="apply">
+    <span class="k">02 / APPLY</span>
+    <h2>상담 신청서</h2>
+    <p class="desc">미리 적어 주신 내용으로 원장이 상담을 준비합니다.</p>
+    <div class="chosen none" id="chosen">위에서 상담 시간을 먼저 골라 주세요.</div>
+
+    <form class="f" id="f" novalidate>
+      <div class="q">
+        <span class="ql">상담 방식<i>*</i></span>
+        <div class="seg">
+          <label><input type="radio" name="mode" value="1:1:1" checked>1:1:1<small>학생도 함께</small></label>
+          <label><input type="radio" name="mode" value="1:1">1:1<small>학부모님만</small></label>
+        </div>
+      </div>
+
+      <div class="rowq">
+        <div class="q"><label for="student">학생 이름<i>*</i></label><input type="text" id="student" name="student" maxlength="20" autocomplete="off"></div>
+        <div class="q"><label for="school">학교<i>*</i></label><input type="text" id="school" name="school" maxlength="20" placeholder="예: 예송중" autocomplete="off"></div>
+      </div>
+
+      <div class="rowq">
+        <div class="q"><label for="choice1">1지망 고려 학교<i>*</i></label><input type="text" id="choice1" name="choice1" maxlength="20" list="hsList" placeholder="예: 신송고" autocomplete="off"></div>
+        <div class="q"><label for="choice2">2지망 고려 학교</label><input type="text" id="choice2" name="choice2" maxlength="20" list="hsList" placeholder="아직 없으면 비워 두세요" autocomplete="off"></div>
+      </div>
+      <datalist id="hsList"></datalist>
+
+      <div class="q">
+        <span class="ql">과목별 진도<i>*</i></span>
+        <p class="help">학원·과외·혼자 공부 모두 포함해, 지금 어디까지 했는지 적어 주세요.</p>
+        <div class="prog">
+          <label><span>국어</span><input type="text" name="korean" maxlength="60" placeholder="예: 중3 교과서 + 고1 문법 1회독" autocomplete="off"></label>
+          <label><span>영어</span><input type="text" name="english" maxlength="60" placeholder="예: 고1 모의고사 독해, 문법 2회독" autocomplete="off"></label>
+          <label><span>과학</span><input type="text" name="science" maxlength="60" placeholder="예: 학교 진도만 / 통합과학 1단원" autocomplete="off"></label>
+        </div>
+      </div>
+
+      <div class="q" id="gradeQ">
+        <span class="ql">과목별 성취도<i>*</i></span>
+        <p class="help">학기마다 받은 성취도를 골라 주세요. 모르시면 ‘기억안남’, 아직 성적이 나오지 않았으면 ‘아직없음’을 고르시면 됩니다.</p>
+        <table class="gt" id="gt"></table>
+      </div>
+
+      <p class="tip"><b>학생부(학교생활기록부)나 학교 성적표</b>를 가져오시면 <span class="nw">더 구체적인 상담이</span> 가능합니다.</p>
+
+      <div class="q">
+        <label for="phone">학부모 연락처<i>*</i></label>
+        <p class="help">예약 확인·취소할 때 이 번호와 학생 이름을 씁니다.</p>
+        <input type="tel" id="phone" name="phone" inputmode="tel" maxlength="13" placeholder="010-0000-0000" autocomplete="tel">
+      </div>
+
+      <div class="q">
+        <label for="memo">미리 전하실 고민</label>
+        <textarea id="memo" name="memo" maxlength="400" placeholder="(선택) 예: 일반고와 자사고 사이에서 고민 중입니다."></textarea>
+      </div>
+
+      <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+
+      <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의</b><br>수집·이용자: 하이퍼 최고수학학원(인천동부교육청 제4344호) · 필수 항목: 학생 이름·학교, 1지망 고려 학교, 과목별 진도·성취도, 학부모 연락처, 상담 방식 · 선택 항목: 2지망 고려 학교, 미리 전하실 고민 · 목적: 고교 선택 상담 예약·안내와 상담 준비 · 보유·이용 기간: 상담 기간 종료(11/25) 후 3개월 이내 파기 · 신청 정보는 학원 구글 계정 시트(Google 서비스)에 저장됩니다 · 이 정보는 상담 외의 홍보에 쓰지 않습니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 예약은 어렵고 전화(<span class="nw">032-724-9431</span>)로 예약하실 수 있습니다.</span></label>
+
+      <button class="btn" id="send" type="submit">상담 예약하기</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+  </section>
+
+  <section class="done" id="done" aria-live="polite"></section>
+
+  <section id="mine">
+    <span class="k">MY BOOKING</span>
+    <h2>예약 확인 · 취소</h2>
+    <p class="desc">예약하실 때 적으신 학부모 연락처와 학생 이름을 넣어 주세요.</p>
+    <div class="f">
+      <div class="rowq">
+        <div class="q"><label for="mPhone">학부모 연락처</label><input type="tel" id="mPhone" inputmode="tel" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"></div>
+        <div class="q"><label for="mName">학생 이름</label><input type="text" id="mName" maxlength="20" autocomplete="off"></div>
+      </div>
+      <button class="btn line" type="button" id="mFind">예약 확인</button>
+      <div id="mOut"></div>
+      <p class="err" id="mErr" role="alert"></p>
+    </div>
+  </section>
+
+  <footer>
+    하이퍼 최고수학학원 · 학원등록번호 인천동부교육청 제4344호<br>
+    문의 <a href="tel:0327249431" class="nw">032-724-9431</a>
+  </footer>
+</main>
+<div class="pick" id="pick"><span>선택한 시간 <b id="pickT"></b></span><a href="#apply">신청서 쓰기</a></div>
+
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxDtMI1DBXgePs4Lac4W1Uj12gBltyFRVuZfofo4dooPfXojeqRIJbdxUQaIZgrMmHG/exec'; // 고교설명회 접수 웹 앱(시트 '상담예약' 탭, 송도관과 같은 탭 · 칸 id 앞 H)
+const DEMO = /[?&]demo=1/.test(location.search); // 미리보기: ?demo=1 이면 보내지 않음
+const PLACE = '하이퍼 최고수학학원';
+// 칸 틀: 평일 12~20시, 주말 10~18시 · 열 칸(OPEN)만 예약 가능, 나머지는 마감. Apps Script C_OPEN과 같게.
+const P = 'H';  // 하이퍼관 칸 id 앞글자(송도관과 같은 시트에서 구분)
+const DAYS = [['1118','수'],['1124','화'],['1125','수']];
+const OPEN = {'1118':[18,19,20],'1124':[14,15,16,17],'1125':[18,19,20]};  // Apps Script C_OPEN_H와 같게
+const SEM = ['중2 1학기','중2 2학기','중3 1학기','중3 2학기'], SUB = ['국어','영어','과학'];
+const LV = ['A','B','C','D','E','기억안남','아직없음'];
+const HS = ['인천포스코고','인천하늘고','인천국제고','인천외고','미추홀외고','송도고','신송고','연송고','해송고','박문여고','옥련여고','인천여고','연수여고','대건고','첨단고(신설)','은송고(신설)'];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hours = d => (d === '1121' || d === '1122') ? [10,11,12,13,14,15,16,17,18] : [12,13,14,15,16,17,18,19,20];
+const label = id => { const [d,h] = id.replace(/^H/,'').split('-'); return `${+d.slice(0,2)}월 ${+d.slice(2)}일(${DAYS.find(x => x[0] === d)[1]}) ${h}:00`; };
+const fmtPh = p => p.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+let taken = [], sel = '';
+
+$('#placeH').innerHTML = PLACE;
+$('#hsList').innerHTML = HS.map(n => `<option value="${n}">`).join('');
+$('#gt').innerHTML = `<thead><tr><th></th>${SEM.map(s => `<th>${s.replace(' ', '<br>')}</th>`).join('')}</tr></thead><tbody>` +
+  SUB.map(s => `<tr><th>${s}</th>${SEM.map(m => `<td><select class="empty" name="${s} ${m}" aria-label="${s} ${m} 성취도"><option value="">선택</option>${LV.map(v => `<option>${v}</option>`).join('')}</select></td>`).join('')}</tr>`).join('') + '</tbody>';
+document.querySelectorAll('.gt select').forEach(x => x.onchange = () => { x.classList.toggle('empty', !x.value); x.classList.toggle('set', !!x.value); x.closest('tr').classList.remove('miss'); });
+
+function render(){
+  $('#days').innerHTML = DAYS.map(([d,w]) => {
+    const hs = hours(d), open = hs.filter(h => (OPEN[d] || []).includes(h) && !taken.includes(`${P}${d}-${h}`));
+    return `<div class="day"><h3><span>${+d.slice(0,2)}월 ${+d.slice(2)}일 (${w})</span><small class="${open.length ? '' : 'zero'}">${open.length ? `예약 가능 ${open.length}` : '전체 마감'}</small></h3><div class="slots">` +
+      hs.map(h => { const id = `${P}${d}-${h}`, ok = open.includes(h);
+        return `<button type="button" class="slot${sel === id ? ' on' : ''}" data-id="${id}"${ok ? '' : ' disabled'}><b>${h}:00</b><small>${ok ? (sel === id ? '선택함' : '예약 가능') : '마감'}</small></button>`; }).join('') + '</div></div>';
+  }).join('');
+  document.querySelectorAll('.slot:not(:disabled)').forEach(b => b.onclick = () => { sel = b.dataset.id; render(); });
+  const c = $('#chosen');
+  if (sel){ c.className = 'chosen'; c.innerHTML = `선택한 시간 &nbsp;<b>${label(sel)}</b>`; $('#pick').style.display = 'flex'; $('#pickT').textContent = label(sel); }
+  else { c.className = 'chosen none'; c.textContent = '위에서 상담 시간을 먼저 골라 주세요.'; $('#pick').style.display = 'none'; }
+}
+// 신청서가 화면에 보이면 아래 고정 띠는 숨김
+new IntersectionObserver(es => es.forEach(e => $('#pick').style.visibility = e.isIntersecting ? 'hidden' : 'visible')).observe($('#apply'));
+
+async function loadSlots(){
+  if (DEMO || !ENDPOINT){ $('#slotStatus').textContent = DEMO ? '미리보기 화면입니다(예약이 저장되지 않습니다).' : ''; render(); return; }
+  try {
+    const j = await (await fetch(ENDPOINT + '?q=slots', {cache:'no-store'})).json();
+    taken = j.taken || [];
+    if (sel && taken.includes(sel)){ sel = ''; $('#err').textContent = '고르신 시간이 방금 마감되었습니다. 다른 시간을 골라 주세요.'; }
+    $('#slotStatus').textContent = '실시간 예약 현황입니다. ' + new Date().toTimeString().slice(0,5) + ' 기준';
+  } catch (e) { $('#slotStatus').innerHTML = '예약 현황을 불러오지 못했습니다. 새로고침하시거나 <a href="tel:0327249431">032-724-9431</a>으로 연락 주세요.'; }
+  render();
+}
+async function post(data){
+  const r = await fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(data)});
+  return r.json();
+}
+loadSlots(); setInterval(loadSlots, 60000);
+
+$('#f').onsubmit = async ev => {
+  ev.preventDefault();
+  const f = ev.target, v = k => (f[k].value || '').trim(), err = $('#err');
+  const fail = (m, el) => { err.textContent = m; if (el) el.scrollIntoView({block:'center', behavior:'smooth'}); };
+  if (!sel) return fail('상담 시간을 먼저 골라 주세요.', $('#time'));
+  if (!v('student') || !v('school')) return fail('학생 이름과 학교를 입력해 주세요.', $('#student'));
+  if (!v('choice1')) return fail('1지망 고려 학교를 적어 주세요. 아직 정하지 않으셨으면 ‘미정’이라고 적어 주세요.', $('#choice1'));
+  if (!v('korean') || !v('english') || !v('science')) return fail('국어·영어·과학 진도를 모두 적어 주세요. 없으면 ‘학교 진도만’이라고 적어 주세요.', f.korean);
+  const levels = {}; let miss = null;
+  document.querySelectorAll('.gt select').forEach(x => { levels[x.name] = x.value; if (!x.value){ x.closest('tr').classList.add('miss'); miss = miss || x; } });
+  if (miss) return fail('성취도 12칸을 모두 골라 주세요. 모르시면 ‘기억안남’을 고르시면 됩니다.', $('#gradeQ'));
+  const ph = v('phone').replace(/[^0-9]/g, ''); if (!/^01[016789]\d{7,8}$/.test(ph)) return fail('학부모 연락처를 확인해 주세요.', $('#phone'));
+  if (!f.agree.checked) return fail('개인정보 수집·이용에 동의해 주세요.', f.agree);
+  const data = {kind:'consult', slot:sel, mode:f.mode.value, student:v('student'), school:v('school'), choice1:v('choice1'), choice2:v('choice2'),
+    korean:v('korean'), english:v('english'), science:v('science'), levels, phone:fmtPh(ph), enrolled:'재원생', memo:v('memo'), agree:true, website:v('website')};
+  if (!ENDPOINT && !DEMO){ err.innerHTML = '온라인 예약 준비 중입니다. <a href="tel:0327249431">032-724-9431</a>으로 연락 주세요.'; return; }
+  const b = $('#send'); b.disabled = true; b.textContent = '예약하는 중…'; err.textContent = '';
+  try {
+    const j = DEMO ? {ok:true} : await post(data);
+    if (!j.ok){
+      b.disabled = false; b.textContent = '상담 예약하기';
+      if (j.reason === 'taken'){ taken = j.taken || taken; sel = ''; render(); return fail('방금 다른 분이 그 시간을 예약하셨습니다. 다른 시간을 골라 주세요.', $('#time')); }
+      if (j.reason === 'dup') return fail(`이 연락처로 이미 ${j.label} 예약이 있습니다. 시간을 바꾸시려면 맨 아래 ‘예약 확인·취소’에서 먼저 취소해 주세요.`, null);
+      throw 0;
+    }
+    const rows = [
+      ['상담 일시', `<b>${label(sel)}</b>`],
+      ['상담 방식', data.mode === '1:1' ? '1:1 (학부모님만)' : '1:1:1 (학생도 함께)'],
+      ['학생', `${esc(data.student)} <span style="color:var(--sub)">(${esc(data.school)})</span>`],
+      ['장소', PLACE.replace('<small>', '<br><span style="font-size:13px;color:var(--sub)">').replace('</small>', '</span>')],
+      ['연락처', `<span class="nw">${data.phone}</span>`]
+    ];
+    $('#time').style.display = 'none'; $('#apply').style.display = 'none'; $('#pick').remove();
+    const d = $('#done'); d.style.display = 'block';
+    d.innerHTML = `<span class="k">DONE</span><h2>상담이 예약되었습니다</h2><table class="rt">${rows.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join('')}</table>
+      <p class="tip" style="margin-top:18px"><b>학생부(학교생활기록부)나 학교 성적표</b>를 가져오시면 더 구체적인 상담이 가능합니다.</p>
+      <p>일정이 맞지 않으시면 이 페이지 아래 <b>예약 확인·취소</b>에서 취소해 주세요. 취소하신 시간은 다른 분께 다시 열립니다. 문의 <a href="tel:0327249431" class="nw">032-724-9431</a></p>`;
+    $('#mPhone').value = data.phone; $('#mName').value = data.student;
+    $('#mine').style.display = 'block';
+    d.scrollIntoView({block:'start'});
+  } catch (e) {
+    b.disabled = false; b.textContent = '상담 예약하기';
+    err.innerHTML = '전송에 실패했습니다. 잠시 후 다시 시도하시거나 <a href="tel:0327249431">032-724-9431</a>으로 연락 주세요.';
+  }
+};
+
+// 예약 확인·취소
+$('#openMine').onclick = () => { $('#mine').style.display = 'block'; $('#mine').scrollIntoView({block:'start', behavior:'smooth'}); };
+let found = null;
+$('#mFind').onclick = async () => {
+  const ph = $('#mPhone').value.replace(/[^0-9]/g, ''), nm = $('#mName').value.trim(), e = $('#mErr'), out = $('#mOut');
+  e.textContent = ''; out.innerHTML = '';
+  if (!/^01[016789]\d{7,8}$/.test(ph) || !nm) { e.textContent = '연락처와 학생 이름을 확인해 주세요.'; return; }
+  if (DEMO){ e.textContent = '미리보기에서는 확인할 수 없습니다.'; return; }
+  try {
+    const j = await post({kind:'cfind', campus:P, phone:fmtPh(ph), student:nm});
+    if (!j.ok){ e.textContent = '이 연락처·이름으로 된 예약이 없습니다.'; return; }
+    found = {phone:fmtPh(ph), student:nm};
+    out.innerHTML = `<table class="rt"><tr><th>상담 일시</th><td><b>${label(j.slot)}</b></td></tr><tr><th>상담 방식</th><td>${esc(j.mode)}</td></tr></table>
+      <button class="btn line" type="button" id="mCancel" style="border-color:var(--red);color:var(--red)">이 예약 취소하기</button>`;
+    $('#mCancel').onclick = async () => {
+      if (!confirm(`${label(j.slot)} 상담 예약을 취소하시겠습니까?\n취소하면 이 시간은 다른 분께 다시 열립니다.`)) return;
+      const k = await post(Object.assign({kind:'ccancel', campus:P}, found));
+      if (!k.ok){ e.textContent = '취소하지 못했습니다. 032-724-9431으로 연락 주세요.'; return; }
+      out.innerHTML = `<p class="tip">${label(k.slot)} 예약이 취소되었습니다. 다른 시간으로 다시 예약하시려면 <a href="/hyper-consult/">처음 화면</a>에서 골라 주세요.</p>`;
+      loadSlots();
+    };
+  } catch (x) { e.textContent = '확인하지 못했습니다. 잠시 후 다시 시도해 주세요.'; }
+};
+</script>
+</body>
+</html>
