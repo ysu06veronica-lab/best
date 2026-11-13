@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>고교 선택 1:1:1 상담 예약 · 송도 최고수학학원</title>
-<meta name="description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/16(월)~11/24(화) · 시간당 1팀 예약">
+<meta name="description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/16(월)~11/23(월) · 시간당 1팀 예약">
 <meta property="og:type" content="website">
 <meta property="og:title" content="고교 선택 1:1:1 상담 예약">
-<meta property="og:description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/16(월)~11/24(화) · 시간당 1팀">
+<meta property="og:description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/16(월)~11/23(월) · 시간당 1팀">
 <meta property="og:url" content="https://best-eight-gold.vercel.app/hs-consult/">
-<meta property="og:image" content="https://best-eight-gold.vercel.app/hs-consult/og.jpg?v=20261113">
+<meta property="og:image" content="https://best-eight-gold.vercel.app/hs-consult/og.jpg?v=20261113b">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -145,12 +145,13 @@ footer a{color:var(--mute)}
 <body>
 <header>
   <div class="wrap">
-    <div class="brand"><img src="/hs-consult/logo.png" alt="최고수학학원"><span>고교 선택 상담</span></div>
-    <span class="k">11.16 MON – 11.24 TUE · 시간당 1팀</span>
+    <div class="brand"><img src="/hs-consult/logo.png" alt="최고수학학원"><span>재원생 고교 선택 상담</span></div>
+    <span class="k">11.16 MON – 11.23 MON · 시간당 1팀</span>
     <h1>고교 선택<br><em>1:1:1</em> 상담 예약</h1>
     <p class="lead">원장 · 학부모님 · 학생이 한자리에 앉아, 우리 아이에게 맞는 고등학교를 함께 정리합니다.</p>
     <dl>
-      <div><dt>기간</dt><dd><span class="nw">11월 16일(월)</span> ~ <span class="nw">11월 24일(화)</span><small>17일(화)은 상담이 없습니다</small></dd></div>
+      <div><dt>기간</dt><dd><span class="nw">11월 16일(월)</span> ~ <span class="nw">11월 23일(월)</span><small>17일(화)·18일(수)·22일(일)은 상담이 없습니다</small></dd></div>
+      <div><dt>대상</dt><dd>최고수학학원 <span class="nw">재원생 학부모님</span></dd></div>
       <div><dt>방식</dt><dd><span class="nw">원장 · 학부모님 · 학생</span> 1:1:1<small>학생이 부득이하게 참석하기 어려우면 학부모님과 1:1로 진행합니다</small></dd></div>
       <div><dt>예약</dt><dd>시간당 1팀 · 먼저 신청하신 순서<small>취소하시면 그 시간은 바로 다른 분께 열립니다</small></dd></div>
       <div><dt>장소</dt><dd id="placeH"></dd></div>
@@ -219,7 +220,6 @@ footer a{color:var(--mute)}
         <p class="help">예약 확인·취소할 때 이 번호와 학생 이름을 씁니다.</p>
         <input type="tel" id="phone" name="phone" inputmode="tel" maxlength="13" placeholder="010-0000-0000" autocomplete="tel">
       </div>
-      <div class="q"><span class="ql">재원 여부<i>*</i></span><div class="seg"><label><input type="radio" name="enrolled" value="재원생">재원생</label><label><input type="radio" name="enrolled" value="비재원생">비재원생</label></div></div>
 
       <div class="q">
         <label for="memo">미리 전하실 고민</label>
@@ -228,7 +228,7 @@ footer a{color:var(--mute)}
 
       <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
 
-      <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의</b><br>수집·이용자: 송도 최고수학학원(인천동부교육청 제3680호) · 필수 항목: 학생 이름·학교, 1지망 고려 학교, 과목별 진도·성취도, 학부모 연락처, 재원 여부, 상담 방식 · 선택 항목: 2지망 고려 학교, 미리 전하실 고민 · 목적: 고교 선택 상담 예약·안내와 상담 준비 · 보유·이용 기간: 상담 기간 종료(11/24) 후 3개월 이내 파기 · 신청 정보는 학원 구글 계정 시트(Google 서비스)에 저장됩니다 · 이 정보는 상담 외의 홍보에 쓰지 않습니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 예약은 어렵고 전화(<span class="nw">032-833-2343</span>)로 예약하실 수 있습니다.</span></label>
+      <label class="agree"><input type="checkbox" name="agree"><span><b>[필수] 개인정보 수집·이용 동의</b><br>수집·이용자: 송도 최고수학학원(인천동부교육청 제3680호) · 필수 항목: 학생 이름·학교, 1지망 고려 학교, 과목별 진도·성취도, 학부모 연락처, 상담 방식 · 선택 항목: 2지망 고려 학교, 미리 전하실 고민 · 목적: 고교 선택 상담 예약·안내와 상담 준비 · 보유·이용 기간: 상담 기간 종료(11/23) 후 3개월 이내 파기 · 신청 정보는 학원 구글 계정 시트(Google 서비스)에 저장됩니다 · 이 정보는 상담 외의 홍보에 쓰지 않습니다 · 동의를 거부하실 수 있으며, 거부하시면 온라인 예약은 어렵고 전화(<span class="nw">032-833-2343</span>)로 예약하실 수 있습니다.</span></label>
 
       <button class="btn" id="send" type="submit">상담 예약하기</button>
       <p class="err" id="err" role="alert"></p>
@@ -264,7 +264,7 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxDtMI1DBXgePs4Lac4W1U
 const DEMO = /[?&]demo=1/.test(location.search); // 미리보기: ?demo=1 이면 보내지 않음
 const PLACE = '최고수학학원 <span class="nw">중고등관</span><small>상담실 위치는 상담 전날 문자로 안내드립니다</small>';
 // 칸 틀: 평일 12~20시, 주말 10~18시 · 열 칸(OPEN)만 예약 가능, 나머지는 마감. Apps Script C_OPEN과 같게.
-const DAYS = [['1116','월'],['1118','수'],['1119','목'],['1120','금'],['1121','토'],['1122','일'],['1123','월'],['1124','화']];
+const DAYS = [['1116','월'],['1119','목'],['1120','금'],['1121','토'],['1123','월']];  // 2026-11-13 원장님: 18일(수)·22일(일)·24일(화) 우선 제외
 const OPEN = {'1116':[13,14,15,16,18,19,20],'1119':[13,14,15,16,17,19,20],'1120':[18,19],'1121':[10,11,12,13],'1123':[12,13,14,15,16,18,19,20]};
 const SEM = ['중2 1학기','중2 2학기','중3 1학기','중3 2학기'], SUB = ['국어','영어','과학'];
 const LV = ['A','B','C','D','E','기억안남','아직없음'];
@@ -326,10 +326,9 @@ $('#f').onsubmit = async ev => {
   document.querySelectorAll('.gt select').forEach(x => { levels[x.name] = x.value; if (!x.value){ x.closest('tr').classList.add('miss'); miss = miss || x; } });
   if (miss) return fail('성취도 12칸을 모두 골라 주세요. 모르시면 ‘기억안남’을 고르시면 됩니다.', $('#gradeQ'));
   const ph = v('phone').replace(/[^0-9]/g, ''); if (!/^01[016789]\d{7,8}$/.test(ph)) return fail('학부모 연락처를 확인해 주세요.', $('#phone'));
-  if (!f.enrolled.value) return fail('재원 여부를 골라 주세요.', f.querySelector('[name=enrolled]'));
   if (!f.agree.checked) return fail('개인정보 수집·이용에 동의해 주세요.', f.agree);
   const data = {kind:'consult', slot:sel, mode:f.mode.value, student:v('student'), school:v('school'), choice1:v('choice1'), choice2:v('choice2'),
-    korean:v('korean'), english:v('english'), science:v('science'), levels, phone:fmtPh(ph), enrolled:f.enrolled.value, memo:v('memo'), agree:true, website:v('website')};
+    korean:v('korean'), english:v('english'), science:v('science'), levels, phone:fmtPh(ph), enrolled:'재원생', memo:v('memo'), agree:true, website:v('website')};
   if (!ENDPOINT && !DEMO){ err.innerHTML = '온라인 예약 준비 중입니다. <a href="tel:0328332343">032-833-2343</a>으로 연락 주세요.'; return; }
   const b = $('#send'); b.disabled = true; b.textContent = '예약하는 중…'; err.textContent = '';
   try {
