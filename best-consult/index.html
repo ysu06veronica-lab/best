@@ -8,8 +8,8 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="고교 선택 1:1:1 상담 예약">
 <meta property="og:description" content="원장·학부모님·학생이 함께하는 고교 선택 상담 · 11/16(월)~11/23(월) · 시간당 1팀">
-<meta property="og:url" content="https://best-eight-gold.vercel.app/hs-consult/">
-<meta property="og:image" content="https://best-eight-gold.vercel.app/hs-consult/og.jpg?v=20261113b">
+<meta property="og:url" content="https://best-eight-gold.vercel.app/best-consult/">
+<meta property="og:image" content="https://best-eight-gold.vercel.app/best-consult/og.jpg?v=20261113b">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -145,7 +145,7 @@ footer a{color:var(--mute)}
 <body>
 <header>
   <div class="wrap">
-    <div class="brand"><img src="/hs-consult/logo.png" alt="최고수학학원"><span>재원생 고교 선택 상담</span></div>
+    <div class="brand"><img src="/best-consult/logo.png" alt="최고수학학원"><span>재원생 고교 선택 상담</span></div>
     <span class="k">11.16 MON – 11.23 MON · 시간당 1팀</span>
     <h1>고교 선택<br><em>1:1:1</em> 상담 예약</h1>
     <p class="lead">원장 · 학부모님 · 학생이 한자리에 앉아, 우리 아이에게 맞는 고등학교를 함께 정리합니다.</p>
@@ -378,7 +378,7 @@ $('#mFind').onclick = async () => {
       if (!confirm(`${label(j.slot)} 상담 예약을 취소하시겠습니까?\n취소하면 이 시간은 다른 분께 다시 열립니다.`)) return;
       const k = await post(Object.assign({kind:'ccancel'}, found));
       if (!k.ok){ e.textContent = '취소하지 못했습니다. 032-833-2343으로 연락 주세요.'; return; }
-      out.innerHTML = `<p class="tip">${label(k.slot)} 예약이 취소되었습니다. 다른 시간으로 다시 예약하시려면 <a href="/hs-consult/">처음 화면</a>에서 골라 주세요.</p>`;
+      out.innerHTML = `<p class="tip">${label(k.slot)} 예약이 취소되었습니다. 다른 시간으로 다시 예약하시려면 <a href="/best-consult/">처음 화면</a>에서 골라 주세요.</p>`;
       loadSlots();
     };
   } catch (x) { e.textContent = '확인하지 못했습니다. 잠시 후 다시 시도해 주세요.'; }
