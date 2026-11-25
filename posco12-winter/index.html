@@ -239,9 +239,8 @@ const sumEl = $('#sum');
 $('#pick').onchange = () => {
   const sel = CLS.filter(c => $(`#pick input[value=${c.id}]`).checked);
   if (!sel.length){ sumEl.style.display = 'none'; return; }
-  const first = sel.reduce((a, c) => a + (c.days.length >= 8 ? 470000 : c.days.length * UNIT), 0);
   sumEl.style.display = 'block';
-  sumEl.innerHTML = `${sel.map(c => c.name).join(' · ')}<br>첫 결제(과목별 1차) <b>${won(first)}</b>`;
+  sumEl.innerHTML = `선택하신 과목: <b>${sel.map(c => c.name).join(' · ')}</b><br>신청하실 과목이 맞는지 확인해 주세요.`;
 };
 
 $('#f').onsubmit = async ev => {
